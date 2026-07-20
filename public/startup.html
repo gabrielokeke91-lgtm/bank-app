@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Startup Investment</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #2b1055, #7597de);
+            color: white;
+        }
+
+        .container {
+            padding: 15px;
+        }
+
+        .card {
+            background: white;
+            color: black;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .invest-btn {
+            background: #00c853;
+            color: white;
+        }
+
+        .withdraw-btn {
+            background: #2962ff;
+            color: white;
+        }
+
+        .disabled {
+            background: gray !important;
+            cursor: not-allowed;
+        }
+
+        .modal {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.modal-box button {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-box button:first-of-type {
+    background: green;
+    color: white;
+}
+
+.modal-box button:last-of-type {
+    background: red;
+    color: white;
+}
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🚀 Startup Investment (₦5000 Plan)</h2>
+
+    <div class="card">
+        <h3>Your Status</h3>
+        <p id="refCount">Referrals: 0</p>
+        <p id="withdrawStatus">Withdrawal: Checking...</p>
+    </div>
+
+    <div class="card">
+        <h3>Active Startup Investments</h3>
+        <div id="activeList"></div>
+    </div>
+
+    <div class="card">
+        <h3>Expired Investments</h3>
+        <div id="expiredList"></div>
+    </div>
+
+    <button class="btn invest-btn" onclick="startInvestment()">
+        Invest ₦5000 Startup Plan
+    </button>
+
+    <button id="withdrawBtn" class="btn withdraw-btn disabled">
+        Withdraw Earnings
+    </button>
+
+    <div id="startupModal" class="modal">
+    <div class="modal-content">
+
+        <h2>Startup Investment ₦5000</h2>
+
+        <p><b>Bank:</b> Momo Payment Service Bank</p>
+        <p><b>Account:</b> 7061778390</p>
+
+        <p>Upload payment receipt below:</p>
+
+        <input type="file" id="receipt">
+
+        <button onclick="submitStartup()">PROCEED</button>
+
+        <button onclick="closeModal()">Cancel</button>
+
+    </div>
+</div>
+</div>
+
+<script>
+
+const API = "https://mobile-wealth-api.onrender.com";
+
+// SAFE USER CHECK
+const user = JSON.parse(localStorage.getItem("user") || "null");
+const phone = user?.phone || null;
+
+if (!phone) {
+    console.log("No user logged in");
+}
+
+// -------------------- LOAD STARTUP DATA --------------------
+async function loadStartup() {
+
+    if (!phone) return;
+
+    try {
+
+        const [activeRes, expiredRes, refRes] = await Promise.all([
+            fetch(`${API}/api/startup/active?phone=${phone}`),
+            fetch(`${API}/api/startup/expired?phone=${phone}`),
+            fetch(`${API}/api/startup/referrals?phone=${phone}`)
+        ]);
+
+        const active = await activeRes.json();
+        const expired = await expiredRes.json();
+        const refData = await refRes.json();
+
+        // ---------------- ACTIVE ----------------
+        const activeBox = document.getElementById("activeList");
+        if (activeBox) activeBox.innerHTML = "";
+
+        (active || []).forEach(inv => {
+
+            const end = inv.end_date ? new Date(inv.end_date) : null;
+
+            const daysLeft = end && !isNaN(end)
+                ? Math.max(0, Math.ceil((end - new Date()) / (1000 * 60 * 60 * 24)))
+                : "N/A";
+
+            const amount = inv.amount || 0;
+            const rate = inv.daily_interest || 10;
+
+            if (activeBox) {
+                activeBox.innerHTML += `
+                    <div class="card">
+                        <p>Amount: ₦${amount}</p>
+                        <p>Daily Profit: ${rate}%</p>
+                        <p>Days Left: ${daysLeft}</p>
+                    </div>
+                `;
+            }
+        });
+
+        // ---------------- EXPIRED ----------------
+        const expiredBox = document.getElementById("expiredList");
+        if (expiredBox) expiredBox.innerHTML = "";
+
+        (expired || []).forEach(inv => {
+
+            const end = inv.end_date
+                ? new Date(inv.end_date).toLocaleString()
+                : "N/A";
+
+            if (expiredBox) {
+                expiredBox.innerHTML += `
+                    <div class="card">
+                        <p>Amount: ₦${inv.amount || 0}</p>
+                        <p>Status: Expired</p>
+                        <p>Ended: ${end}</p>
+                    </div>
+                `;
+            }
+        });
+
+        // ---------------- REFERRALS ----------------
+        const refs = refData?.count || 0;
+
+        const refEl = document.getElementById("refCount");
+        if (refEl) refEl.innerText = "Referrals: " + refs;
+
+        const withdrawBtn = document.getElementById("withdrawBtn");
+
+        if (withdrawBtn) {
+            if (refs >= 3) {
+                withdrawBtn.classList.remove("disabled");
+
+                const status = document.getElementById("withdrawStatus");
+                if (status) status.innerText = "Withdrawal Enabled";
+
+            } else {
+                withdrawBtn.classList.add("disabled");
+
+                const status = document.getElementById("withdrawStatus");
+                if (status) status.innerText = "Need 3 referrals to withdraw";
+            }
+        }
+
+    } catch (err) {
+        console.log("Startup load error:", err);
+    }
+}
+
+// -------------------- MODAL CONTROL --------------------
+function openStartup() {
+    const modal = document.getElementById("startupModal");
+    if (modal) modal.style.display = "flex";
+}
+
+function closeStartup() {
+    const modal = document.getElementById("startupModal");
+    if (modal) modal.style.display = "none";
+}
+
+// -------------------- SUBMIT STARTUP INVESTMENT --------------------
+async function submitStartup() {
+
+    if (!phone) {
+        alert("User not logged in");
+        return;
+    }
+
+    const amountInput = document.getElementById("startupAmount");
+    const fileInput = document.getElementById("receipt");
+
+    const amount = amountInput ? amountInput.value : 5000;
+
+    if (!fileInput || !fileInput.files[0]) {
+        alert("Please upload receipt");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("phone", phone);
+    formData.append("amount", amount);
+    formData.append("receipt", fileInput.files[0]);
+
+    try {
+
+        const res = await fetch(`${API}/api/startup/pending`, {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await res.json();
+
+        alert(data.message || "Submitted for admin approval");
+
+        closeStartup();
+        loadStartup();
+
+    } catch (err) {
+        console.log("Submit error:", err);
+        alert("Network error. Try again.");
+    }
+}
+
+// -------------------- INIT --------------------
+window.addEventListener("load", loadStartup);
+
+// auto refresh
+setInterval(loadStartup, 10000);
+
+</script>
+
+</body>
+</html>

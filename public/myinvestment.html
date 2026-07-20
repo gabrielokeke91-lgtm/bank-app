@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Investments</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .box {
+            background: rgb(225, 199, 199);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .active { border-left: 5px solid green; }
+        .expired { border-left: 5px solid red; }
+    </style>
+</head>
+
+<body>
+    <a href="dashboard.html"
+style="
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 18px;
+    background: #4795c6;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 9999;
+">
+    🏠 Back to Dashboard
+</a>
+
+    <!-- ACTIVE INVESTMENTS -->
+    <div class="section">
+        <div class="title">🟢 Active Investments (Running)</div>
+        <div id="activeBox"></div>
+    </div>
+
+    <!-- EXPIRED INVESTMENTS -->
+    <div class="section">
+        <div class="title">🔴 Expired Investments (Completed)</div>
+        <div id="expiredBox"></div>
+    </div>
+
+<script>
+const API = "https://mobile-wealth-api.onrender.com";
+const user = JSON.parse(localStorage.getItem("user"));
+
+async function loadInvestments() {
+
+    // ACTIVE
+    const activeRes = await fetch(`${API}/api/investments/active?phone=${user.phone}`);
+    const activeData = await activeRes.json();
+
+    const activeBox = document.getElementById("activeBox");
+    activeBox.innerHTML = "";
+
+    activeData.forEach(inv => {
+        activeBox.innerHTML += `
+            <div class="box active">
+                💰 ₦${inv.amount}<br>
+                        <p>📊 Status: ${inv.status}</p>
+                        <p>📅 Started: ${inv.start_date}</p>
+                        <p>📅 End: ${inv.end_date}</p>
+                
+            </div>
+        `;
+    });
+
+    // EXPIRED
+    const expiredRes = await fetch(`${API}/api/investments/expired?phone=${user.phone}`);
+    const expiredData = await expiredRes.json();
+
+    const expiredBox = document.getElementById("expiredBox");
+    expiredBox.innerHTML = "";
+
+    expiredData.forEach(inv => {
+        expiredBox.innerHTML += `
+            <div class="box expired">
+                💰 ₦${inv.amount}<br>
+                <p>📅 End: ${inv.end_date}</p>
+                ❌ Expired
+            </div>
+        `;
+    });
+}
+
+loadInvestments();
+</script>
+<script>
+// INVESTMENT PAGE CONTROLLER (CLEAN VERSION)
+
+(function () {
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const phone = user?.phone;
+
+    if (!phone) {
+        console.log("No user phone found");
+        return;
+    }
+
+    let intervalId = null;
+
+    async function loadActive() {
+        try {
+            const res = await fetch(`/api/investments/active?phone=${phone}`);
+            const data = await res.json();
+
+            const container = document.getElementById("activeInvestments");
+            if (!container) return;
+
+            container.innerHTML = "";
+
+            if (!data || data.length === 0) {
+                container.innerHTML = "<p>No active investments</p>";
+                return;
+            }
+
+            data.forEach(inv => {
+                container.innerHTML += `
+                    <div class="card active">
+                        <p>💰 Amount: ₦${inv.amount}</p>
+                         <p>💰 Interest: ₦${inv.interest_rate}</p>
+                        <p>📊 Status: ${inv.status}</p>
+                        <p>📅 Started: ${inv.start_date}</p>
+                        <p>📅 End: ${inv.end_date}</p>
+                    </div>
+                `;
+            });
+
+        } catch (err) {
+            console.log("Active load error:", err);
+        }
+    }
+
+    async function loadExpired() {
+        try {
+            const res = await fetch(`/api/investments/expired?phone=${phone}`);
+            const data = await res.json();
+
+            const container = document.getElementById("expiredInvestments");
+            if (!container) return;
+
+            container.innerHTML = "";
+
+            if (!data || data.length === 0) {
+                container.innerHTML = "<p>No expired investments</p>";
+                return;
+            }
+
+            data.forEach(inv => {
+                container.innerHTML += `
+                    <div class="card expired">
+                        <p>💰 Amount: ₦${inv.amount}</p>
+                        <p>⛔ Status: Expired</p>
+                        <p>📅 Ended: ${inv.end_date}</p>
+                    </div>
+                `;
+            });
+
+        } catch (err) {
+            console.log("Expired load error:", err);
+        }
+    }
+
+    function loadAll() {
+        loadActive();
+        loadExpired();
+    }
+
+    // FIRST LOAD
+    window.addEventListener("load", loadAll);
+
+    // 🔥 OPTIONAL AUTO REFRESH (SAFE VERSION - EVERY 30 SECONDS)
+    intervalId = setInterval(loadAll, 30000);
+
+    // CLEANUP (VERY IMPORTANT)
+    window.addEventListener("beforeunload", () => {
+        if (intervalId) clearInterval(intervalId);
+    });
+
+})();
+</script>
+
+</body>
+</html>

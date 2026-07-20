@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Investments - Admin</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        .active {
+            color: #00ff99;
+            font-weight: bold;
+        }
+
+        .inactive {
+            color: #ff4444;
+            font-weight: bold;
+        }
+
+        .row {
+            margin: 5px 0;
+        }
+
+        /* BACK BUTTON */
+        .bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+        }
+
+        .bottom a {
+            flex: 1;
+        }
+
+        .bottom button {
+            width: 100%;
+            border-radius: 0;
+            background: #0099ff;
+            color: white;
+            padding: 12px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>📊 All User Investments</h2>
+
+<div id="container"></div>
+
+<!-- BACK BUTTON -->
+<div class="bottom">
+    <a href="dashboard.html">
+        <button>⬅️ Back to Dashboard</button>
+    </a>
+</div>
+
+<script>
+const API = "https://mobile-wealth-api.onrender.com";
+
+async function loadInvestments() {
+
+    try {
+        const res = await fetch(`${API}/investments/all`);
+        const data = await res.json();
+
+        const container = document.getElementById("container");
+        container.innerHTML = "";
+
+        if (!data.length) {
+            container.innerHTML = "<p>No investments found</p>";
+            return;
+        }
+
+        data.forEach(inv => {
+
+            const statusClass = inv.status === "active" ? "active" : "inactive";
+
+            container.innerHTML += `
+                <div class="card">
+                    <div class="row">📱 Phone: ${inv.phone}</div>
+                    <div class="row">💰 Amount: ₦${Number(inv.amount).toFixed(2)}</div>
+                    <div class="row">📈 Daily Interest: ₦${Number(inv.interest_rate).toFixed(2)}</div>
+                    <div class="row">📅 Start: ${new Date(inv.start_date).toLocaleString()}</div>
+                    <div class="row">⏳ End: ${inv.end_date ? new Date(inv.end_date).toLocaleString() : "N/A"}</div>
+                    <div class="row ${statusClass}">Status: ${inv.status}</div>
+                </div>
+            `;
+        });
+
+    } catch (err) {
+        console.log("Load error:", err);
+    }
+}
+
+loadInvestments();
+</script>
+
+</body>
+</html>

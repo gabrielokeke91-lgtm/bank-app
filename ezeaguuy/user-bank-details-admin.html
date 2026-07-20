@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Bank Details Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f5f7fb;
+}
+
+/* TOP BAR */
+.topbar{
+    background:linear-gradient(135deg,#0099ff,#0066ff);
+    color:white;
+    padding:15px;
+    text-align:center;
+    font-size:16px;
+    font-weight:bold;
+}
+
+/* SEARCH */
+.searchBox{
+    padding:10px;
+    background:white;
+    margin:10px;
+    border-radius:10px;
+    display:flex;
+}
+
+.searchBox input{
+    flex:1;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.searchBox button{
+    margin-left:10px;
+    padding:10px;
+    background:#0099ff;
+    color:white;
+    border:none;
+    border-radius:8px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    margin:10px;
+    padding:12px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* TEXT */
+p{
+    margin:5px 0;
+    font-size:14px;
+}
+
+/* BUTTON */
+button{
+    padding:8px 10px;
+    border:none;
+    border-radius:8px;
+    font-size:13px;
+    cursor:pointer;
+    margin-top:8px;
+}
+
+.view{
+    background:#00c853;
+    color:white;
+}
+
+/* POPUP */
+.popup{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    justify-content:center;
+    align-items:center;
+}
+
+.popup-content{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    width:90%;
+    max-width:350px;
+}
+
+.close{
+    background:red;
+    color:white;
+    width:100%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+User Bank Details Admin
+</div>
+
+<!-- SEARCH -->
+<div class="searchBox">
+    <input id="searchPhone" placeholder="Search phone number">
+    <button onclick="search()">Search</button>
+</div>
+<div class="bottom-actions"></div>
+<a href="withdrawals.html"><button>Withdrawals</button></a>
+</div>
+</body>
+<!-- LIST -->
+<div id="list"></div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+    <div class="popup-content">
+
+        <h3>Bank Details</h3>
+
+        <div id="popupData"></div>
+
+        <button class="close" onclick="closePopup()">Close</button>
+
+    </div>
+</div>
+
+<script>
+
+const API = "https://mobile-wealth-api.onrender.com";
+
+function loadAll() {
+
+    fetch(`${API}/ezeaguuy/all-users`)
+    .then(res => res.json())
+    .then(data => {
+
+        const list = document.getElementById("list");
+        list.innerHTML = "";
+
+        data.forEach(user => {
+
+            list.innerHTML += `
+                <div class="card">
+                    <p><b>Phone:</b> ${user.phone}</p>
+                    <p><b>Status:</b> ${user.status || "active"}</p>
+
+                    <button class="view"
+                        onclick="viewDetails('${user.phone}')">
+                        View Full Details
+                    </button>
+                </div>
+            `;
+        });
+
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
+// VIEW SINGLE USER BANK DETAILS
+function viewDetails(phone) {
+
+    fetch(`${API}/ezeaguuy/user-bank/${phone}`)
+    .then(res => res.json())
+    .then(data => {
+
+        const box = document.getElementById("popupData");
+
+        if (!data) {
+            box.innerHTML = "<p>No bank details found</p>";
+        } else {
+            box.innerHTML = `
+                <p><b>Phone:</b> ${phone}</p>
+                <p><b>Bank Name:</b> ${data.bank_name}</p>
+                <p><b>Account Name:</b> ${data.account_name}</p>
+                <p><b>Account Number:</b> ${data.account_number}</p>
+            `;
+        }
+
+        document.getElementById("popup").style.display = "flex";
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display = "none";
+}
+
+// SEARCH
+function search(){
+
+    const phone = document.getElementById("searchPhone").value.trim();
+
+    if(!phone){
+        loadAll();
+        return;
+    }
+
+    fetch(`${API}/ezeaguuy/user-bank/${phone}`)
+    .then(res => res.json())
+    .then(data => {
+
+        const list = document.getElementById("list");
+        list.innerHTML = "";
+
+        if(!data){
+            list.innerHTML = "<div class='card'>No user found</div>";
+            return;
+        }
+
+        list.innerHTML = `
+            <div class="card">
+                <p><b>Phone:</b> ${phone}</p>
+                <p><b>Bank:</b> ${data.bank_name || "N/A"}</p>
+
+                <button class="view" onclick="viewDetails('${phone}')">
+                    View Full Details
+                </button>
+            </div>
+        `;
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
+// INIT
+loadAll();
+
+</script>
+
+</body>
+</html>

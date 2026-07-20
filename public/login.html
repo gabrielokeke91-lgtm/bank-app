@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f7fb;
+}
+
+/* TOP BAR */
+.topbar{
+    background:#0099ff;
+    color:white;
+    padding:18px;
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+}
+
+/* WRAPPER */
+.wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:85vh;
+}
+
+/* CARD */
+.card{
+    background:white;
+    width:90%;
+    max-width:360px;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+    text-align:center;
+}
+
+/* INPUT */
+input{
+    width:100%;
+    padding:12px;
+    margin-top:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+    font-size:14px;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    background:#0099ff;
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+}
+
+button:active{
+    transform:scale(0.98);
+}
+
+/* LINKS */
+.links{
+    margin-top:12px;
+    font-size:13px;
+}
+
+.links a{
+    color:#0099ff;
+    text-decoration:none;
+    display:block;
+    margin-top:6px;
+}
+/* MESSAGE */
+#msg{
+    margin-top:10px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+
+    /* ADD THIS */
+    background: url("/images/index3.jpeg") no-repeat center center fixed;
+    background-size: cover;
+
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">Mobile Wealth Login</div>
+
+<div class="wrapper">
+
+<div class="card">
+
+    <h2 style="margin-bottom:10px;">Welcome Back 👋</h2>
+
+    <input id="phone" placeholder="Phone Number">
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <p id="msg"></p>
+
+    <div class="links">
+        <a href="signup.html">Create new account</a>
+        <a href="forgot.html"></a>
+    </div>
+
+</div>
+
+</div>
+
+<script>
+const API = "https://mobile-wealth-api.onrender.com";
+
+async function login() {
+
+    const phone = document.getElementById("phone").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const msg = document.getElementById("msg");
+
+    if (!phone || !password) {
+        msg.style.color = "red";
+        msg.innerText = "All fields required";
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone, password })
+        });
+
+        const data = await res.json().catch(() => null);
+
+        if (res.status === 403) {
+            msg.style.color = "red";
+            msg.innerText = data?.message || "Your account has been locked,for been inactive of investment,please contact company or send message to the whatsapp group team.thank you";
+            return;
+        }
+
+        if (!res.ok) {
+            msg.style.color = "red";
+            msg.innerText = data?.message || "Invalid login";
+            return;
+        }
+
+        localStorage.setItem("user", JSON.stringify(data.user || data));
+
+        localStorage.setItem("phone", data.user?.phone || data.phone);
+
+        if (data.token) {
+            localStorage.setItem("token", data.token);
+        }
+
+        msg.style.color = "green";
+        msg.innerText = "Login successful...";
+
+        setTimeout(() => {
+            window.location = "dashboard.html";
+        }, 1000);
+
+    } catch (err) {
+        console.log(err);
+        msg.style.color = "red";
+        msg.innerText = "Network error. Try again.";
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Help Center</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0a84ff;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.box{
+background:white;
+padding:20px;
+border-radius:15px;
+width:90%;
+max-width:400px;
+text-align:center;
+}
+
+button{
+background:#25D366;
+color:white;
+border:none;
+padding:12px;
+width:100%;
+border-radius:10px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Help Center</h2>
+
+<p> Chat with  team on WhatsApp.</p>
+
+<button onclick="contactSupport()">Join whatsapp group</button>
+
+</div>
+
+<a href="dashboard.html"
+style="
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 18px;
+    background: #25D366;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 9999;
+">
+    🏠 Back to Dashboard
+</a>
+<div>
+
+   <a href="https://chat.whatsapp.com/YOUR_GROUP_INVITE_LINK" target="_blank"
+style="
+    position: fixed;
+    top: 10px;
+    right: 10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    max-width:260px;
+    margin:10px auto;
+    padding:10px 14px;
+    background:#25D366;
+    color:white;
+    text-decoration:none;
+    border-radius:25px;
+    font-size:13px;
+    font-weight:bold;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+">
+    📱 Join WhatsApp Group
+</a>
+</div>
+
+<script>
+function contactSupport(){
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userPhone = user?.phone || "unknown";
+
+    const message = `Hello support, I need help. My registered phone is ${userPhone}`;
+
+    // WhatsApp GROUP LINK (no number required)
+    const groupLink = "https://chat.whatsapp.com/CMbT9P9kParETgXL88QCT3?s=cl&p=a&mlu=3";
+
+    // Redirect user directly to group
+    window.location.href = groupLink;
+}
+</script>
+
+</body>
+</html>

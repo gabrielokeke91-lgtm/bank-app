@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#0a84ff,#00c2ff);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* CARD */
+.container{
+    width:90%;
+    max-width:350px;
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+/* TITLE */
+h2{
+    color:#0a84ff;
+    margin-bottom:10px;
+}
+
+/* SUB TEXT */
+p{
+    font-size:13px;
+    color:#666;
+    margin-bottom:20px;
+}
+
+/* INPUT */
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+    font-size:14px;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#0a84ff;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(0.98);
+}
+
+/* MESSAGE */
+#msg{
+    margin-top:10px;
+    font-size:13px;
+    color:red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🔐 Admin Login</h2>
+    <p>Enter admin credentials to continue</p>
+
+    <input id="username" placeholder="Admin Username">
+    <input id="password" type="password" placeholder="Admin Password">
+
+    <button onclick="login()">Login</button>
+
+    <p id="msg"></p>
+
+</div>
+
+<script>
+
+const API = "https://mobile-wealth-api.onrender.com";
+
+async function login(){
+
+    const phone = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    const msg = document.getElementById("msg");
+    msg.innerText = "Logging in...";
+
+    try {
+
+        const res = await fetch(`${API}/ezeaguuy/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ phone, password })
+        });
+
+        const data = await res.json().catch(() => null);
+
+        if (res.ok && data?.success) {
+
+            localStorage.setItem("ezeaguuyLoggedIn", "true");
+            localStorage.setItem("ezeaguuyToken", data.token);
+            localStorage.setItem("ezeaguuy", JSON.stringify(data.ezeaguuy));
+
+            msg.style.color = "green";
+            msg.innerText = "Login successful...";
+
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 800);
+
+        } else {
+            msg.style.color = "red";
+            msg.innerText = data?.error || "Invalid admin credentials";
+        }
+
+    } catch (error) {
+        console.log(error);
+        msg.style.color = "red";
+        msg.innerText = "Server error. Try again.";
+    }
+}
+
+</script>
+
+</body>
+</html>

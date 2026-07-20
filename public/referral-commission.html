@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Referral Earnings</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f7fb;
+}
+
+.topbar{
+    background:#007bff;
+    color:white;
+    padding:25px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.card{
+    background:white;
+    margin:10px;
+    padding:12px;
+    border-radius:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+p{
+    margin:6px 0;
+    font-size:14px;
+}
+
+.amount{
+    color:green;
+    font-weight:bold;
+}
+/* BOTTOM NAV */
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:rgb(205, 213, 215);
+    display:flex;
+    justify-content:space-around;
+    padding:20px;
+    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.bottom-nav a{
+    text-decoration:none;
+    color:#0099ff;
+    font-size:50px;
+}
+
+.space{
+    height:40px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+🎁💰Referral Commission History
+</div>
+
+<div id="commission"></div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <a href="dashboard.html">Home</a>
+</div>
+
+<script>
+
+const API = "https://mobile-wealth-api.onrender.com";
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (!user || !user.id) {
+    window.location.href = "login.html";
+}
+
+async function load() {
+
+    try {
+
+        const res = await fetch(`${API}/referral-commission/${user.id}`);
+        const data = await res.json();
+
+        const container = document.getElementById("commission");
+        container.innerHTML = "";
+
+        if (!Array.isArray(data) || data.length === 0) {
+            container.innerHTML = "<p style='text-align:center;'>Refer to get bonus commission</p>";
+            return;
+        }
+
+        data.forEach(item => {
+
+            container.innerHTML += `
+                <div class="card">
+                    <p>👤 ${item.referred_user}</p>
+                    <p>💰 Deposit: ₦${Number(item.deposit_amount || 0).toFixed(2)}</p>
+                    <p class="amount">🎁 Commission: ₦${Number(item.commission_amount || 0).toFixed(2)}</p>
+                    <p>📅 ${new Date(item.created_at).toLocaleString()}</p>
+                </div>
+            `;
+
+        });
+
+    } catch (err) {
+        console.log("Referral load error:", err);
+    }
+}
+
+load();
+
+</script>
+
+</body>
+</html>

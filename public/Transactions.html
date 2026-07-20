@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Transactions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f7fb;
+}
+
+/* TOP BAR */
+.topbar{
+    background:#0099ff;
+    color:white;
+    padding:15px;
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+}
+
+/* CONTAINER */
+.container{
+    padding:15px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    border-radius:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    overflow:hidden;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#f1f5f9;
+    color:#555;
+    font-size:12px;
+    text-align:left;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    font-size:13px;
+    border-bottom:1px solid #eee;
+}
+
+/* STATUS BADGES */
+.status{
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.success{
+    background:#dcfce7;
+    color:#16a34a;
+}
+
+.pending{
+    background:#fef9c3;
+    color:#a16207;
+}
+
+.failed{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    padding:20px;
+    color:gray;
+}
+
+/* BACK BUTTON */
+.back-btn{
+    margin:15px;
+    width:calc(100% - 30px);
+    padding:12px;
+    background:#222;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:14px;
+}
+
+/* ROW STYLE (CARD FEEL ON MOBILE) */
+tr:hover{
+    background:#f9fafb;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    padding:10px;
+    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.bottom-nav a{
+    text-decoration:none;
+    color:#0099ff;
+    font-size:13px;
+}
+
+.space{
+    height:70px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">Transactions</div>
+
+<div class="container">
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody id="txnBody">
+                <tr><td colspan="4" class="empty">Loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<button class="back-btn" onclick="goBack()">⬅️ Back to Dashboard</button>
+
+<div class="space"></div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <a href="dashboard.html">Home</a>
+</div>
+
+<script>
+const API = "https://mobile-wealth-api.onrender.com";
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (!user || !user.phone) {
+    window.location.href = "login.html";
+}
+
+async function loadTransactions() {
+
+    try {
+        const res = await fetch(`${API}/transactions/${user.phone}`);
+        const data = await res.json();
+
+        const tbody = document.getElementById("txnBody");
+        tbody.innerHTML = "";
+
+        if (!Array.isArray(data) || data.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="empty">No transactions yet</td>
+                </tr>
+            `;
+            return;
+        }
+
+        data.forEach(txn => {
+
+            let statusClass = "pending";
+
+            if (txn.status === "success") statusClass = "success";
+            if (txn.status === "rejected") statusClass = "failed";
+            if (txn.status === "approved") statusClass = "success";
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${txn.type}</td>
+                    <td>₦${txn.amount}</td>
+                    <td><span class="status ${statusClass}">${txn.status}</span></td>
+                    <td>${new Date(txn.created_at).toLocaleString()}</td>
+                </tr>
+            `;
+        });
+
+    } catch (err) {
+        console.log("Transaction load error:", err);
+    }
+}
+
+function goBack(){
+    window.location.href = "dashboard.html";
+}
+
+loadTransactions();
+</script>
+
+</body>
+</html>

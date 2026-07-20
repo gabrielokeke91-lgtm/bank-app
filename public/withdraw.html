@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Withdraw</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f7fb;
+}
+
+/* TOP BAR */
+.topbar{
+    background:#0099ff;
+    color:white;
+    padding:15px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+/* CARD */
+.card{
+    background:white;
+    margin:15px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* INPUTS */
+input{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    background:#0099ff;
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+}
+
+button:active{
+    transform:scale(0.98);
+}
+
+/* MESSAGE */
+#msg{
+    text-align:center;
+    margin-top:10px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+/* INFO BOX */
+.info{
+    background:#eaf6ff;
+    padding:12px;
+    border-radius:10px;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    padding:10px;
+    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.bottom-nav a{
+    text-decoration:none;
+    color:#0099ff;
+    font-size:13px;
+}
+
+.space{
+    height:70px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">Withdraw</div>
+
+<div class="card">
+
+    <div class="info">
+        💡 Withdraw funds directly to your registered account
+    </div>
+
+    <input type="number" id="amount" placeholder="Enter amount">
+    <input type="password" id="pin" maxlength="4" placeholder="Enter 4-digit PIN">
+
+    <button onclick="withdraw()">Withdraw</button>
+
+    <p id="msg"></p>
+</div>
+
+<div class="space"></div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <a href="dashboard.html">Home</a>
+    <a href="bank.html">Bank details</a>
+</div>
+
+<script>
+const API = "https://mobile-wealth-api.onrender.com";
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (!user || !user.phone) {
+    window.location.href = "login.html";
+}
+
+async function withdraw() {
+
+    const amount = document.getElementById("amount").value;
+    const pin = document.getElementById("pin").value;
+    const msg = document.getElementById("msg");
+
+    if (!amount || amount <= 0) {
+        msg.style.color = "red";
+        msg.innerText = "Enter valid amount";
+        return;
+    }
+
+    if (!pin || pin.length !== 4) {
+        msg.style.color = "red";
+        msg.innerText = "Enter 4-digit PIN";
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API}/withdraw`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                phone: user.phone,
+                amount,
+                pin
+            })
+        });
+
+        const data = await res.text();
+
+        msg.style.color = res.ok ? "green" : "red";
+        msg.innerText = data;
+
+    } catch (err) {
+        msg.style.color = "red";
+        msg.innerText = "Network error";
+    }
+}
+</script>
+
+</body>
+</html>

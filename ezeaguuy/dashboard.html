@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f5f7fb;
+}
+
+/* TOP BAR */
+.topbar{
+    background:linear-gradient(135deg,#0099ff,#0066ff);
+    color:white;
+    padding:15px;
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+}
+
+/* CARDS */
+.card{
+    background:skyblue;
+    margin:12px;
+    padding:12px;
+    border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+}
+
+th{
+    background:#0099ff;
+    color:white;
+    padding:10px;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+/* BUTTONS */…
+
+.topbar{
+    background:linear-gradient(135deg,#0099ff,#0066ff);
+    color:white;
+    padding:15px;
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+}
+
+.card{
+    background:white;
+    margin:12px;
+    padding:12px;
+    border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+}
+
+th{
+    background:#0099ff;
+    color:white;
+    padding:10px;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+button{
+    padding:8px 10px;
+    border:none;
+    border-radius:8px;
+    font-size:12px;
+    cursor:pointer;
+}
+
+.suspend{
+    background:#ff4d4d;
+    color:white;
+}
+
+.activate{
+    background:#00c853;
+    color:white;
+}
+
+.bottom-actions{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    display:flex;
+}
+
+.bottom-actions a{
+    flex:1;
+}
+
+.bottom-actions button{
+    width:100%;
+    border-radius:0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+Admin Dashboard
+</div>
+
+<div class="card">
+<h3>All Users</h3>
+
+<table>
+<thead>
+<tr>
+<th>Phone</th>
+<th>Balance</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="users"></tbody>
+</table>
+</div>
+
+<a href="login.html"
+style="
+    position: fixed;
+    top: 10px;
+    left: 95%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    background: #0a84ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    z-index: 9999;
+">
+    Logout
+</a>
+
+<div class="bottom-actions">
+<a href="/ezeaguuy/withdrawals.html"><button>Withdrawals</button></a>
+<a href="/ezeaguuy/deposits.html"><button>Deposits</button></a>
+<a href="/ezeaguuy/user-bank-details-admin.html"><button>Bank Details</button></a>
+<a href="/ezeaguuy/admin-bonus.html"><button>Bonus</button></a>
+<a href="/ezeaguuy/admin-user-control.html"><button>user-control</button></a>
+<a href="/ezeaguuy/investments.html"><button>investment by users</button></a>
+</div>
+
+<script>
+
+const API = "https://mobile-wealth-api.onrender.com";
+
+async function loadUsers() {
+
+    try {
+
+        const res = await fetch(`${API}/ezeaguuy/users`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const data = await res.json().catch(() => []);
+
+        const tbody = document.getElementById("users");
+        tbody.innerHTML = "";
+
+        data.forEach(user => {
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${user.phone}</td>
+                    <td>₦${user.balance || 0}</td>
+                    <td>${user.status || "active"}</td>
+                    <td>
+                        <button onclick="toggleUser(${user.id})"
+                            class="${user.status === 'active' ? 'suspend' : 'activate'}">
+                            ${user.status === 'active' ? 'Suspend' : 'Activate'}
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+
+    } catch (err) {
+        console.log(err);
+        alert("Server error");
+    }
+}
+
+async function toggleUser(id){
+
+    try {
+        await fetch(`${API}/ezeaguuy/toggle-user-status`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id,
+                status: "toggle"
+            })
+        });
+
+        loadUsers();
+
+    } catch (err) {
+        console.log(err);
+        alert("Failed to update user");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadUsers);
+
+</script>
+
+</body>
+</html>

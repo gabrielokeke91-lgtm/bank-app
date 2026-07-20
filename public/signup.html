@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Signup</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#0099ff,#00c2ff);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.card{
+width:90%;
+max-width:350px;
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+h2{
+color:#0099ff;
+margin-bottom:20px;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+
+    /* ADD THIS */
+    background: url("/images/index4.jpeg") no-repeat center center fixed;
+    background-size: cover;
+
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ddd;
+border-radius:10px;
+outline:none;
+font-size:14px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#0099ff;
+color:white;
+border:none;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:active{
+transform:scale(0.98);
+}
+
+#msg{
+margin-top:10px;
+font-size:14px;
+}
+
+a{
+display:block;
+margin-top:15px;
+text-align:center;
+color:white;
+text-decoration:none;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+
+    /* ADD THIS */
+    background: url("/images/index2.jpeg") no-repeat center center fixed;
+    background-size: cover;
+
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* ===================== */
+/* MODAL BACKGROUND IMAGE */
+/* ===================== */
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:9999;
+
+/* IMAGE BACKGROUND */
+background-image:url("/images/index.jpeg"); /* CHANGE THIS */
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+
+/* DARK OVERLAY FOR READABILITY */
+background-color:rgba(142, 178, 203, 0.6);
+background-blend-mode:darken;
+
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* MODAL BOX */
+.modal-content{
+width:90%;
+max-width:420px;
+background:rgba(255,255,255,0.95);
+border-radius:12px;
+padding:15px;
+max-height:80vh;
+overflow-y:auto;
+}
+
+/* TERMS TEXT */
+.terms-box{
+font-size:13px;
+line-height:1.4;
+color:#333;
+}
+
+.terms-box h3{
+margin-top:10px;
+font-size:14px;
+color:#111;
+}
+
+/* BUTTONS */
+.btn-group{
+display:flex;
+justify-content:space-between;
+margin-top:15px;
+}
+
+.accept-btn{
+background:green;
+color:white;
+border:none;
+padding:10px;
+width:48%;
+border-radius:6px;
+}
+
+.decline-btn{
+background:red;
+color:white;
+border:none;
+padding:10px;
+width:48%;
+border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<h2>Create Account</h2>
+
+<input id="phone" placeholder="Phone number">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="signup()">Sign Up</button>
+
+<p id="msg"></p>
+</div>
+
+<a href="login.html" style="
+    display:block;
+    width:5%;
+    padding:6px;
+    background:#0a84ff;
+    color:white;
+    text-align:center;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:13px;
+    margin-top:5px;
+">
+    Already have an account? Login
+</a>
+
+!-- TERMS POPUP -->
+<div id="termsModal" class="modal">
+
+  <div class="modal-content">
+
+    <h2>Terms & Conditions</h2>
+
+    <div class="terms-box">
+      
+      <h3>1. INTRODUCTION</h3>
+      <h3>WELCOME TO MOBILE WEALTH LIMITED</h3>
+      <p>We are a digital financial growth COMPANY built to help users save, invest, and earn daily returns through structured investment plans.</p><br>
+      <p>MASSIVE RETURNS AND BONUS COMMISSIONS FOR THE USERS</p>
+
+      <h3>2. ELIGIBILITY</h3>
+      <p> provide accurate information.</p>
+
+      <h3>3. ACCEPTANCE</h3>
+      <p>Clicking “I AGREE” confirms acceptance of all terms.</p>
+
+      <h3>4. TRANSACTIONS</h3>
+      <p>All deposits and withdrawals are subject to approval.</p>
+
+      <h3>5. NO RISK INVOLVED</h3>
+      <p>Financial institution with  guaranteed returns.</p>
+
+      <h3>6. WITHDRAWALS</h3>
+      <p>Withdrawals  avalaible,however,subject to weekly rules</p>
+
+      <h3>7. BECOMING AN AUTHOMATIC COMPANY STAFF</h3>
+      <p>Reach 20 Referral and earn yourself monthly salary.</p>
+
+      <h3>8. PRIVACY</h3>
+      <p>Your data is securely stored and protected.</p>
+
+    </div>
+
+    <div class="btn-group">
+      <button class="decline-btn" onclick="declineTerms()">DECLINE</button>
+      <button class="accept-btn" onclick="acceptTerms()">I AGREE</button>
+    </div>
+
+<script>
+const API = "https://mobile-wealth-api.onrender.com";
+
+function acceptTerms() {
+    document.getElementById("termsModal").style.display = "none";
+}
+
+function declineTerms() {
+    window.location.href = "https://www.google.com";
+}
+
+window.onload = function () {
+    document.getElementById("termsModal").style.display = "flex";
+};
+
+function getReferral() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("ref");
+}
+
+async function signup() {
+
+    const phone = document.getElementById("phone").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const msg = document.getElementById("msg");
+
+    const referredBy = getReferral();
+
+    if (!phone || !password) {
+        msg.style.color = "red";
+        msg.innerText = "All fields are required";
+        return;
+    }
+
+    try {
+
+        const res = await fetch(`${API}/signup`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                phone,
+                password,
+                referredBy
+            })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+
+            localStorage.setItem("user", JSON.stringify(data));
+
+            msg.style.color = "green";
+            msg.innerText = "Signup successful";
+
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 1000);
+
+        } else {
+
+            msg.style.color = "red";
+            msg.innerText = data.error || data.message || "Signup failed";
+        }
+
+    } catch (error) {
+
+        console.log("Signup Error:", error);
+
+        msg.style.color = "red";
+        msg.innerText = "Network error. Try again";
+    }
+}
+</script>
+<script>
+// PROMO POPUP CONTROLLER
+
+(function () {
+
+    function showPromo() {
+        const modal = document.getElementById("promoModal");
+        if (modal) {
+            modal.style.display = "flex";
+        }
+    }
+
+    function closePromo() {
+        const modal = document.getElementById("promoModal");
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Show popup after page fully loads
+    window.addEventListener("load", () => {
+        showPromo();
+    });
+
+    // expose function globally so HTML button can access it
+    window.closePromo = closePromo;
+
+})();
+</script>
+
+</body>
+</html>

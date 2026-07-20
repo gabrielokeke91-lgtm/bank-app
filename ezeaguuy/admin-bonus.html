@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Bonus Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial;
+    margin: 0;
+    background: #f5f7fb;
+}
+
+.header {
+    background: linear-gradient(135deg,#0099ff,#0066ff);
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.container {
+    padding: 15px;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    margin-top: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #0099ff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 10px;
+    padding: 10px;
+    background: #e7f7ff;
+    border-radius: 8px;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+🎁 Bonus Code Generator (Admin)
+</div>
+
+<div class="container">
+
+<div class="card">
+
+    <label>💰 Bonus Amount</label>
+    <input type="number" id="amount" placeholder="Enter amount e.g 5000">
+
+    <label>👥 Number of Users Allowed</label>
+    <input type="number" id="users" placeholder="e.g 10 users">
+
+    <label>⏳ Expiry Hours</label>
+<input type="number" id="hours" placeholder="e.g 1">
+
+<label>⏳ Expiry Minutes</label>
+<input type="number" id="minutes" placeholder="e.g 30">
+
+    <button onclick="generateBonus()">Generate Code</button>
+
+    <div class="result" id="resultBox" style="display:none;"></div>
+
+</div>
+<a href="dashboard.html"
+   style="
+   position: fixed;
+   bottom: 15px;
+   left: 50%;
+   transform: translateX(-50%);
+   background: #0099ff;
+   color: white;
+   padding: 12px 20px;
+   border-radius: 25px;
+   text-decoration: none;
+   font-size: 14px;
+   font-weight: bold;
+   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+   z-index: 9999;
+">
+   🏠 Home
+</a>
+
+
+<script>
+
+const API = "https://mobile-wealth-api.onrender.com";
+
+async function generateBonus() {
+
+    const amount = document.getElementById("amount").value;
+    const users = document.getElementById("users").value;
+    const hours = document.getElementById("hours").value || 0;
+    const minutes = document.getElementById("minutes").value || 0;
+
+    if (!amount || !users) {
+        alert("Amount and users are required");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API}/ezeaguuy/create-bonus`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                amount: Number(amount),
+                maxUsers: Number(users),
+                expiryHours: Number(hours),
+                expiryMinutes: Number(minutes)
+            })
+        });
+
+        const data = await res.json();
+
+        document.getElementById("resultBox").style.display = "block";
+        document.getElementById("resultBox").innerHTML = `
+            🎉 <b>Bonus Code Created!</b><br><br>
+            Code: <b>${data.code}</b><br>
+            Amount: ₦${data.amount}<br>
+            Max Users: ${data.maxUsers}<br>
+            Expires At: ${data.expiresAt}
+        `;
+
+    } catch (err) {
+        console.log(err);
+        alert("Failed to generate bonus code");
+    }
+}
+
+</script>
+
+</body>
+</html>

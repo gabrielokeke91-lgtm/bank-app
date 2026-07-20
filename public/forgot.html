@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Forgot Password</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f7fb;
+}
+
+/* TOP BAR */
+.topbar{
+    background:#0099ff;
+    color:white;
+    padding:15px;
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+}
+
+/* CARD */
+.card{
+    background:white;
+    margin:20px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* INPUT */
+input{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+    font-size:14px;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    background:#0099ff;
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+}
+
+button:active{
+    transform:scale(0.98);
+}
+
+/* MESSAGE */
+#msg{
+    text-align:center;
+    margin-top:10px;
+    font-size:14px;
+    font-weight:bold;
+    color:#333;
+}
+
+/* BACK LINK */
+.link{
+    display:block;
+    text-align:center;
+    margin-top:10px;
+    color:#0099ff;
+    text-decoration:none;
+    font-size:13px;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+
+    /* ADD THIS */
+    background: url("/images/index5.jpeg") no-repeat center center fixed;
+    background-size: cover;
+
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* INFO TEXT */
+.info{
+    font-size:13px;
+    color:#666;
+    margin-bottom:10px;
+}
+
+/* CENTER */
+.wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:80vh;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">Reset Password</div>
+
+<div class="wrapper">
+
+<div class="card">
+
+    <div class="info">
+        🔐 Enter your phone number and new password to reset your account
+    </div>
+
+    <input id="phone" placeholder="Phone Number">
+    <input id="newpass" type="password" placeholder="New Password">
+
+    <button onclick="reset()">Reset Password</button>
+
+    <p id="msg"></p>
+
+    <a href="login.html" class="link">⬅️ Back to Login</a>
+
+</div>
+
+</div>
+
+<script>
+const API = "https://mobile-wealth-api.onrender.com";
+
+async function reset(){
+
+    const phone = document.getElementById("phone").value.trim();
+    const newpass = document.getElementById("newpass").value.trim();
+    const msg = document.getElementById("msg");
+
+    if (!phone || !newpass) {
+        msg.style.color = "red";
+        msg.innerText = "All fields are required";
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API}/reset-password`, {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({
+                phone,
+                newPassword: newpass
+            })
+        });
+
+        const data = await res.text();
+
+        msg.style.color = res.ok ? "green" : "red";
+        msg.innerText = data;
+
+    } catch (err) {
+        console.log(err);
+        msg.style.color = "red";
+        msg.innerText = "Network error";
+    }
+}
+</script>
+
+</body>
+</html>

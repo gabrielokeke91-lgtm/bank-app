@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Deposits</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#eef3f9;
+}
+
+/* HEADER */
+.header{
+    background:linear-gradient(135deg,#0099ff,#0066ff);
+    color:white;
+    padding:15px;
+    text-align:center;
+    font-weight:bold;
+    font-size:18px;
+    position:sticky;
+    top:0;
+}
+
+/* WRAPPER */
+.container{
+    padding:10px;
+}
+
+/* BACK BUTTON */
+.bottom{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    display:flex;
+}
+
+.bottom a{
+    flex:1;
+}
+
+.bottom button{
+    width:100%;
+    border-radius:0;
+    background:#0099ff;
+    color:white;
+    padding:12px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    padding:12px;
+    border-radius:14px;
+    margin-bottom:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* TEXT */
+p{
+    margin:6px 0;
+    font-size:14px;
+}
+
+/* IMAGE */
+img{
+    width:100%;
+    border-radius:10px;
+    margin-top:8px;
+}
+
+/* BUTTONS */
+.buttons{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+button{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    font-size:14px;
+    color:white;
+}
+
+.approve{ background:#00c853; }
+.reject{ background:#ff4d4d; }
+
+</style>
+</head>
+
+<body>
+
+<div class="header">Deposit Approval Panel</div>
+
+<div class="container" id="deposits"></div>
+
+<!-- BACK -->
+<div class="bottom">
+<a href="dashboard.html">
+<button>⬅️ admin Dashboard</button>
+</a>
+</div>
+
+<script>
+
+const API = "https://mobile-wealth-api.onrender.com";
+
+document.addEventListener("DOMContentLoaded", loadDeposits);
+
+async function loadDeposits() {
+
+    try {
+        const res = await fetch(`${API}/ezeaguuy/deposits`);
+        const data = await res.json();
+
+        const container = document.getElementById("deposits");
+        container.innerHTML = "";
+
+        data.forEach(dep => {
+
+            container.innerHTML += `
+                <div class="card">
+
+                    <p><b>Phone:</b> ${dep.phone}</p>
+                    <p><b>Amount:</b> ₦${dep.amount}</p>
+                    <p><b>Status:</b> ${dep.status}</p>
+
+                    ${dep.receipt ? `
+                        <img src="${API}/uploads/${dep.receipt}" />
+                    ` : ""}
+
+                    <div class="buttons">
+                        <button class="approve" onclick="approve(${dep.id})">Approve</button>
+                        <button class="reject" onclick="reject(${dep.id})">Reject</button>
+                    </div>
+
+                </div>
+            `;
+        });
+
+    } catch (err) {
+        console.log("Error loading deposits:", err);
+    }
+}
+
+function approve(id){
+    fetch(`${API}/ezeaguuy/deposit/approve`, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({id})
+    }).then(()=>loadDeposits());
+}
+
+function reject(id){
+    fetch(`${API}/ezeaguuy/deposit/reject`, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({id})
+    }).then(()=>loadDeposits());
+}
+
+</script>
+
+</body>
+</html>
