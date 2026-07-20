@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const db = require("./DB");
 
-const JWT_SECRET = process.env.JWT_SECRET || "mobile_wealth_secret_key_2026";
+const JWT_SECRET = process.env.JWT_SECRET || "smart_earn_secret_key_2026";
 
 function verifyToken(req, res, next) {
     const authHeader = req.headers["authorization"];
