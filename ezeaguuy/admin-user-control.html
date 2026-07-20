@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Control Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial;
+    background: #f5f7fb;
+    margin: 0;
+}
+
+.header {
+    background: #0066ff;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.lock {
+    background: red;
+    color: white;
+}
+
+.unlock {
+    background: green;
+    color: white;
+}
+
+/* BACK BUTTON */
+.bottom{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    display:flex;
+}
+
+.bottom a{
+    flex:1;
+}
+
+.bottom button{
+    width:100%;
+    border-radius:0;
+    background:#0099ff;
+    color:white;
+    padding:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">User Access Control</div>
+
+<table>
+<thead>
+<tr>
+<th>Phone</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="users"></tbody>
+</table>
+
+<!-- BACK -->
+<div class="bottom">
+<a href="dashboard.html">
+<button>⬅️ admin Dashboard</button>
+</a>
+</div>
+
+<script>
+
+const API = "https://smartearn.onrender.com";
+
+// LOAD USERS
+async function loadUsers() {
+
+    try {
+        const res = await fetch(`${API}/ezeaguuy/all-users`);
+
+        if (!res.ok) {
+            throw new Error("Failed to load users: " + res.status);
+        }
+
+        const data = await res.json();
+
+        const tbody = document.getElementById("users");
+        tbody.innerHTML = "";
+
+        data.forEach(user => {
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${user.phone}</td>
+                    <td>${user.status || "active"}</td>
+                    <td>
+                        <button 
+                            class="${user.status === 'active' ? 'lock' : 'unlock'}"
+                            onclick="toggleUser(${user.id}, '${user.status}')">
+                            ${user.status === 'active' ? 'Lock' : 'Unlock'}
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+
+    } catch (err) {
+        console.log("Load users error:", err);
+        alert("Failed to load users");
+    }
+}
+
+// TOGGLE USER STATUS
+async function toggleUser(id, status) {
+
+    try {
+        const newStatus = status === "active" ? "locked" : "active";
+
+        const res = await fetch(`${API}/ezeaguuy/toggle-user-status`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id, status: newStatus })
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to update user");
+        }
+
+        loadUsers();
+
+    } catch (err) {
+        console.log("Toggle error:", err);
+        alert("Failed to update user status");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadUsers);
+
+</script>
+
+</body>
+</html>

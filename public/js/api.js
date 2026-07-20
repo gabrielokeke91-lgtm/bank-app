@@ -1,4 +1,4 @@
-const API_BASE = "https://mobile-wealth-api.onrender.com";
+const API_BASE = "https://smartearn.onrender.com";
 
 function getToken() {
     return localStorage.getItem("token");

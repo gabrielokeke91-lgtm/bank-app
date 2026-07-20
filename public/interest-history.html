@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Interest History</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f7fb;
+}
+
+/* TOP BAR */
+.topbar{
+    background:#0099ff;
+    color:white;
+    padding:15px;
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+}
+
+/* CONTAINER */
+.container{
+    padding:15px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    border-radius:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    overflow:hidden;
+}
+
+/* TABLE STYLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#f1f5f9;
+    text-align:left;
+    padding:12px;
+    font-size:13px;
+    color:#555;
+}
+
+td{
+    padding:12px;
+    font-size:13px;
+    border-bottom:1px solid #eee;
+}
+
+/* EMPTY STATE */
+.empty{
+    text-align:center;
+    padding:20px;
+    color:gray;
+}
+
+/* BACK BUTTON */
+.back-btn{
+    margin:15px;
+    width:calc(100% - 30px);
+    padding:12px;
+    background:#222;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:14px;
+}
+
+/* AMOUNT COLORS */
+.credit{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.date{
+    font-size:12px;
+    color:#777;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    padding:10px;
+    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.bottom-nav a{
+    text-decoration:none;
+    color:#0099ff;
+    font-size:13px;
+}
+
+.space{
+    height:70px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">Interest History</div>
+
+<div class="container">
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Invested</th>
+                    <th>Interest</th>
+                </tr>
+            </thead>
+
+            <tbody id="history">
+                <tr><td colspan="3" class="empty">Loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+
+<div class="space"></div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <a href="dashboard.html">Home</a>
+</div>
+
+<script>
+
+const API = "https://smartearn.onrender.com";
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (!user || !user.phone) {
+    window.location.href = "login.html";
+}
+
+fetch(`${API}/interest-history?phone=${user.phone}`)
+.then(res => res.json())
+.then(data => {
+
+    const tbody = document.getElementById("history");
+    tbody.innerHTML = "";
+
+    if (!data || !data.length) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="3" class="empty">No interest history yet</td>
+            </tr>
+        `;
+        return;
+    }
+
+    data.forEach(item => {
+
+        tbody.innerHTML += `
+            <tr>
+                <td>
+                    <div>${new Date(item.created_at).toLocaleDateString()}</div>
+                    <div class="date">${new Date(item.created_at).toLocaleTimeString()}</div>
+                </td>
+                <td>₦${Number(item.amount || 0).toFixed(2)}</td>
+                <td class="credit">₦${Number(item.interest || 0).toFixed(2)}</td>
+            </tr>
+        `;
+    });
+
+})
+.catch(err => {
+
+    console.log(err);
+
+    document.getElementById("history").innerHTML = `
+        <tr>
+            <td colspan="3" class="empty">Failed to load data</td>
+        </tr>
+    `;
+});
+
+function goDashboard() {
+    window.location.href = "dashboard.html";
+}
+
+</script>
+
+</body>
+</html>

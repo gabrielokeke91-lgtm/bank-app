@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referral History</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4f7fb;
+}
+
+/* HEADER */
+.header{
+    background:linear-gradient(135deg,#0099ff,#0066ff);
+    color:white;
+    padding:16px;
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+}
+
+/* CONTAINER */
+.container{
+    padding:12px;
+    padding-bottom:80px;
+}
+
+/* CARD STYLE (OPAY STYLE) */
+.card{
+    background:white;
+    border-radius:15px;
+    padding:12px;
+    margin-bottom:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+/* TEXT */
+.card div{
+    margin:6px 0;
+    font-size:14px;
+    color:#333;
+}
+
+/* AMOUNT */
+.amount{
+    font-size:16px;
+    font-weight:bold;
+    color:#00a86b;
+}
+
+/* EMPTY STATE */
+.empty{
+    text-align:center;
+    color:#888;
+    margin-top:40px;
+}
+
+/* BACK BUTTON */
+.bottom{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:white;
+    border-top:1px solid #ddd;
+    display:flex;
+}
+
+.bottom a{
+    flex:1;
+    text-decoration:none;
+}
+
+.bottom button{
+    width:100%;
+    padding:14px;
+    border:none;
+    background:#0099ff;
+    color:white;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+Referral Bonus History
+</div>
+
+<div class="container" id="history">
+Loading...
+</div>
+
+<div class="bottom">
+<a href="dashboard.html">
+<button>⬅️ Back</button>
+</a>
+</div>
+
+<script>
+const API = "https://smartearn.onrender.com";
+
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+if (!user.id) {
+    window.location.href = "login.html";
+}
+
+async function loadHistory() {
+
+    try {
+
+        const res = await fetch(`${API}/referral-history/${user.id}`);
+        const data = await res.json();
+
+        const container = document.getElementById("history");
+
+        container.innerHTML = "";
+
+        if (!Array.isArray(data) || data.length === 0) {
+            container.innerHTML = <div class="empty">No referral bonus yet</div>;
+            return;
+        }
+
+        data.forEach(item => {
+
+            container.innerHTML += `
+                <div class="card">
+                    <div>👤 Referred User ID: ${item.referred_user_id}</div>
+                    <div class="amount">💰 Bonus: ₦${Number(item.amount).toFixed(2)}</div>
+                    <div>📅 ${new Date(item.created_at).toLocaleString()}</div>
+                </div>
+            `;
+        });
+
+    } catch (err) {
+        console.log(err);
+        document.getElementById("history").innerHTML =
+            <div class="empty">Failed to load referral history</div>;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadHistory);
+</script>
+
+</body>
+</html>
