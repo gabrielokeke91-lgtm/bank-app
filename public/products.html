@@ -6,43 +6,113 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <style>
 
+*{
+    box-sizing:border-box;
+}
+
+
 body{
+
     margin:0;
+
     font-family:Arial, sans-serif;
-    background:#f4f7fb;
+
+    background:
+    linear-gradient(135deg,#0b0f2f,#182848);
+
+    color:white;
+
 }
 
 
 /* TOP BAR */
+
 .topbar{
-    background:#0099ff;
-    color:white;
-    padding:15px;
-    font-size:18px;
+
+    padding:18px;
+
+    text-align:center;
+
+    font-size:22px;
+
     font-weight:bold;
+
+    background:
+    linear-gradient(90deg,#00c6ff,#0072ff);
+
+    box-shadow:0 5px 20px rgba(0,0,0,.4);
+
 }
+
 
 
 /* ADVERTISEMENT */
+
 .investment-ad{
-    width:100%;
-    padding:10px;
-    box-sizing:border-box;
+
+    padding:15px;
+
 }
+
 
 .investment-ad img{
+
     width:100%;
-    height:170px;
+
+    height:160px;
+
     object-fit:cover;
-    border-radius:15px;
-    display:block;
-    box-shadow:0 4px 15px rgba(0,0,0,0.2);
+
+    border-radius:20px;
+
+    box-shadow:
+    0 0 25px rgba(0,198,255,.7);
+
 }
 
 
-/* PRODUCT GRID */
+
+/* WALLET BOX */
+
+.wallet-box{
+
+    margin:15px;
+
+    padding:15px;
+
+    border-radius:20px;
+
+    background:
+    rgba(255,255,255,.12);
+
+    backdrop-filter:blur(10px);
+
+}
+
+
+.wallet-box select{
+
+    width:100%;
+
+    margin-top:10px;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    border:none;
+
+    font-size:16px;
+
+}
+
+
+
+/* VIP GRID */
+
 
 .container{
 
@@ -52,103 +122,198 @@ body{
 
     grid-template-columns:repeat(2,1fr);
 
-    gap:12px;
+    gap:18px;
 
 }
 
 
-/* CARD */
 
-.card{
+/* CRYSTAL DIAMOND CARD */
 
-    background:plum;
 
-    padding:15px;
+.vip-card{
 
-    border-radius:15px;
+    position:relative;
 
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    padding:20px 10px;
+
+    text-align:center;
+
+    border-radius:25px;
+
+    background:
+
+    linear-gradient(
+    145deg,
+    rgba(255,255,255,.35),
+    rgba(255,255,255,.05)
+    );
+
+
+    border:
+
+    2px solid rgba(255,255,255,.4);
+
+
+    box-shadow:
+
+    0 0 20px rgba(0,198,255,.5),
+
+    inset 0 0 25px rgba(255,255,255,.2);
+
+
+    overflow:hidden;
 
 }
 
 
-.card h3{
 
-    margin:0;
+/* crystal shine */
 
-    font-size:16px;
+.vip-card::before{
 
-    color:#333;
+    content:"";
+
+    position:absolute;
+
+    width:80px;
+
+    height:200%;
+
+    background:
+
+    rgba(255,255,255,.35);
+
+
+    transform:
+
+    rotate(35deg);
+
+
+    left:-100px;
+
+    top:-50px;
+
+
+    animation:
+
+    shine 4s infinite;
 
 }
 
 
-/* PRICE */
+@keyframes shine{
+
+0%{
+left:-120px;
+}
+
+
+50%,100%{
+left:250px;
+}
+
+}
+
+
+
+
+.vip-title{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#fff;
+
+    text-shadow:
+
+    0 0 10px #00ffff;
+
+}
+
+
+
+.diamond{
+
+    font-size:45px;
+
+    margin:10px;
+
+    filter:
+
+    drop-shadow(0 0 15px cyan);
+
+}
+
+
 
 .price{
 
-    margin:8px 0;
+    font-size:18px;
 
     font-weight:bold;
 
-    color:#0099ff;
+    color:#ffe600;
 
 }
 
 
-/* BUTTON */
 
-button{
+.vip-card button{
+
+
+    margin-top:12px;
 
     width:100%;
 
-    padding:10px;
+    padding:12px;
 
-    background:#0099ff;
-
-    color:white;
 
     border:none;
 
-    border-radius:10px;
+    border-radius:15px;
 
-    font-size:14px;
+
+    background:
+
+    linear-gradient(90deg,#00ffcc,#0072ff);
+
+
+    color:white;
 
     font-weight:bold;
 
 }
 
 
-button:active{
 
-    transform:scale(0.98);
+.vip-card button:active{
+
+    transform:scale(.95);
 
 }
 
-
-/* BACK BUTTON */
 
 .back-btn{
 
     margin:20px 15px;
 
-    padding:12px;
+    width:calc(100% - 30px);
 
-    background:#222;
+    padding:14px;
 
-    color:white;
+    border-radius:15px;
 
     border:none;
 
-    border-radius:10px;
+    background:#111;
 
-    width:calc(100% - 30px);
+    color:white;
 
 }
 
 
-
-/* BOTTOM NAV */
 
 .bottom-nav{
 
@@ -166,50 +331,88 @@ button:active{
 
     justify-content:space-around;
 
-    padding:10px;
-
-    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+    padding:12px;
 
 }
 
 
 .bottom-nav a{
 
+    color:#0072ff;
+
     text-decoration:none;
-
-    color:#0099ff;
-
-    font-size:13px;
 
 }
 
 
 .space{
 
-    height:70px;
+height:80px;
 
 }
 
 
-/* SMALL SCREEN */
 
 @media(max-width:600px){
 
 .container{
 
-    grid-template-columns:repeat(2,1fr);
-
-}
-
-
-.investment-ad img{
-
-    height:130px;
+grid-template-columns:repeat(2,1fr);
 
 }
 
 }
 
+/* VIP COLOR EFFECTS */
+
+.vip-card:nth-child(1){
+    box-shadow:0 0 25px #00ffff;
+}
+
+
+.vip-card:nth-child(2){
+    box-shadow:0 0 25px #00ff66;
+}
+
+
+.vip-card:nth-child(3){
+    box-shadow:0 0 25px #ffcc00;
+}
+
+
+.vip-card:nth-child(4){
+    box-shadow:0 0 25px #ff6600;
+}
+
+
+.vip-card:nth-child(5){
+    box-shadow:0 0 25px #ff00ff;
+}
+
+
+.vip-card:nth-child(6){
+    box-shadow:0 0 25px #0099ff;
+}
+
+
+.vip-card:nth-child(7){
+    box-shadow:0 0 25px gold;
+}
+
+
+.vip-card:nth-child(8){
+    box-shadow:0 0 25px #ffffff;
+}
+
+
+.vip-card:nth-child(9){
+    box-shadow:0 0 25px #ff3333;
+}
+
+
+.vip-card:nth-child(10){
+    box-shadow:0 0 35px #ffd700;
+}
 
 </style>
 
@@ -220,90 +423,265 @@ button:active{
 
 
 <div class="topbar">
-Products
+
+💎 VIP Investment Products 💎
+
 </div>
 
-
-<!-- Advertisement -->
 
 <div class="investment-ad">
 
-<img src="images/investment1.jpeg" alt="Investment Plan">
+<img src="images/investment1.jpeg">
 
 </div>
 
 
+
+<div class="wallet-box">
+
+Select Wallet
+
+<select id="wallet">
+
+<option value="balance">
+Main Balance
+</option>
+
+
+<option value="referral">
+Referral Wallet
+</option>
+
+
+</select>
+
+</div>
 
 <div class="container">
 
 
-<div class="card">
-<h3>StartUp</h3>
-<div class="price">₦5000</div>
-<button onclick="buyProduct(5000)">INVEST</button>
+<!-- VIP 1 -->
+
+<div class="vip-card">
+
+<div class="diamond">💎</div>
+
+<div class="vip-title">
+VIP 1
+</div>
+
+<div class="price">
+₦1000
+</div>
+
+<button onclick="buyProduct('VIP1',1000)">
+INVEST NOW
+</button>
+
 </div>
 
 
-<div class="card">
-<h3>Foodstuff</h3>
-<div class="price">₦10000</div>
-<button onclick="buyProduct(10000)">INVEST</button>
+
+<!-- VIP 2 -->
+
+<div class="vip-card">
+
+<div class="diamond">💎</div>
+
+<div class="vip-title">
+VIP 2
+</div>
+
+<div class="price">
+₦3000
+</div>
+
+<button onclick="buyProduct('VIP2',3000)">
+INVEST NOW
+</button>
+
 </div>
 
 
-<div class="card">
-<h3>Minner</h3>
-<div class="price">₦20000</div>
-<button onclick="buyProduct(20000)">INVEST</button>
+
+<!-- VIP 3 -->
+
+<div class="vip-card">
+
+<div class="diamond">💎</div>
+
+<div class="vip-title">
+VIP 3
+</div>
+
+<div class="price">
+₦5000
+</div>
+
+<button onclick="buyProduct('VIP3',5000)">
+INVEST NOW
+</button>
+
 </div>
 
 
-<div class="card">
-<h3>Gas</h3>
-<div class="price">₦52000</div>
-<button onclick="buyProduct(52000)">INVEST</button>
+
+<!-- VIP 4 -->
+
+<div class="vip-card">
+
+<div class="diamond">💎</div>
+
+<div class="vip-title">
+VIP 4
+</div>
+
+<div class="price">
+₦10000
+</div>
+
+<button onclick="buyProduct('VIP4',10000)">
+INVEST NOW
+</button>
+
 </div>
 
 
-<div class="card">
-<h3>Electronics</h3>
-<div class="price">₦86000</div>
-<button onclick="buyProduct(86000)">INVEST</button>
+
+
+<!-- VIP 5 -->
+
+<div class="vip-card">
+
+<div class="diamond">💎</div>
+
+<div class="vip-title">
+VIP 5
+</div>
+
+<div class="price">
+₦15000
+</div>
+
+<button onclick="buyProduct('VIP5',15000)">
+INVEST NOW
+</button>
+
 </div>
 
 
-<div class="card">
-<h3>Savings</h3>
-<div class="price">₦155000</div>
-<button onclick="buyProduct(155000)">INVEST</button>
+
+
+<!-- VIP 6 -->
+
+<div class="vip-card">
+
+<div class="diamond">💎</div>
+
+<div class="vip-title">
+VIP 6
+</div>
+
+<div class="price">
+₦20000
+</div>
+
+<button onclick="buyProduct('VIP6',20000)">
+INVEST NOW
+</button>
+
 </div>
 
 
-<div class="card">
-<h3>iPhone</h3>
-<div class="price">₦300000</div>
-<button onclick="buyProduct(300000)">INVEST</button>
+
+
+<!-- VIP 7 -->
+
+<div class="vip-card">
+
+<div class="diamond">💎</div>
+
+<div class="vip-title">
+VIP 7
+</div>
+
+<div class="price">
+₦25000
+</div>
+
+<button onclick="buyProduct('VIP7',25000)">
+INVEST NOW
+</button>
+
 </div>
 
 
-<div class="card">
-<h3>House</h3>
-<div class="price">₦750000</div>
-<button onclick="buyProduct(750000)">INVEST</button>
+
+
+<!-- VIP 8 -->
+
+<div class="vip-card">
+
+<div class="diamond">💎</div>
+
+<div class="vip-title">
+VIP 8
+</div>
+
+<div class="price">
+₦30000
+</div>
+
+<button onclick="buyProduct('VIP8',30000)">
+INVEST NOW
+</button>
+
 </div>
 
 
-<div class="card">
-<h3>Car</h3>
-<div class="price">₦1300000</div>
-<button onclick="buyProduct(1300000)">INVEST</button>
+
+
+<!-- VIP 9 -->
+
+<div class="vip-card">
+
+<div class="diamond">💎</div>
+
+<div class="vip-title">
+VIP 9
+</div>
+
+<div class="price">
+₦40000
+</div>
+
+<button onclick="buyProduct('VIP9',50000)">
+INVEST NOW
+</button>
+
 </div>
 
 
-<div class="card">
-<h3>Gold</h3>
-<div class="price">₦2500000</div>
-<button onclick="buyProduct(2500000)">INVEST</button>
+
+
+<!-- VIP 10 -->
+
+<div class="vip-card">
+
+<div class="diamond">💎</div>
+
+<div class="vip-title">
+VIP 10
+</div>
+
+<div class="price">
+₦70000
+</div>
+
+<button onclick="buyProduct('VIP10',70000)">
+INVEST NOW
+</button>
+
 </div>
 
 
@@ -312,9 +690,10 @@ Products
 
 
 <button class="back-btn" onclick="goDashboard()">
-⬅️ Back to Dashboard
-</button>
 
+⬅️ Back to Dashboard
+
+</button>
 
 
 <div class="space"></div>
@@ -323,103 +702,155 @@ Products
 
 <div class="bottom-nav">
 
-<a href="dashboard.html">Home</a>
+<a href="dashboard.html">
+Home
+</a>
 
-<a href="deposit.html">Deposit</a>
+
+<a href="deposit.html">
+Deposit
+</a>
+
 
 </div>
-
-
-
 
 <script>
 
 
-const API="https://smartearn.onrender.com";
+const API = "https://smartearn.onrender.com";
 
 
-const user=JSON.parse(localStorage.getItem("user"));
+
+const user = JSON.parse(localStorage.getItem("user"));
+
 
 
 if(!user || !user.phone){
 
-window.location.href="login.html";
+    window.location.href="login.html";
 
 }
 
 
 
-async function buyProduct(amount){
 
 
-try{
+async function buyProduct(grade, amount){
 
 
-const res=await fetch(`${API}/buy`,{
-
-
-method:"POST",
-
-
-headers:{
-
-
-"Content-Type":"application/json"
-
-
-},
-
-
-body:JSON.stringify({
-
-
-phone:user.phone,
-
-
-amount:amount
-
-
-})
-
-
-});
+    const wallet = document.getElementById("wallet").value;
 
 
 
-const data=await res.json();
+    // Confirmation
+
+    const confirmBuy = confirm(
+        Buy ${grade} investment with ₦${amount.toLocaleString()} using ${wallet} wallet?
+    );
+
+
+    if(!confirmBuy){
+
+        return;
+
+    }
 
 
 
-if(!res.ok){
+
+    try{
 
 
-alert(data.error || "Investment failed");
+        const res = await fetch(${API}/buy,{
 
 
-return;
+            method:"POST",
+
+
+            headers:{
+
+
+                "Content-Type":"application/json"
+
+
+            },
+
+
+            body:JSON.stringify({
+
+
+                phone:user.phone,
+
+
+                amount:amount,
+
+
+                grade:grade,
+
+
+                wallet:wallet
+
+
+            })
+
+
+        });
+
+
+
+
+
+        const data = await res.json();
+
+
+
+
+
+        if(!res.ok){
+
+
+            alert(data.error || "Investment failed");
+
+
+            return;
+
+
+        }
+
+
+
+
+
+        alert(
+            data.message || "Investment successful"
+        );
+
+
+
+        window.location.href="investments.html";
+
+
+
+
+    }
+
+    catch(err){
+
+
+        console.log("BUY ERROR:",err);
+
+
+        alert(
+            "Server connection failed"
+        );
+
+
+    }
+
 
 
 }
 
-
-
-alert(data.message || "Investment successful");
-
-
-
-}catch(err){
-
-
-console.log("BUY ERROR:",err);
-
-
-alert("Server connection failed");
-
-
-}
-
-
-}
 
 
 
@@ -427,7 +858,7 @@ alert("Server connection failed");
 function goDashboard(){
 
 
-window.location.href="dashboard.html";
+    window.location.href="dashboard.html";
 
 
 }
@@ -435,7 +866,6 @@ window.location.href="dashboard.html";
 
 
 </script>
-
-
 </body>
+
 </html>

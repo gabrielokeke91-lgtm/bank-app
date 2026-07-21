@@ -846,7 +846,10 @@ alt="smartearnAdvert">
 
 </div>
 
-
+<div class="balance-card">
+    <h4>Referral Amount</h4>
+    <h2>₦<span id="referralAmount">0</span></h2>
+</div>
 
 <div class="card">
 
@@ -1089,6 +1092,15 @@ console.log("Balance error:",err);
 async function loadReturns(){
 
 try{
+
+fetch(${API}/referralamount/${user.phone})
+.then(res=>res.json())
+.then(data=>{
+
+    document.getElementById("referralAmount").innerHTML =
+    Number(data.referral_amount).toLocaleString();
+
+});
 
 const res=await fetch(`${API}/returns/${user.phone}`);
 

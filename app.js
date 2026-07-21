@@ -299,7 +299,7 @@ app.post("/signup", (req, res) => {
 
                 db.query(
                     `INSERT INTO users 
-                    (phone, password, balance, withdrawable_balance, total_invested, total_returns, status, role, referral_code, referred_by)
+                    (phone, password, balance, withdrawable_balance, total_invested, total_returns, status, role, referral_code, referred_by,refrerral_amount)
                     VALUES (?, ?, 0, 0, 0, 0, 'active', 'user', ?, ?)`,
                     [phone, password, referralCode, validRef],
                     (err3) => {
@@ -616,9 +616,14 @@ app.post("/ezeaguuy/deposit/approve", (req, res) => {
 
                             // CREDIT REFERRER
                             db.query(
-                                "UPDATE users SET balance = balance + ? WHERE id=?",
-                                [commission, refId]
-                            );
+    `UPDATE users
+     SET referral_amount = referral_amount + ?
+     WHERE id=?`,
+    [commissionAmount, referrerId],
+    (err)=>{
+        if(err) console.log(err);
+    }
+);
 
                             // 💥 FIXED INSERT (THIS WAS YOUR MAIN BUG)
                             db.query(
@@ -701,57 +706,195 @@ app.post("/ezeaguuy/deposit/reject", (req, res) => {
 // ================= BUY / INVEST =================
 app.post("/buy", (req, res) => {
 
-    const { phone, amount } = req.body;
+    const { phone, amount, wallet, grade } = req.body;
     const investAmount = Number(amount);
 
-    if (!phone || !investAmount || investAmount <= 0) {
-        return res.status(400).json({ error: "Invalid input" });
+
+    if (!phone || !investAmount || investAmount <= 0 || !grade) {
+        return res.status(400).json({
+            error: "Invalid input"
+        });
     }
 
+
+    if (!wallet || !["balance", "referral"].includes(wallet)) {
+        return res.status(400).json({
+            error: "Select valid wallet"
+        });
+    }
+
+
+    // VIP PLAN SETTINGS
+    const vipPlans = {
+
+        VIP1: { days: 15, rate: 10 },
+        VIP2: { days: 30, rate: 15 },
+        VIP3: { days: 45, rate: 20 },
+        VIP4: { days: 60, rate: 25 },
+        VIP5: { days: 75, rate: 30 },
+        VIP6: { days: 90, rate: 35 },
+        VIP7: { days: 120, rate: 40 },
+        VIP8: { days: 150, rate: 45 },
+        VIP9: { days: 180, rate: 50 },
+        VIP10:{ days: 365, rate: 60 }
+
+    };
+
+
+    const selectedPlan = vipPlans[grade];
+
+
+    if (!selectedPlan) {
+        return res.status(400).json({
+            error: "Invalid investment grade"
+        });
+    }
+
+
+
     db.query(
-        "SELECT balance FROM users WHERE phone=?",
+        "SELECT balance, referral_amount FROM users WHERE phone=?",
         [phone],
         (err, result) => {
 
             if (err) {
-                return res.status(500).json({ error: "DB error" });
+                return res.status(500).json({
+                    error:"DB error"
+                });
             }
 
-            if (!result || result.length === 0) {
-                return res.status(404).json({ error: "User not found" });
+
+            if (result.length === 0) {
+                return res.status(404).json({
+                    error:"User not found"
+                });
             }
+
 
             const balance = Number(result[0].balance || 0);
 
-            if (balance < investAmount) {
-                return res.status(400).json({ error: "Insufficient balance" });
-            }
-
-            const newBalance = balance - investAmount;
-
-            db.query(
-                "UPDATE users SET balance=?, total_invested = total_invested + ? WHERE phone=?",
-                [newBalance, investAmount, phone]
+            const referralAmount = Number(
+                result[0].referral_amount || 0
             );
 
-            db.query(
-                `INSERT INTO investments (phone,amount, status, end_date)
-                 VALUES (?, ?, 'active', DATE_ADD(NOW(), INTERVAL 15 DAY))`,
-                [phone, investAmount],
-                (err2) => {
 
-                    if (err2) {
-                        return res.status(500).json({ error: "Investment faileds" });
-                    }
 
-                    return res.json({
-                        message: "Investment successful"
+            // NORMAL WALLET
+            if (wallet === "balance") {
+
+
+                if (balance < investAmount) {
+                    return res.status(400).json({
+                        error:"Insufficient balance"
                     });
                 }
+
+
+                db.query(
+                    `UPDATE users 
+                     SET balance = balance - ?,
+                     total_invested = total_invested + ?
+                     WHERE phone=?`,
+                    [
+                      investAmount,
+                      investAmount,
+                      phone
+                    ]
+                );
+
+            }
+
+
+
+            // REFERRAL WALLET
+            if (wallet === "referral") {
+
+
+                if (referralAmount < 10000) {
+                    return res.status(400).json({
+                        error:
+                        "Referral wallet must reach ₦10,000 before use."
+                    });
+                }
+
+
+                if (referralAmount < investAmount) {
+                    return res.status(400).json({
+                        error:
+                        "Insufficient referral amount."
+                    });
+                }
+
+
+
+                db.query(
+                    `UPDATE users
+                     SET referral_amount = referral_amount - ?,
+                     total_invested = total_invested + ?
+                     WHERE phone=?`,
+                    [
+                      investAmount,
+                      investAmount,
+                      phone
+                    ]
+                );
+
+            }
+
+
+
+
+            // CREATE INVESTMENT
+            db.query(
+                `INSERT INTO investments
+                (
+                 phone,
+                 amount,
+                 interest_rate,
+                 status,
+                 end_date
+                )
+                VALUES
+                (
+                 ?,
+                 ?,
+                 ?,
+                 'active',
+                 DATE_ADD(NOW(), INTERVAL ? DAY)
+                )`,
+                [
+                 phone,
+                 investAmount,
+                 selectedPlan.rate,
+                 selectedPlan.days
+                ],
+
+                (err2)=>{
+
+
+                    if(err2){
+                        console.log(err2);
+
+                        return res.status(500).json({
+                            error:"Investment failed"
+                        });
+                    }
+
+
+                    return res.json({
+                        message:"Investment successful",
+                        grade:grade,
+                        wallet_used:wallet,
+                        duration:selectedPlan.days+" days"
+                    });
+
+                }
             );
+
         }
     );
-})
+
+});
 
 // ================= TOTAL INVESTED =================
 app.get("/total-invested/:phone", (req, res) => {
