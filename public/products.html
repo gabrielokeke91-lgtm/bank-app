@@ -907,13 +907,10 @@ Deposit
 
 <script>
 
-
 const API = "https://smartearn.onrender.com";
 
 
-
 const user = JSON.parse(localStorage.getItem("user"));
-
 
 
 if(!user || !user.phone){
@@ -921,8 +918,6 @@ if(!user || !user.phone){
     window.location.href="login.html";
 
 }
-
-
 
 
 
@@ -942,6 +937,7 @@ async function buyProduct(grade, amount){
 
 
     try{
+
 
         const res = await fetch(${API}/buy,{
 
@@ -1002,15 +998,11 @@ async function buyProduct(grade, amount){
 
 
 
-
 function goDashboard(){
-
 
     window.location.href="dashboard.html";
 
-
 }
-
 
 
 </script>
