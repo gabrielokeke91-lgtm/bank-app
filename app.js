@@ -180,9 +180,9 @@ cron.schedule("0 0 * * *", () => {
             // STEP 2: EXPIRE INVESTMENTS
             db.query(
     `UPDATE investments 
-     SET status='expired' 
+     SET status='expired'
      WHERE status='active'
-     AND end_date <= DATE_SUB(NOW(), INTERVAL 15 DAY)`,
+     AND end_date <= NOW()`,
     (err, result) => {
 
         if (err) {
@@ -484,8 +484,8 @@ app.post("/deposit", upload.single("receipt"), (req, res) => {
     }
     const depositAmount = Number(amount);
 
-    if (depositAmount < 5000) {
-    return res.status(400).send("Minimum deposit is ₦5,000");
+    if (depositAmount < 1000) {
+    return res.status(400).send("Minimum deposit is ₦1000");
 }
     db.query(
         "SELECT id FROM users WHERE phone = ? LIMIT 1",
@@ -811,8 +811,8 @@ app.post("/withdraw", (req, res) => {
     }
 
     // STEP 1: MINIMUM WITHDRAWAL
-    if (withdrawAmount < 1500) {
-        return res.send("Minimum withdrawal is ₦1500");
+    if (withdrawAmount < 500) {
+        return res.send("Minimum withdrawal is ₦500");
     }
 
     // STEP 2: GET USER FIRST (IMPORTANT FIX)
