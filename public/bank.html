@@ -1,131 +1,806 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Bank Setup</title>
+
+<title>Smartearn Bank Details</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f4f7fb;
+
+
+*{
+
+box-sizing:border-box;
+
 }
+
+
+
+body{
+
+
+margin:0;
+
+
+font-family:
+
+
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+
+min-height:100vh;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+
+color:white;
+
+
+
+overflow:hidden;
+
+
+
+}
+
+
+
+
+
+
+
+/* BACKGROUND IMAGE */
+
+
+body::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+inset:0;
+
+
+
+background:
+
+
+url("/images/index3.jpeg")
+
+no-repeat center;
+
+
+
+background-size:cover;
+
+
+
+opacity:.35;
+
+
+
+z-index:-1;
+
+
+
+}
+
+
+
+
+
+
 
 /* TOP BAR */
+
+
 .topbar{
-    background:#0099ff;
-    color:white;
-    padding:15px;
-    font-size:18px;
-    font-weight:bold;
-    text-align:center;
+
+
+padding:20px;
+
+
+
+text-align:center;
+
+
+
+font-size:22px;
+
+
+
+font-weight:bold;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
 }
 
-/* CARD */
+
+
+
+
+
+
+/* CRYSTAL BANK CARD */
+
+
 .card{
-    background:white;
-    margin:15px;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+
+
+position:relative;
+
+
+
+width:90%;
+
+
+max-width:400px;
+
+
+
+margin:20px auto;
+
+
+
+padding:25px;
+
+
+
+border-radius:30px;
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border:
+
+
+2px solid rgba(255,255,255,.4);
+
+
+
+backdrop-filter:blur(18px);
+
+
+
+box-shadow:
+
+
+0 0 35px rgba(0,198,255,.6),
+
+
+inset 0 0 25px rgba(255,255,255,.2);
+
+
+
+overflow:hidden;
+
+
+
 }
 
-/* INPUTS */
-input{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    outline:none;
+
+
+
+
+
+
+
+/* SHINE EFFECT */
+
+
+.card::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:90px;
+
+
+height:220%;
+
+
+
+background:
+
+
+rgba(255,255,255,.35);
+
+
+
+transform:
+
+
+rotate(35deg);
+
+
+
+left:-130px;
+
+
+top:-60px;
+
+
+
+animation:
+
+
+shine 5s infinite;
+
+
+
 }
 
-/* BUTTON */
-button{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    background:#0099ff;
-    color:white;
-    border:none;
-    border-radius:10px;
-    font-size:16px;
-    font-weight:bold;
+
+
+
+@keyframes shine{
+
+
+0%{
+
+left:-130px;
+
 }
 
-button:active{
-    transform:scale(0.98);
+
+50%,100%{
+
+left:450px;
+
 }
 
-/* MESSAGE */
-#msg{
-    text-align:center;
-    margin-top:10px;
-    font-weight:bold;
-    font-size:14px;
+
 }
 
 /* INFO BOX */
+
+
 .info{
-    background:#eaf6ff;
-    padding:12px;
-    border-radius:10px;
-    font-size:13px;
-    margin-bottom:10px;
+
+
+background:
+
+
+rgba(0,198,255,.15);
+
+
+
+padding:12px;
+
+
+
+border-radius:15px;
+
+
+
+font-size:13px;
+
+
+
+line-height:1.5;
+
+
+
+margin-bottom:15px;
+
+
+
+color:#e0f7ff;
+
+
+
 }
+
+
+
+
+
+
+
+/* INPUTS */
+
+
+input{
+
+
+width:100%;
+
+
+
+padding:14px;
+
+
+
+margin-top:12px;
+
+
+
+border:none;
+
+
+
+outline:none;
+
+
+
+border-radius:18px;
+
+
+
+background:
+
+
+rgba(255,255,255,.9);
+
+
+
+color:#111;
+
+
+
+font-size:14px;
+
+
+
+box-shadow:
+
+
+0 0 15px rgba(0,198,255,.4);
+
+
+
+}
+
+
+
+input:focus{
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
+}
+
+
+
+
+
+
+
+/* SAVE BUTTON */
+
+
+button{
+
+
+width:100%;
+
+
+
+padding:14px;
+
+
+
+margin-top:20px;
+
+
+
+border:none;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00ffcc,
+#0072ff
+);
+
+
+
+color:white;
+
+
+
+font-size:16px;
+
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
+}
+
+
+
+button:active{
+
+
+transform:scale(.96);
+
+
+
+}
+
+
+
+
+
+
+
+/* MESSAGE */
+
+
+#msg{
+
+
+text-align:center;
+
+
+
+margin-top:15px;
+
+
+
+font-size:14px;
+
+
+
+font-weight:bold;
+
+
+
+color:#00ffcc;
+
+
+
+}
+
+
+
+
+
+
+
 
 /* BOTTOM NAV */
+
+
 .bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:white;
-    display:flex;
-    justify-content:space-around;
-    padding:10px;
-    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+
+
+position:fixed;
+
+
+
+bottom:0;
+
+
+
+left:0;
+
+
+
+right:0;
+
+
+
+display:flex;
+
+
+
+justify-content:space-around;
+
+
+
+padding:12px;
+
+
+
+background:
+
+
+rgba(255,255,255,.9);
+
+
+
+box-shadow:
+
+
+0 -5px 20px rgba(0,0,0,.3);
+
+
+
 }
+
+
 
 .bottom-nav a{
-    text-decoration:none;
-    color:#0099ff;
-    font-size:13px;
+
+
+text-decoration:none;
+
+
+
+color:#0072ff;
+
+
+
+font-size:13px;
+
+
+
+font-weight:bold;
+
+
+
 }
 
+
+
+
 .space{
-    height:70px;
+
+
+height:80px;
+
+
+
+}
+
+
+
+
+
+@media(max-width:600px){
+
+
+.card{
+
+
+width:92%;
+
+
+
+}
+
+
+
+.topbar{
+
+
+font-size:20px;
+
+
+
+}
+
+
 }
 </style>
 </head>
 
 <body>
 
-<div class="topbar">Bank Details</div>
 
-<div class="card">
 
-    <div class="info">
-        💡 Add your withdrawal bank details for fast payouts
-    </div>
+<div class="topbar">
 
-    <input type="text" id="accountName" placeholder="Account Name">
-    <input type="text" id="accountNumber" placeholder="Account Number">
-    <input type="text" id="bankName" placeholder="Bank Name">
-    <input type="password" id="pin" maxlength="4" placeholder="4-digit Withdrawal PIN">
-
-    <button onclick="saveBank()">Save Details</button>
-
-    <p id="msg"></p>
+🏦💎 Bank Details Setup
 
 </div>
 
+
+
+
+
+
+
+<div class="card">
+
+
+
+
+
+
+<div class="info">
+
+💡 Add your withdrawal bank details for fast and secure payouts.
+
+<br><br>
+
+🔐 Your withdrawal PIN protects your funds.
+
+</div>
+
+
+
+
+
+
+
+
+<input 
+
+type="text"
+
+id="accountName"
+
+placeholder="👤 Account Name">
+
+
+
+
+
+
+<input 
+
+type="text"
+
+id="accountNumber"
+
+placeholder="🏦 Account Number">
+
+
+
+
+
+
+<input 
+
+type="text"
+
+id="bankName"
+
+placeholder="💳 Bank Name">
+
+
+
+
+
+
+<input 
+
+type="password"
+
+id="pin"
+
+maxlength="4"
+
+placeholder="🔒 4-digit Withdrawal PIN">
+
+
+
+
+
+
+
+<button onclick="saveBank()">
+
+💎 SAVE DETAILS
+
+</button>
+
+
+
+
+
+
+
+
+<p id="msg"></p>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
 <div class="space"></div>
 
-<!-- BOTTOM NAV -->
+
+
+
+
+
+
 <div class="bottom-nav">
-    <a href="dashboard.html">Home</a>
-    <a href="Withdraw.html">Withdraw</a>
+
+
+<a href="dashboard.html">
+
+🏠 Home
+
+</a>
+
+
+
+<a href="Withdraw.html">
+
+💸 Withdraw
+
+</a>
+
+
+
 </div>
 
 <script>
