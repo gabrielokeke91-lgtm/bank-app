@@ -1093,14 +1093,15 @@ async function loadReturns(){
 
 try{
 
-fetch(${API}/referral-amount/${user.phone})
-.then(res => res.json())
-.then(data => {
+fetch(`${API}/referral-amount/${user.phone}`)
+.then(res=>res.json())
+.then(data=>{
 
-    document.getElementById("referralAmount").innerText =
-    "₦" + Number(data.referral_amount).toLocaleString();
+    document.getElementById("referralAmount").innerHTML =
+    Number(data.referral_amount).toLocaleString();
 
 });
+
 const res=await fetch(`${API}/returns/${user.phone}`);
 
 const data=await res.json();
