@@ -267,24 +267,21 @@ cron.schedule("0 0 * * *", () => {
 }, {
     timezone: "Africa/Lagos"
 });
-
 // ================= SIGNUP =================
 app.post("/signup", (req, res) => {
 
     const { phone, password, referredBy } = req.body;
 
-
+    // VALIDATE PHONE
     if (!phone || !/^\d{11}$/.test(phone)) {
         return res.status(400).json({ error: "Phone must be 11 digits" });
     }
-
 
     if (!password) {
         return res.status(400).json({ error: "Password is required" });
     }
 
-
-
+    // CHECK USER EXISTS
     db.query(
         "SELECT id FROM users WHERE phone=?",
         [phone],
@@ -292,65 +289,25 @@ app.post("/signup", (req, res) => {
 
             if (err) return res.status(500).json({ error: "DB error" });
 
-
             if (result && result.length > 0) {
                 return res.status(400).json({ error: "User already exists" });
             }
 
-
-
             const referralCode = generateReferralCode();
 
-
-
-            function insertUser(validRef, referrerId) {
-
+            function insertUser(validRef) {
 
                 db.query(
                     `INSERT INTO users 
-                    (phone, password, balance, withdrawable_balance, total_invested, total_returns, status, role, referral_code, referred_by, referral_amount)
-                    VALUES (?, ?, 0, 0, 0, 0, 'active', 'user', ?, ?, 0)`,
+                    (phone, password, balance, withdrawable_balance, total_invested, total_returns, status, role, referral_code, referred_by,referral_amount)
+                    VALUES (?, ?, 0, 0, 0, 0, 'active', 'user', ?, ?)`,
                     [phone, password, referralCode, validRef],
-                    (err3, result3) => {
-
+                    (err3) => {
 
                         if (err3) {
                             console.log("SIGNUP ERROR:", err3);
                             return res.status(500).json({ error: "Signup failed" });
                         }
-
-
-
-                        // SAVE REFERRAL RELATIONSHIP
-                        if(referrerId){
-
-                            db.query(
-                                `
-                                INSERT INTO referrals
-                                (
-                                    referrer_phone,
-                                    referred_phone,
-                                    bonus_given
-                                )
-                                VALUES (?,?,0)
-                                `,
-                                [
-                                    referrerId.phone,
-                                    phone
-                                ],
-                                (errRef)=>{
-
-                                    if(errRef){
-                                        console.log("REFERRAL INSERT ERROR:",errRef);
-                                    }
-
-                                }
-                            );
-
-                        }
-
-
-
 
                         db.query(
                             "SELECT id, phone, referral_code, balance FROM users WHERE phone=?",
@@ -364,57 +321,31 @@ app.post("/signup", (req, res) => {
                                 return res.json(users[0]);
                             }
                         );
-
                     }
                 );
-
             }
-
-
-
 
             if (referredBy) {
 
-
                 db.query(
-                    "SELECT id, phone FROM users WHERE referral_code=?",
+                    "SELECT id FROM users WHERE referral_code=?",
                     [referredBy],
                     (err2, refUser) => {
 
-
                         const validRef =
                             (!err2 && refUser && refUser.length > 0)
-                            ? referredBy
-                            : null;
+                                ? referredBy
+                                : null;
 
-
-
-                        const referrerId =
-                            (!err2 && refUser && refUser.length > 0)
-                            ? refUser[0]
-                            : null;
-
-
-
-                        insertUser(validRef, referrerId);
-
-
+                        insertUser(validRef);
                     }
                 );
 
-
             } else {
-
-
-                insertUser(null, null);
-
-
+                insertUser(null);
             }
-
-
         }
     );
-
 });
 
 // =================user LOGIN =================
