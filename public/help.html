@@ -1,101 +1,654 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Help Center</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Smartearn Help Center</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:#0a84ff;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+
+
+*{
+
+box-sizing:border-box;
+
 }
+
+
+
+
+body{
+
+
+margin:0;
+
+
+font-family:
+
+
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+
+height:100vh;
+
+
+display:flex;
+
+
+justify-content:center;
+
+
+align-items:center;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+
+color:white;
+
+
+overflow:hidden;
+
+
+
+}
+
+
+
+
+
+/* BACKGROUND IMAGE */
+
+
+body::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+inset:0;
+
+
+
+background:
+
+
+url("/images/index2.jpeg")
+
+no-repeat center;
+
+
+
+background-size:cover;
+
+
+
+opacity:.35;
+
+
+
+z-index:-1;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* CRYSTAL HELP BOX */
+
 
 .box{
-background:white;
-padding:20px;
-border-radius:15px;
+
+
+position:relative;
+
+
+
 width:90%;
+
+
 max-width:400px;
+
+
+
+padding:30px 25px;
+
+
+
+border-radius:30px;
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border:
+
+
+2px solid rgba(255,255,255,.4);
+
+
+
+backdrop-filter:blur(18px);
+
+
+
+box-shadow:
+
+
+0 0 35px rgba(0,198,255,.6),
+
+
+inset 0 0 25px rgba(255,255,255,.2);
+
+
+
 text-align:center;
+
+
+
+overflow:hidden;
+
+
+
 }
+
+
+
+
+
+
+
+/* SHINE EFFECT */
+
+
+.box::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:90px;
+
+
+height:220%;
+
+
+
+background:
+
+
+rgba(255,255,255,.35);
+
+
+
+transform:
+
+
+rotate(35deg);
+
+
+
+left:-130px;
+
+
+top:-60px;
+
+
+
+animation:
+
+
+shine 5s infinite;
+
+
+
+}
+
+
+
+
+@keyframes shine{
+
+
+0%{
+
+left:-130px;
+
+}
+
+
+50%,100%{
+
+left:400px;
+
+}
+
+
+}
+
+/* TITLE */
+
+
+h2{
+
+
+font-size:25px;
+
+
+margin-bottom:15px;
+
+
+
+text-shadow:
+
+
+0 0 15px cyan;
+
+
+
+}
+
+
+
+
+
+
+
+p{
+
+
+font-size:14px;
+
+
+color:#e0f7ff;
+
+
+line-height:1.6;
+
+
+
+}
+
+
+
+
+
+
+
+/* WHATSAPP BUTTON */
+
 
 button{
-background:#25D366;
-color:white;
-border:none;
-padding:12px;
+
+
 width:100%;
-border-radius:10px;
-font-size:15px;
+
+
+padding:14px;
+
+
+
+border:none;
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00ff88,
+#25D366
+);
+
+
+
+color:white;
+
+
+font-size:16px;
+
+
 font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 25px #25D366;
+
+
+
 cursor:pointer;
+
+
+
 }
 
 
+
+button:active{
+
+
+transform:scale(.96);
+
+
+}
+
+
+
+
+
+
+
+/* TOP JOIN BUTTON */
+
+
+.whatsapp-link{
+
+
+position:fixed;
+
+
+
+top:15px;
+
+
+right:15px;
+
+
+
+display:flex;
+
+
+
+align-items:center;
+
+
+
+justify-content:center;
+
+
+
+width:260px;
+
+
+
+max-width:90%;
+
+
+
+padding:12px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00ff88,
+#25D366
+);
+
+
+
+color:white;
+
+
+
+text-decoration:none;
+
+
+
+border-radius:25px;
+
+
+
+font-size:13px;
+
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 20px #25D366;
+
+
+
+z-index:999;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* BACK BUTTON */
+
+
+.back-btn{
+
+
+position:fixed;
+
+
+
+bottom:20px;
+
+
+left:50%;
+
+
+transform:translateX(-50%);
+
+
+
+padding:14px 25px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+color:white;
+
+
+
+text-decoration:none;
+
+
+
+border-radius:25px;
+
+
+
+font-size:13px;
+
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
+}
+
+
+
+.back-btn:active{
+
+
+transform:translateX(-50%) scale(.95);
+
+
+}
+
+
+
+
+
+
+
+@media(max-width:600px){
+
+
+.whatsapp-link{
+
+
+width:90%;
+
+
+right:5%;
+
+
+}
+
+
+
+.box{
+
+
+width:92%;
+
+
+}
+
+
+
+}
 </style>
 </head>
 
 <body>
 
+
+<!-- WHATSAPP GROUP -->
+
+
+<a href="https://chat.whatsapp.com/YOUR_GROUP_INVITE_LINK"
+target="_blank"
+class="whatsapp-link">
+
+📱 Join WhatsApp Group
+
+</a>
+
+
+
+
+
+
 <div class="box">
 
-<h2>Help Center</h2>
 
-<p> Chat with  team on WhatsApp.</p>
+<h2>
 
-<button onclick="contactSupport()">Join whatsapp group</button>
+💎 Help Center
+
+</h2>
+
+
+
+
+
+<p>
+
+Need help? Chat with the SmartEarn support team on WhatsApp.
+
+</p>
+
+
+
+
+
+
+<button onclick="contactSupport()">
+
+💬 Contact Support
+
+</button>
+
+
+
+
+
 
 </div>
 
-<a href="dashboard.html"
-style="
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 12px 18px;
-    background: #25D366;
-    color: white;
-    text-decoration: none;
-    border-radius: 25px;
-    font-size: 13px;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    z-index: 9999;
-">
-    🏠 Back to Dashboard
-</a>
-<div>
 
-   <a href="https://chat.whatsapp.com/YOUR_GROUP_INVITE_LINK" target="_blank"
-style="
-    position: fixed;
-    top: 10px;
-    right: 10;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    width:100%;
-    max-width:260px;
-    margin:10px auto;
-    padding:10px 14px;
-    background:#25D366;
-    color:white;
-    text-decoration:none;
-    border-radius:25px;
-    font-size:13px;
-    font-weight:bold;
-    box-shadow:0 4px 10px rgba(0,0,0,0.15);
-">
-    📱 Join WhatsApp Group
+
+
+
+
+<a href="dashboard.html" class="back-btn">
+
+🏠 Back to Dashboard
+
 </a>
-</div>
 
 <script>
 function contactSupport(){

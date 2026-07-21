@@ -1,70 +1,664 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Investments</title>
 
-    <style>
-        body {
-            font-family: Arial;
-            background: #f4f6f9;
-            margin: 0;
-            padding: 20px;
-        }
+<title>Smartearn My Investments</title>
 
-        .section {
-            margin-bottom: 30px;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
 
-        .box {
-            background: rgb(225, 199, 199);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
+<style>
 
-        .active { border-left: 5px solid green; }
-        .expired { border-left: 5px solid red; }
-    </style>
+
+*{
+
+box-sizing:border-box;
+
+}
+
+
+
+
+body{
+
+
+margin:0;
+
+
+padding:15px;
+
+
+
+font-family:
+
+
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+
+color:white;
+
+
+
+overflow-x:hidden;
+
+
+
+}
+
+
+
+
+
+
+
+/* PAGE TITLE */
+
+
+.section{
+
+
+margin-bottom:30px;
+
+
+}
+
+
+
+
+.title{
+
+
+font-size:20px;
+
+
+font-weight:bold;
+
+
+margin-bottom:15px;
+
+
+
+text-shadow:
+
+
+0 0 10px cyan;
+
+
+
+}
+
+
+
+
+
+
+
+/* CRYSTAL INVESTMENT BOX */
+
+
+.box{
+
+
+position:relative;
+
+
+
+padding:18px;
+
+
+
+border-radius:25px;
+
+
+
+margin-bottom:15px;
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border:
+
+
+2px solid rgba(255,255,255,.35);
+
+
+
+backdrop-filter:blur(15px);
+
+
+
+box-shadow:
+
+
+0 0 25px rgba(0,198,255,.45),
+
+
+inset 0 0 20px rgba(255,255,255,.15);
+
+
+
+overflow:hidden;
+
+
+
+}
+
+
+
+
+
+/* SHINE EFFECT */
+
+
+.box::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:80px;
+
+
+height:200%;
+
+
+
+background:
+
+
+rgba(255,255,255,.35);
+
+
+
+transform:
+
+
+rotate(35deg);
+
+
+
+left:-120px;
+
+
+top:-50px;
+
+
+
+animation:
+
+
+shine 5s infinite;
+
+
+
+}
+
+
+
+
+@keyframes shine{
+
+
+0%{
+
+left:-120px;
+
+}
+
+
+50%,100%{
+
+left:350px;
+
+}
+
+
+}
+
+
+
+
+
+
+
+/* ACTIVE INVESTMENTS */
+
+
+.active{
+
+
+border-left:
+
+
+5px solid #00ff88;
+
+
+
+box-shadow:
+
+
+0 0 25px #00ff88;
+
+
+
+}
+
+
+
+
+
+
+
+/* EXPIRED INVESTMENTS */
+
+
+.expired{
+
+
+border-left:
+
+
+5px solid #ff3366;
+
+
+
+box-shadow:
+
+
+0 0 25px #ff3366;
+
+
+
+}
+/* INVESTMENT TEXT */
+
+
+.box p{
+
+
+margin:8px 0;
+
+
+font-size:14px;
+
+
+
+color:white;
+
+
+
+}
+
+
+
+.box span{
+
+
+color:#00ffff;
+
+
+font-weight:bold;
+
+
+
+}
+
+
+
+
+
+
+
+/* ACTIVE / EXPIRED LABEL */
+
+
+.active::after{
+
+
+content:"RUNNING";
+
+
+position:absolute;
+
+
+top:15px;
+
+
+right:15px;
+
+
+
+background:
+
+
+rgba(0,255,136,.2);
+
+
+
+color:#00ff88;
+
+
+padding:5px 12px;
+
+
+border-radius:20px;
+
+
+font-size:11px;
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 10px #00ff88;
+
+
+
+}
+
+
+
+
+.expired::after{
+
+
+content:"COMPLETED";
+
+
+position:absolute;
+
+
+top:15px;
+
+
+right:15px;
+
+
+
+background:
+
+
+rgba(255,51,102,.2);
+
+
+
+color:#ff6688;
+
+
+padding:5px 12px;
+
+
+border-radius:20px;
+
+
+font-size:11px;
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 10px #ff3366;
+
+
+
+}
+
+
+
+
+
+
+
+/* DASHBOARD BUTTON */
+
+
+.back-btn{
+
+
+position:fixed;
+
+
+
+bottom:20px;
+
+
+left:50%;
+
+
+transform:translateX(-50%);
+
+
+
+padding:14px 22px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+color:white;
+
+
+
+text-decoration:none;
+
+
+
+border-radius:25px;
+
+
+
+font-size:13px;
+
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
+z-index:9999;
+
+
+
+}
+
+
+
+
+
+.back-btn:active{
+
+
+transform:translateX(-50%) scale(.95);
+
+
+}
+
+
+
+
+
+
+
+@media(max-width:600px){
+
+
+
+.title{
+
+
+font-size:18px;
+
+
+}
+
+
+
+.box{
+
+
+padding:15px;
+
+
+}
+
+
+
+}
+</style>
 </head>
-
 <body>
-    <a href="dashboard.html"
-style="
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 12px 18px;
-    background: #4795c6;
-    color: white;
-    text-decoration: none;
-    border-radius: 25px;
-    font-size: 13px;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    z-index: 9999;
-">
-    🏠 Back to Dashboard
+
+
+
+<!-- BACK TO DASHBOARD -->
+
+
+<a href="dashboard.html" class="back-btn">
+
+🏠 Back to Dashboard
+
 </a>
 
-    <!-- ACTIVE INVESTMENTS -->
-    <div class="section">
-        <div class="title">🟢 Active Investments (Running)</div>
-        <div id="activeBox"></div>
-    </div>
 
-    <!-- EXPIRED INVESTMENTS -->
-    <div class="section">
-        <div class="title">🔴 Expired Investments (Completed)</div>
-        <div id="expiredBox"></div>
-    </div>
+
+
+
+
+<!-- ACTIVE INVESTMENTS -->
+
+
+<div class="section">
+
+
+<div class="title">
+
+🟢 Active Investments (Running)
+
+</div>
+
+
+
+
+<div id="activeBox">
+
+
+<div class="box active">
+
+
+<p>
+
+Loading active investments...
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- EXPIRED INVESTMENTS -->
+
+
+<div class="section">
+
+
+<div class="title">
+
+🔴 Expired Investments (Completed)
+
+</div>
+
+
+
+
+<div id="expiredBox">
+
+
+<div class="box expired">
+
+
+<p>
+
+Loading completed investments...
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
 
 <script>
 const API = "https://smartearn.onrender.com";
