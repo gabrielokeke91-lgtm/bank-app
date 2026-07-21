@@ -300,7 +300,7 @@ app.post("/signup", (req, res) => {
                 db.query(
                     `INSERT INTO users 
                     (phone, password, balance, withdrawable_balance, total_invested, total_returns, status, role, referral_code, referred_by,referral_amount)
-                    VALUES (?, ?, 0, 0, 0, 0, 'active', 'user', ?, ?)`,
+                    VALUES (?, ?, 0, 0, 0, 0, 'active', 'user', ?, ?,0)`,
                     [phone, password, referralCode, validRef],
                     (err3) => {
 
@@ -333,7 +333,7 @@ app.post("/signup", (req, res) => {
                     (err2, refUser) => {
 
                         const validRef =
-                            (!err2 && refUser && refUser.length > 0);
+                            (!err2 && refUser && refUser.length > 0)
                                 ? referredBy
                                 : null;
                     
