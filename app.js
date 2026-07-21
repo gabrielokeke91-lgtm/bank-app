@@ -830,36 +830,36 @@ app.post("/withdraw", (req, res) => {
             const user = users[0];
 
             // STEP 3: REFERRAL CHECK (FIXED LOCATION)
-           db.query(
-    `SELECT COUNT(*) AS total
-     FROM (
-         SELECT t.user_id
-         FROM transactions t
-         WHERE t.type = 'deposit'
-         AND t.status = 'success'
-         AND t.amount >= 5000
-         AND t.user_id IN (
-             SELECT id FROM users WHERE referred_by = ?
-         )
-         GROUP BY t.user_id
-     ) AS qualified_users`,
-    [user.referral_code],
-    (errRef, ref) => {
+          // db.query(
+    //`SELECT COUNT(*) AS total
+     //FROM (
+       //  SELECT t.user_id
+        // FROM transactions t
+        // WHERE t.type = 'deposit'
+        // AND t.status = 'success'
+        // AND t.amount >= 5000
+        // AND t.user_id IN (
+         //    SELECT id FROM users WHERE referred_by = ?
+        // )
+        // GROUP BY t.user_id
+    // ) AS qualified_users`,
+    //[user.referral_code],
+    //(errRef, ref) => {
 
-        if (errRef) {
-            console.log("Referral DB error:", errRef);
-            return res.status(500).send("DB error");
-        }
+       // if (errRef) {
+          //  console.log("Referral DB error:", errRef);
+         //   return res.status(500).send("DB error");
+       // }
 
-        const total = ref?.[0]?.total || 0;
+       // const total = ref?.[0]?.total || 0;
 
-        if (total < 3) {
-            return res.status(403).send(
-                "You must refer at least 3 users with minimum ₦5,000 first deposit each (admin approved)"
-            );
-        }
+        //if (total < 3) {
+         //   return res.status(403).send(
+             //   "You must refer at least 3 users with minimum ₦5,000 first deposit each (admin approved)"
+           // );
+       // }
 
-                    // STEP 4: BANK DETAILS
+                    // STEP 4: BANK DETAILs
                     db.query(
                         "SELECT * FROM bank_details WHERE phone=?",
                         [phone],
