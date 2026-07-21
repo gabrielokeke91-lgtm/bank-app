@@ -1,207 +1,897 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Signup</title>
+
+<title>Smartearn Signup</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:linear-gradient(135deg,#0099ff,#00c2ff);
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
+
+*{
+
+box-sizing:border-box;
+
 }
+
+
+
+body{
+
+
+margin:0;
+
+
+font-family:
+
+
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+
+height:100vh;
+
+
+display:flex;
+
+
+justify-content:center;
+
+
+align-items:center;
+
+
+
+color:white;
+
+
+overflow:hidden;
+
+
+}
+
+
+
+
+
+
+
+/* BACKGROUND IMAGE */
+
+
+body::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+inset:0;
+
+
+
+background:
+
+
+url("/images/index4.jpeg")
+
+no-repeat center;
+
+
+
+background-size:cover;
+
+
+
+opacity:.35;
+
+
+
+z-index:-1;
+
+
+
+}
+
+
+
+
+
+
+
+/* SIGNUP CARD */
+
 
 .card{
+
+
+position:relative;
+
+
+
 width:90%;
-max-width:350px;
-background:white;
-padding:25px;
-border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
+
+
+max-width:370px;
+
+
+
+padding:30px 25px;
+
+
+
+border-radius:30px;
+
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border:
+
+
+2px solid rgba(255,255,255,.4);
+
+
+
+
+backdrop-filter:blur(18px);
+
+
+
+box-shadow:
+
+
+0 0 35px rgba(0,198,255,.6),
+
+
+inset 0 0 25px rgba(255,255,255,.2);
+
+
+
 text-align:center;
+
+
+overflow:hidden;
+
+
+
 }
+
+
+
+
+
+
+
+
+/* CRYSTAL SHINE */
+
+
+.card::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:90px;
+
+
+height:220%;
+
+
+
+background:
+
+
+rgba(255,255,255,.35);
+
+
+
+transform:
+
+
+rotate(35deg);
+
+
+
+left:-130px;
+
+
+top:-60px;
+
+
+
+animation:
+
+
+shine 5s infinite;
+
+
+
+}
+
+
+
+
+@keyframes shine{
+
+
+0%{
+
+left:-130px;
+
+}
+
+
+50%,100%{
+
+left:400px;
+
+}
+
+
+}
+
+
+
+
+
+
+
+/* TITLE */
+
 
 h2{
-color:#0099ff;
+
+
+font-size:25px;
+
+
 margin-bottom:20px;
+
+
+
+color:white;
+
+
+
+text-shadow:
+
+
+0 0 15px cyan;
+
+
+
 }
+/* INPUT FIELDS */
 
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-
-    /* ADD THIS */
-    background: url("/images/index4.jpeg") no-repeat center center fixed;
-    background-size: cover;
-
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
 
 input{
+
+
 width:100%;
-padding:12px;
-margin:10px 0;
-border:1px solid #ddd;
-border-radius:10px;
+
+
+padding:14px;
+
+
+margin:12px 0;
+
+
+
+border:none;
+
+
 outline:none;
+
+
+
+border-radius:18px;
+
+
+
+background:
+
+
+rgba(255,255,255,.9);
+
+
+
+color:#111;
+
+
 font-size:14px;
+
+
+
+box-shadow:
+
+
+0 0 15px rgba(0,198,255,.4);
+
+
+
 }
+
+
+
+input:focus{
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
+}
+
+
+
+
+
+
+
+/* SIGNUP BUTTON */
+
 
 button{
+
+
 width:100%;
-padding:12px;
-background:#0099ff;
+
+
+padding:14px;
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00ffcc,
+#0072ff
+);
+
+
+
 color:white;
+
+
 border:none;
-border-radius:10px;
+
+
+border-radius:22px;
+
+
+
 font-size:16px;
+
+
 font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
 cursor:pointer;
+
+
 }
+
+
 
 button:active{
-transform:scale(0.98);
+
+
+transform:scale(.96);
+
+
 }
+
+
+
+
+
+
+
+/* MESSAGE */
+
 
 #msg{
-margin-top:10px;
-font-size:14px;
-}
 
-a{
-display:block;
+
 margin-top:15px;
-text-align:center;
+
+
+font-size:14px;
+
+
+font-weight:bold;
+
+
+color:#00ffcc;
+
+
+
+}
+
+
+
+
+
+
+
+/* LOGIN LINK */
+
+
+.login-link{
+
+
+display:block;
+
+
+margin-top:18px;
+
+
+padding:12px;
+
+
+border-radius:18px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#8a2be2,
+#0072ff
+);
+
+
+
 color:white;
+
+
 text-decoration:none;
+
+
+
+font-weight:bold;
+
+
+font-size:13px;
+
+
+
+box-shadow:
+
+
+0 0 15px cyan;
+
+
+
 }
 
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
 
-    /* ADD THIS */
-    background: url("/images/index2.jpeg") no-repeat center center fixed;
-    background-size: cover;
 
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
 
-/* ===================== */
-/* MODAL BACKGROUND IMAGE */
-/* ===================== */
+
+
+
+
+/* TERMS MODAL */
+
+
 .modal{
+
+
 position:fixed;
+
+
 top:0;
+
+
 left:0;
+
+
 width:100%;
+
+
 height:100%;
+
+
+
+background:
+
+
+rgba(0,0,0,.65);
+
+
+
+backdrop-filter:blur(10px);
+
+
+
+display:flex;
+
+
+justify-content:center;
+
+
+align-items:center;
+
+
+
 z-index:9999;
 
-/* IMAGE BACKGROUND */
-background-image:url("/images/index.jpeg"); /* CHANGE THIS */
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
 
-/* DARK OVERLAY FOR READABILITY */
-background-color:rgba(142, 178, 203, 0.6);
-background-blend-mode:darken;
 
-display:flex;
-justify-content:center;
-align-items:center;
 }
 
-/* MODAL BOX */
+
+
+
+
+
+
 .modal-content{
+
+
 width:90%;
+
+
 max-width:420px;
-background:rgba(255,255,255,0.95);
-border-radius:12px;
-padding:15px;
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.95),
+rgba(220,240,255,.9)
+);
+
+
+
+color:#222;
+
+
+border-radius:25px;
+
+
+padding:20px;
+
+
+
+box-shadow:
+
+
+0 0 35px cyan;
+
+
+
 max-height:80vh;
+
+
 overflow-y:auto;
+
+
+
 }
 
-/* TERMS TEXT */
+
+
+
+
+
+
 .terms-box{
+
+
 font-size:13px;
-line-height:1.4;
-color:#333;
+
+
+line-height:1.5;
+
+
+
 }
+
+
+
+
 
 .terms-box h3{
-margin-top:10px;
-font-size:14px;
-color:#111;
+
+
+color:#0072ff;
+
+
 }
 
-/* BUTTONS */
+
+
+
+
+
+
+/* MODAL BUTTONS */
+
+
 .btn-group{
+
+
 display:flex;
-justify-content:space-between;
+
+
+gap:10px;
+
+
 margin-top:15px;
+
+
+
 }
+
+
+
+
+.accept-btn,
+.decline-btn{
+
+
+width:50%;
+
+
+padding:12px;
+
+
+border:none;
+
+
+border-radius:15px;
+
+
+color:white;
+
+
+font-weight:bold;
+
+
+
+}
+
+
 
 .accept-btn{
-background:green;
-color:white;
-border:none;
-padding:10px;
-width:48%;
-border-radius:6px;
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c853,
+#00ff88
+);
+
+
+
 }
 
+
+
+
 .decline-btn{
-background:red;
-color:white;
-border:none;
-padding:10px;
-width:48%;
-border-radius:6px;
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#ff1744,
+#ff5252
+);
+
+
+
 }
+
+
+
+
+
+@media(max-width:600px){
+
+
+
+.card{
+
+
+width:92%;
+
+
+}
+
+
+
+}
+
 </style>
 </head>
 
 <body>
 
+
 <div class="card">
-<h2>Create Account</h2>
 
-<input id="phone" placeholder="Phone number">
-<input id="password" type="password" placeholder="Password">
 
-<button onclick="signup()">Sign Up</button>
+<h2>
+
+💎 Create SmartEarn Account
+
+</h2>
+
+
+
+
+
+<input 
+
+id="phone"
+
+placeholder="📱 Phone Number">
+
+
+
+
+
+<input 
+
+id="password"
+
+type="password"
+
+placeholder="🔒 Password">
+
+
+
+
+
+<button onclick="signup()">
+
+💎 SIGN UP
+
+</button>
+
+
+
+
 
 <p id="msg"></p>
+
+
+
+
+
+
+<a href="login.html" class="login-link">
+
+Already have an account? Login
+
+</a>
+
+
+
+
+
 </div>
 
-<a href="login.html" style="
-    display:block;
-    width:5%;
-    padding:6px;
-    background:#0a84ff;
-    color:white;
-    text-align:center;
-    border-radius:10px;
-    text-decoration:none;
-    font-weight:bold;
-    font-size:13px;
-    margin-top:5px;
-">
-    Already have an account? Login
-</a>
+
+
+
+
+
+<!-- TERMS MODAL
+Keep your existing JavaScript that opens/closes this modal
+-->
+
+<div class="modal" style="display:none;">
+
+
+<div class="modal-content">
+
+
+<div class="terms-box">
+
+
+<h3>
+SmartEarn Terms & Conditions
+</h3>
+
+
+<p>
+
+Please read and accept the terms before creating an account.
+
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="btn-group">
+
+
+<button class="accept-btn">
+
+Accept
+
+</button>
+
+
+
+<button class="decline-btn">
+
+Decline
+
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
 
 
 

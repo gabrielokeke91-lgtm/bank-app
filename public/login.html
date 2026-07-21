@@ -1,133 +1,739 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login</title>
+
+<title>Smartearn Login</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f4f7fb;
+
+
+*{
+
+box-sizing:border-box;
+
 }
+
+
+
+
+body{
+
+
+margin:0;
+
+
+font-family:
+
+
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+
+height:100vh;
+
+
+display:flex;
+
+
+justify-content:center;
+
+
+align-items:center;
+
+
+
+color:white;
+
+
+overflow:hidden;
+
+
+}
+
+
+
+
+
+
+
+/* BACKGROUND IMAGE OPTION */
+
+
+body::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+inset:0;
+
+
+background:
+
+
+url("/images/index3.jpeg")
+
+no-repeat center;
+
+
+background-size:cover;
+
+
+
+opacity:.35;
+
+
+z-index:-1;
+
+
+
+}
+
+
+
+
+
+
 
 /* TOP BAR */
+
+
 .topbar{
-    background:#0099ff;
-    color:white;
-    padding:18px;
-    text-align:center;
-    font-size:18px;
-    font-weight:bold;
+
+
+position:absolute;
+
+
+top:0;
+
+
+left:0;
+
+
+right:0;
+
+
+
+padding:20px;
+
+
+text-align:center;
+
+
+font-size:22px;
+
+
+font-weight:bold;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
 }
+
+
+
+
+
+
 
 /* WRAPPER */
+
+
 .wrapper{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:85vh;
+
+
+width:100%;
+
+
+display:flex;
+
+
+justify-content:center;
+
+
+align-items:center;
+
+
+min-height:100vh;
+
+
+
 }
 
-/* CARD */
+
+
+
+
+
+
+
+/* CRYSTAL LOGIN CARD */
+
+
 .card{
-    background:white;
-    width:90%;
-    max-width:360px;
-    padding:25px;
-    border-radius:18px;
-    box-shadow:0 6px 20px rgba(0,0,0,0.08);
-    text-align:center;
+
+
+position:relative;
+
+
+
+width:90%;
+
+
+max-width:370px;
+
+
+
+padding:30px 25px;
+
+
+
+border-radius:30px;
+
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border:
+
+
+2px solid rgba(255,255,255,.4);
+
+
+
+
+backdrop-filter:blur(18px);
+
+
+
+box-shadow:
+
+
+0 0 35px rgba(0,198,255,.6),
+
+
+inset 0 0 25px rgba(255,255,255,.2);
+
+
+
+overflow:hidden;
+
+
+
+text-align:center;
+
+
+
 }
+
+
+
+
+/* CRYSTAL SHINE */
+
+
+.card::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:90px;
+
+
+height:220%;
+
+
+
+background:
+
+
+rgba(255,255,255,.35);
+
+
+
+transform:
+
+
+rotate(35deg);
+
+
+
+left:-130px;
+
+
+top:-60px;
+
+
+
+animation:
+
+
+shine 5s infinite;
+
+
+
+}
+
+
+
+@keyframes shine{
+
+
+0%{
+
+left:-130px;
+
+}
+
+
+50%,100%{
+
+left:400px;
+
+}
+
+
+}
+
+/* TITLE */
+
+
+.card h2{
+
+
+font-size:24px;
+
+
+text-shadow:
+
+
+0 0 15px cyan;
+
+
+}
+
+
+
+
+
 
 /* INPUT */
+
+
 input{
-    width:100%;
-    padding:12px;
-    margin-top:12px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    outline:none;
-    font-size:14px;
+
+
+width:100%;
+
+
+padding:14px;
+
+
+margin-top:15px;
+
+
+
+border:none;
+
+
+outline:none;
+
+
+
+border-radius:18px;
+
+
+
+background:
+
+
+rgba(255,255,255,.9);
+
+
+
+color:#111;
+
+
+font-size:14px;
+
+
+
+box-shadow:
+
+
+0 0 15px rgba(0,198,255,.4);
+
+
+
 }
 
-/* BUTTON */
-button{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    background:#0099ff;
-    color:white;
-    border:none;
-    border-radius:10px;
-    font-size:16px;
-    font-weight:bold;
+
+
+
+
+input:focus{
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
 }
+
+
+
+
+
+
+
+
+/* LOGIN BUTTON */
+
+
+button{
+
+
+width:100%;
+
+
+padding:14px;
+
+
+margin-top:20px;
+
+
+
+border:none;
+
+
+border-radius:22px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00ffcc,
+#0072ff
+);
+
+
+
+color:white;
+
+
+font-size:16px;
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
+}
+
+
 
 button:active{
-    transform:scale(0.98);
+
+
+transform:scale(.96);
+
+
 }
+
+
+
+
+
+
+
+/* MESSAGE */
+
+
+#msg{
+
+
+margin-top:15px;
+
+
+font-size:14px;
+
+
+font-weight:bold;
+
+
+color:#00ffcc;
+
+
+
+}
+
+
+
+
+
+
+
 
 /* LINKS */
+
+
 .links{
-    margin-top:12px;
-    font-size:13px;
+
+
+margin-top:18px;
+
+
 }
+
+
 
 .links a{
-    color:#0099ff;
-    text-decoration:none;
-    display:block;
-    margin-top:6px;
+
+
+display:block;
+
+
+margin-top:10px;
+
+
+
+color:#00ffff;
+
+
+text-decoration:none;
+
+
+
+font-size:14px;
+
+
+
+font-weight:bold;
+
+
+
 }
-/* MESSAGE */
-#msg{
-    margin-top:10px;
-    font-size:14px;
-    font-weight:bold;
+
+
+
+
+.links a:hover{
+
+
+text-shadow:
+
+
+0 0 10px cyan;
+
+
 }
 
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
 
-    /* ADD THIS */
-    background: url("/images/index3.jpeg") no-repeat center center fixed;
-    background-size: cover;
 
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+
+
+
+@media(max-width:600px){
+
+
+
+.card{
+
+
+width:92%;
+
+
+padding:25px 20px;
+
+
+
+}
+
+
+
+.topbar{
+
+
+font-size:20px;
+
+
+}
+
+
 }
 </style>
 </head>
 
 <body>
 
-<div class="topbar">SMART EARN Login</div>
+
+<div class="topbar">
+
+💎 SMART EARN LOGIN 💎
+
+</div>
+
+
+
+
+
 
 <div class="wrapper">
 
+
+
 <div class="card">
 
-    <h2 style="margin-bottom:10px;">Welcome Back 👋</h2>
 
-    <input id="phone" placeholder="Phone Number">
-    <input id="password" type="password" placeholder="Password">
 
-    <button onclick="login()">Login</button>
+<h2>
 
-    <p id="msg"></p>
+Welcome Back 👋
 
-    <div class="links">
-        <a href="signup.html">Create new account</a>
-        <a href="forgot.html"></a>
-    </div>
+</h2>
+
+
+
+
+
+<input 
+
+id="phone"
+
+placeholder="📱 Phone Number">
+
+
+
+
+
+<input 
+
+id="password"
+
+type="password"
+
+placeholder="🔒 Password">
+
+
+
+
+
+<button onclick="login()">
+
+💎 LOGIN
+
+</button>
+
+
+
+
+
+<p id="msg"></p>
+
+
+
+
+
+
+
+<div class="links">
+
+
+<a href="signup.html">
+
+✨ Create New Account
+
+</a>
+
+
+
+<a href="forgot.html">
+
+Forgot Password?
+
+</a>
+
+
 
 </div>
 
+
+
+
+
+
 </div>
+
+
+</div>
+
+
+
+
 
 <script>
 const API = "https://smartearn.onrender.com";
