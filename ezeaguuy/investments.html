@@ -1,79 +1,616 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>All Investments - Admin</title>
 
-    <style>
-        body {
-            font-family: Arial;
-            background: #0f172a;
-            color: white;
-            margin: 0;
-            padding: 20px;
-        }
+<title>Smartearn All Investments Admin</title>
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .card {
-            background: #1e293b;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-        }
 
-        .active {
-            color: #00ff99;
-            font-weight: bold;
-        }
+<style>
 
-        .inactive {
-            color: #ff4444;
-            font-weight: bold;
-        }
 
-        .row {
-            margin: 5px 0;
-        }
+*{
 
-        /* BACK BUTTON */
-        .bottom {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-        }
+box-sizing:border-box;
 
-        .bottom a {
-            flex: 1;
-        }
+}
 
-        .bottom button {
-            width: 100%;
-            border-radius: 0;
-            background: #0099ff;
-            color: white;
-            padding: 12px;
-            border: none;
-        }
-    </style>
+
+
+body{
+
+
+margin:0;
+
+
+
+padding:20px;
+
+
+
+font-family:
+
+
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+
+min-height:100vh;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+
+color:white;
+
+
+
+overflow-x:hidden;
+
+
+
+}
+
+
+
+
+
+
+
+/* BACKGROUND EFFECT */
+
+
+body::before{
+
+
+content:"";
+
+
+position:fixed;
+
+
+
+inset:0;
+
+
+
+background:
+
+
+url("/images/index3.jpeg")
+
+center/cover no-repeat;
+
+
+
+opacity:.3;
+
+
+
+z-index:-1;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* TITLE */
+
+
+h2{
+
+
+text-align:center;
+
+
+
+font-size:24px;
+
+
+
+margin-bottom:25px;
+
+
+
+color:white;
+
+
+
+text-shadow:
+
+
+0 0 15px cyan;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* INVESTMENT CARD */
+
+
+.card{
+
+
+position:relative;
+
+
+
+padding:18px;
+
+
+
+margin-bottom:15px;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border:
+
+
+1px solid rgba(255,255,255,.35);
+
+
+
+backdrop-filter:blur(15px);
+
+
+
+box-shadow:
+
+
+0 0 25px rgba(0,198,255,.4),
+
+
+inset 0 0 20px rgba(255,255,255,.15);
+
+
+
+overflow:hidden;
+
+
+
+}
+/* CARD SHINE EFFECT */
+
+
+.card::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+
+width:70px;
+
+
+
+height:220%;
+
+
+
+background:
+
+
+rgba(255,255,255,.25);
+
+
+
+transform:
+
+
+rotate(35deg);
+
+
+
+left:-120px;
+
+
+
+top:-60px;
+
+
+
+animation:
+
+
+shine 5s infinite;
+
+
+
+}
+
+
+
+
+@keyframes shine{
+
+
+0%{
+
+left:-120px;
+
+}
+
+
+50%,100%{
+
+left:450px;
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+/* ROW DETAILS */
+
+
+.row{
+
+
+margin:8px 0;
+
+
+
+font-size:14px;
+
+
+
+color:#e0f7ff;
+
+
+
+}
+
+
+
+.row b{
+
+
+color:#00ffff;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ACTIVE STATUS */
+
+
+.active{
+
+
+color:#00ff99;
+
+
+
+font-weight:bold;
+
+
+
+text-shadow:
+
+
+0 0 12px #00ff99;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* INACTIVE STATUS */
+
+
+.inactive{
+
+
+color:#ff4444;
+
+
+
+font-weight:bold;
+
+
+
+text-shadow:
+
+
+0 0 12px red;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* BOTTOM BUTTON */
+
+
+.bottom{
+
+
+position:fixed;
+
+
+
+bottom:0;
+
+
+
+left:0;
+
+
+
+right:0;
+
+
+
+padding:10px;
+
+
+
+background:
+
+
+rgba(0,0,0,.45);
+
+
+
+backdrop-filter:blur(10px);
+
+
+
+}
+
+
+
+
+
+
+.bottom a{
+
+
+text-decoration:none;
+
+
+
+}
+
+
+
+
+.bottom button{
+
+
+width:100%;
+
+
+
+padding:14px;
+
+
+
+border:none;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+color:white;
+
+
+
+font-size:15px;
+
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
+}
+
+
+
+.bottom button:active{
+
+
+transform:scale(.96);
+
+
+
+}
+
+
+
+
+
+@media(max-width:600px){
+
+
+body{
+
+
+padding:15px;
+
+
+
+}
+
+
+
+h2{
+
+
+font-size:21px;
+
+
+
+}
+
+
+
+.card{
+
+
+padding:15px;
+
+
+
+}
+
+
+}
+</style>
 </head>
-
 <body>
 
-<h2>📊 All User Investments</h2>
 
-<div id="container"></div>
 
-<!-- BACK BUTTON -->
-<div class="bottom">
-    <a href="dashboard.html">
-        <button>⬅️ Back to Dashboard</button>
-    </a>
+<h2>
+
+📊💎 All User Investments
+
+</h2>
+
+
+
+
+
+
+
+<div id="container">
+
+
+
+<div class="card">
+
+
+<div class="row">
+
+⏳ Loading investments...
+
 </div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="bottom">
+
+
+<a href="dashboard.html">
+
+
+<button>
+
+⬅️ Back to Admin Dashboard
+
+</button>
+
+
+</a>
+
+
+
+</div>
+
 
 <script>
 const API = "https://smartearn.onrender.com";

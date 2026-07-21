@@ -1,113 +1,655 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Withdrawal Approval</title>
+
+<title>Smartearn Withdrawal Approval</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f5f7fb;
+
+
+*{
+
+box-sizing:border-box;
+
 }
+
+
+
+body{
+
+
+margin:0;
+
+
+font-family:
+
+
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+
+min-height:100vh;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+
+color:white;
+
+
+
+overflow-x:hidden;
+
+
+
+}
+
+
+
+
+
+
+
+/* BACKGROUND EFFECT */
+
+
+body::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+inset:0;
+
+
+
+background:
+
+
+url("/images/index3.jpeg")
+
+no-repeat center;
+
+
+
+background-size:cover;
+
+
+
+opacity:.3;
+
+
+
+z-index:-1;
+
+
+
+}
+
+
+
+
+
+
 
 /* TOP BAR */
+
+
 .topbar{
-    background:linear-gradient(135deg,#0099ff,#0066ff);
-    color:white;
-    padding:15px;
-    text-align:center;
-    font-size:18px;
-    font-weight:bold;
+
+
+padding:20px;
+
+
+
+text-align:center;
+
+
+
+font-size:22px;
+
+
+
+font-weight:bold;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
 }
 
-/* CARD */
+
+
+
+
+
+
+
+/* MAIN CARD */
+
+
 .card{
-    margin:12px;
-    background:white;
-    padding:12px;
-    border-radius:12px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.08);
-}
 
-/* EACH WITHDRAWAL ITEM */
+
+margin:20px auto;
+
+
+
+width:92%;
+
+
+
+max-width:600px;
+
+
+
+padding:18px;
+
+
+
+border-radius:30px;
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border:
+
+
+2px solid rgba(255,255,255,.4);
+
+
+
+backdrop-filter:blur(18px);
+
+
+
+box-shadow:
+
+
+0 0 35px rgba(0,198,255,.6),
+
+
+inset 0 0 25px rgba(255,255,255,.2);
+
+
+
+}
+/* WITHDRAWAL ITEM */
+
+
 .item{
-    border-bottom:1px solid #eee;
-    padding:10px 0;
+
+
+position:relative;
+
+
+
+padding:15px;
+
+
+
+margin-bottom:15px;
+
+
+
+border-radius:20px;
+
+
+
+background:
+
+
+rgba(255,255,255,.12);
+
+
+
+border:
+
+
+1px solid rgba(255,255,255,.25);
+
+
+
+box-shadow:
+
+
+0 0 15px rgba(0,198,255,.3);
+
+
+
 }
 
-/* BANK BOX */
+
+
+
+
+
+
+.item p{
+
+
+margin:7px 0;
+
+
+
+font-size:14px;
+
+
+
+color:white;
+
+
+
+}
+
+
+
+
+
+.item b{
+
+
+color:#00ffff;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* BANK INFO */
+
+
 .info{
-    background:#f1f3f6;
-    padding:8px;
-    border-radius:10px;
-    font-size:12px;
-    margin-top:5px;
+
+
+margin-top:10px;
+
+
+
+padding:12px;
+
+
+
+border-radius:15px;
+
+
+
+background:
+
+
+rgba(0,0,0,.25);
+
+
+
+font-size:13px;
+
+
+
+line-height:1.6;
+
+
+
+color:#e0f7ff;
+
+
+
 }
 
-/* TEXT */
-p{
-    margin:5px 0;
-    font-size:14px;
-}
 
-/* BUTTONS */
+
+
+
+
+
+/* BUTTON AREA */
+
+
 button{
-    padding:8px 10px;
-    border:none;
-    border-radius:8px;
-    font-size:13px;
-    cursor:pointer;
-    margin:3px;
+
+
+padding:10px 15px;
+
+
+
+border:none;
+
+
+
+border-radius:20px;
+
+
+
+font-size:13px;
+
+
+
+font-weight:bold;
+
+
+
+cursor:pointer;
+
+
+
+margin:5px;
+
+
+
 }
+
+
 
 .approve{
-    background:#00c853;
-    color:white;
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00ff88,
+#00c853
+);
+
+
+
+color:white;
+
+
+
+box-shadow:
+
+
+0 0 15px #00ff88;
+
+
+
 }
+
+
 
 .reject{
-    background:#ff4d4d;
-    color:white;
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#ff1744,
+#ff5252
+);
+
+
+
+color:white;
+
+
+
+box-shadow:
+
+
+0 0 15px #ff1744;
+
+
+
 }
 
-/* BACK BUTTON */
-.bottom{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    display:flex;
+
+
+button:active{
+
+
+transform:scale(.95);
+
+
+
 }
+
+
+
+
+
+
+
+/* BOTTOM ADMIN BUTTON */
+
+
+.bottom{
+
+
+position:fixed;
+
+
+
+bottom:0;
+
+
+
+left:0;
+
+
+
+right:0;
+
+
+
+padding:10px;
+
+
+
+background:
+
+
+rgba(0,0,0,.4);
+
+
+
+backdrop-filter:blur(10px);
+
+
+
+}
+
+
 
 .bottom a{
-    flex:1;
+
+
+text-decoration:none;
+
+
+
 }
 
+
+
 .bottom button{
-    width:100%;
-    border-radius:0;
-    background:#0099ff;
-    color:white;
-    padding:12px;
+
+
+width:100%;
+
+
+
+padding:14px;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+color:white;
+
+
+
+font-size:14px;
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
+}
+
+
+
+
+@media(max-width:600px){
+
+
+.card{
+
+
+width:94%;
+
+
+
+}
+
+
+
+.topbar{
+
+
+font-size:20px;
+
+
+
+}
+
+
+
 }
 </style>
 </head>
 
 <body>
 
+
+
 <div class="topbar">
-Withdrawal Approval Panel
+
+💎 Withdrawal Approval Panel
+
 </div>
 
-<div class="card" id="data"></div>
 
-<!-- BACK -->
+
+
+
+
+
+<div class="card" id="data">
+
+
+<div class="item">
+
+
+<p>
+
+⏳ Loading withdrawal requests...
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
 <div class="bottom">
+
+
 <a href="dashboard.html">
-<button>⬅️ admin Dashboard</button>
+
+
+<button>
+
+⬅️ Admin Dashboard
+
+</button>
+
+
 </a>
+
+
+
 </div>
+
 
 <script>
 

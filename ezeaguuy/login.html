@@ -1,97 +1,631 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin Login</title>
+
+<title>Smartearn Admin Login</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <style>
+
+
+*{
+
+box-sizing:border-box;
+
+}
+
+
+
 body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:linear-gradient(135deg,#0a84ff,#00c2ff);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+
+
+margin:0;
+
+
+
+font-family:
+
+
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+
+height:100vh;
+
+
+
+display:flex;
+
+
+
+justify-content:center;
+
+
+
+align-items:center;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+
+overflow:hidden;
+
+
+
+color:white;
+
+
+
 }
 
-/* CARD */
+
+
+
+
+
+
+/* BACKGROUND IMAGE */
+
+
+body::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+
+inset:0;
+
+
+
+background:
+
+
+url("/images/index2.jpeg")
+
+center/cover no-repeat;
+
+
+
+opacity:.35;
+
+
+
+z-index:-1;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ADMIN CARD */
+
+
 .container{
-    width:90%;
-    max-width:350px;
-    background:white;
-    padding:25px;
-    border-radius:18px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
-    text-align:center;
+
+
+width:90%;
+
+
+
+max-width:380px;
+
+
+
+padding:30px;
+
+
+
+border-radius:30px;
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border:
+
+
+2px solid rgba(255,255,255,.35);
+
+
+
+backdrop-filter:blur(18px);
+
+
+
+box-shadow:
+
+
+0 0 40px cyan,
+
+
+inset 0 0 30px rgba(255,255,255,.2);
+
+
+
+text-align:center;
+
+
+
+position:relative;
+
+
+
+overflow:hidden;
+
+
+
 }
 
+
+
+
+
+
+
+
+/* CRYSTAL SHINE */
+
+
+.container::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+
+width:80px;
+
+
+
+height:220%;
+
+
+
+background:
+
+
+rgba(255,255,255,.35);
+
+
+
+transform:
+
+
+rotate(35deg);
+
+
+
+left:-120px;
+
+
+
+top:-60px;
+
+
+
+animation:
+
+
+shine 5s infinite;
+
+
+
+}
+
+
+
+
+
+@keyframes shine{
+
+
+0%{
+
+
+left:-120px;
+
+
+}
+
+
+50%,100%{
+
+
+left:420px;
+
+
+}
+
+
+
+}
 /* TITLE */
+
+
 h2{
-    color:#0a84ff;
-    margin-bottom:10px;
+
+
+font-size:26px;
+
+
+
+margin-bottom:10px;
+
+
+
+color:white;
+
+
+
+text-shadow:
+
+
+0 0 15px cyan;
+
+
+
 }
 
-/* SUB TEXT */
+
+
+
+
+
+
+
+/* DESCRIPTION */
+
+
 p{
-    font-size:13px;
-    color:#666;
-    margin-bottom:20px;
+
+
+font-size:13px;
+
+
+
+color:#e0f7ff;
+
+
+
+margin-bottom:20px;
+
+
+
 }
 
-/* INPUT */
+
+
+
+
+
+
+
+/* INPUTS */
+
+
 input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border:1px solid #ddd;
-    border-radius:10px;
-    outline:none;
-    font-size:14px;
+
+
+width:100%;
+
+
+
+padding:14px;
+
+
+
+margin:10px 0;
+
+
+
+border:none;
+
+
+
+outline:none;
+
+
+
+border-radius:18px;
+
+
+
+background:
+
+
+rgba(255,255,255,.9);
+
+
+
+color:#111;
+
+
+
+font-size:14px;
+
+
+
+box-shadow:
+
+
+0 0 15px rgba(0,198,255,.4);
+
+
+
 }
 
-/* BUTTON */
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#0a84ff;
-    color:white;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
+
+
+input:focus{
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
 }
+
+
+
+
+
+
+
+
+/* LOGIN BUTTON */
+
+
+button{
+
+
+width:100%;
+
+
+
+padding:14px;
+
+
+
+margin-top:15px;
+
+
+
+border:none;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00ffcc,
+#0072ff
+);
+
+
+
+color:white;
+
+
+
+font-size:16px;
+
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
+cursor:pointer;
+
+
+
+}
+
+
 
 button:active{
-    transform:scale(0.98);
+
+
+transform:scale(.95);
+
+
+
 }
 
+
+
+
+
+
+
+
 /* MESSAGE */
+
+
 #msg{
-    margin-top:10px;
-    font-size:13px;
-    color:red;
+
+
+margin-top:15px;
+
+
+
+font-size:14px;
+
+
+
+font-weight:bold;
+
+
+
+color:#ff8080;
+
+
+
+}
+
+
+
+
+@media(max-width:600px){
+
+
+.container{
+
+
+width:92%;
+
+
+
+padding:25px;
+
+
+
+}
+
+
+
+h2{
+
+
+font-size:22px;
+
+
+
+}
+
+
+
 }
 </style>
 </head>
-
 <body>
+
 
 <div class="container">
 
-    <h2>🔐 Admin Login</h2>
-    <p>Enter admin credentials to continue</p>
 
-    <input id="username" placeholder="Admin Username">
-    <input id="password" type="password" placeholder="Admin Password">
 
-    <button onclick="login()">Login</button>
+<h2>
 
-    <p id="msg"></p>
+🔐💎 Admin Login
+
+</h2>
+
+
+
+
+
+<p>
+
+Secure SmartEarn Administration Portal
+
+</p>
+
+
+
+
+
+
+
+<input 
+
+id="username"
+
+placeholder="👤 Admin Username">
+
+
+
+
+
+
+
+<input 
+
+id="password"
+
+type="password"
+
+placeholder="🔒 Admin Password">
+
+
+
+
+
+
+
+<button onclick="login()">
+
+ENTER ADMIN PANEL
+
+</button>
+
+
+
+
+
+
+
+<p id="msg"></p>
+
+
+
+
+
+
 
 </div>
-
 <script>
 
 const API = "https://smartearn.onrender.com";

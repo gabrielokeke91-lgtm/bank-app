@@ -1,110 +1,733 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Deposits</title>
+
+<title>Smartearn Deposit Approval</title>
+
 
 <style>
 
-body{
-    margin:0;
-    font-family:Arial;
-    background:#eef3f9;
+
+*{
+
+box-sizing:border-box;
+
 }
+
+
+
+body{
+
+
+margin:0;
+
+
+
+font-family:
+
+
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+
+min-height:100vh;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+
+color:white;
+
+
+
+padding-bottom:80px;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* BACKGROUND IMAGE */
+
+
+body::before{
+
+
+content:"";
+
+
+position:fixed;
+
+
+
+inset:0;
+
+
+
+background:
+
+
+url("/images/index3.jpeg")
+
+center/cover no-repeat;
+
+
+
+opacity:.3;
+
+
+
+z-index:-1;
+
+
+
+}
+
+
+
+
+
+
+
 
 /* HEADER */
+
+
 .header{
-    background:linear-gradient(135deg,#0099ff,#0066ff);
-    color:white;
-    padding:15px;
-    text-align:center;
-    font-weight:bold;
-    font-size:18px;
-    position:sticky;
-    top:0;
+
+
+position:sticky;
+
+
+
+top:0;
+
+
+
+z-index:10;
+
+
+
+padding:20px;
+
+
+
+text-align:center;
+
+
+
+font-size:22px;
+
+
+
+font-weight:bold;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
 }
 
-/* WRAPPER */
+
+
+
+
+
+
+
+/* CONTAINER */
+
+
 .container{
-    padding:10px;
+
+
+padding:15px;
+
+
+
 }
 
-/* BACK BUTTON */
-.bottom{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    display:flex;
-}
 
-.bottom a{
-    flex:1;
-}
 
-.bottom button{
-    width:100%;
-    border-radius:0;
-    background:#0099ff;
-    color:white;
-    padding:12px;
-}
 
-/* CARD */
+
+
+
+
+/* DEPOSIT CARD */
+
+
 .card{
-    background:white;
-    padding:12px;
-    border-radius:14px;
-    margin-bottom:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+
+
+position:relative;
+
+
+
+padding:18px;
+
+
+
+margin-bottom:18px;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border:
+
+
+1px solid rgba(255,255,255,.35);
+
+
+
+backdrop-filter:blur(15px);
+
+
+
+box-shadow:
+
+
+0 0 25px rgba(0,198,255,.45),
+
+
+inset 0 0 20px rgba(255,255,255,.15);
+
+
+
+overflow:hidden;
+
+
+
 }
+
+/* CARD SHINE EFFECT */
+
+
+.card::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+
+width:80px;
+
+
+
+height:220%;
+
+
+
+background:
+
+
+rgba(255,255,255,.25);
+
+
+
+transform:
+
+
+rotate(35deg);
+
+
+
+left:-120px;
+
+
+
+top:-60px;
+
+
+
+animation:
+
+
+shine 5s infinite;
+
+
+
+}
+
+
+
+@keyframes shine{
+
+
+0%{
+
+
+left:-120px;
+
+
+}
+
+
+
+50%,100%{
+
+
+left:450px;
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
 
 /* TEXT */
+
+
 p{
-    margin:6px 0;
-    font-size:14px;
+
+
+margin:8px 0;
+
+
+
+font-size:14px;
+
+
+
+color:#e0f7ff;
+
+
+
 }
 
-/* IMAGE */
+
+
+p b{
+
+
+color:#00ffff;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* RECEIPT IMAGE */
+
+
 img{
-    width:100%;
-    border-radius:10px;
-    margin-top:8px;
+
+
+width:100%;
+
+
+
+margin-top:12px;
+
+
+
+border-radius:18px;
+
+
+
+border:
+
+
+2px solid rgba(255,255,255,.4);
+
+
+
+box-shadow:
+
+
+0 0 20px cyan;
+
+
+
 }
 
-/* BUTTONS */
+
+
+
+
+
+
+
+/* BUTTON AREA */
+
+
 .buttons{
-    display:flex;
-    gap:10px;
-    margin-top:10px;
+
+
+display:flex;
+
+
+
+gap:10px;
+
+
+
+margin-top:15px;
+
+
+
 }
+
+
+
+
 
 button{
-    flex:1;
-    padding:10px;
-    border:none;
-    border-radius:10px;
-    font-size:14px;
-    color:white;
+
+
+flex:1;
+
+
+
+padding:12px;
+
+
+
+border:none;
+
+
+
+border-radius:25px;
+
+
+
+font-size:14px;
+
+
+
+font-weight:bold;
+
+
+
+color:white;
+
+
+
+cursor:pointer;
+
+
+
 }
 
-.approve{ background:#00c853; }
-.reject{ background:#ff4d4d; }
 
+
+.approve{
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00ff88,
+#00c853
+);
+
+
+
+box-shadow:
+
+
+0 0 20px #00ff88;
+
+
+
+}
+
+
+
+
+.reject{
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#ff1744,
+#ff5252
+);
+
+
+
+box-shadow:
+
+
+0 0 20px red;
+
+
+
+}
+
+
+
+
+button:active{
+
+
+transform:scale(.95);
+
+
+
+}
+
+
+
+
+
+
+
+
+/* BOTTOM ADMIN BUTTON */
+
+
+.bottom{
+
+
+position:fixed;
+
+
+
+bottom:0;
+
+
+
+left:0;
+
+
+
+right:0;
+
+
+
+padding:10px;
+
+
+
+background:
+
+
+rgba(0,0,0,.45);
+
+
+
+backdrop-filter:blur(10px);
+
+
+
+}
+
+
+
+.bottom a{
+
+
+text-decoration:none;
+
+
+
+}
+
+
+
+.bottom button{
+
+
+width:100%;
+
+
+
+padding:14px;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+color:white;
+
+
+
+font-size:15px;
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
+}
+
+
+
+
+@media(max-width:600px){
+
+
+.header{
+
+
+font-size:20px;
+
+
+
+}
+
+
+
+.card{
+
+
+padding:15px;
+
+
+
+}
+
+
+
+}
 </style>
 </head>
-
 <body>
 
-<div class="header">Deposit Approval Panel</div>
 
-<div class="container" id="deposits"></div>
+<div class="header">
 
-<!-- BACK -->
+💎 Deposit Approval Panel
+
+</div>
+
+
+
+
+
+<div class="container" id="deposits">
+
+
+<div class="card">
+
+
+<p>
+
+⏳ Loading deposit requests...
+
+</p>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
 <div class="bottom">
+
+
 <a href="dashboard.html">
-<button>⬅️ admin Dashboard</button>
+
+
+<button>
+
+⬅️ Admin Dashboard
+
+</button>
+
+
 </a>
+
+
+
 </div>
 
 <script>

@@ -1,110 +1,428 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>Admin Bonus Generator</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <style>
-body {
-    font-family: Arial;
-    margin: 0;
-    background: #f5f7fb;
+
+*{
+    box-sizing:border-box;
 }
 
-.header {
-    background: linear-gradient(135deg,#0099ff,#0066ff);
-    color: white;
-    padding: 15px;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
+
+body{
+
+    margin:0;
+
+    font-family:Arial,sans-serif;
+
+    background:
+
+    linear-gradient(135deg,#0b0f2f,#182848);
+
+    color:white;
+
+    padding-bottom:80px;
+
 }
 
-.container {
-    padding: 15px;
+
+
+/* HEADER */
+
+.header{
+
+    background:
+
+    linear-gradient(90deg,#00c6ff,#0072ff);
+
+    padding:20px;
+
+    text-align:center;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    box-shadow:
+
+    0 5px 20px rgba(0,0,0,.5);
+
 }
 
-.card {
-    background: white;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    margin-top: 10px;
+
+
+
+/* CONTAINER */
+
+.container{
+
+    padding:15px;
+
 }
 
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+
+
+
+/* CRYSTAL CARD */
+
+.card{
+
+    background:
+
+    linear-gradient(
+
+    145deg,
+
+    rgba(255,255,255,.35),
+
+    rgba(255,255,255,.05)
+
+    );
+
+
+    border:
+
+    2px solid rgba(255,255,255,.35);
+
+
+    padding:20px;
+
+
+    border-radius:25px;
+
+
+    backdrop-filter:blur(15px);
+
+
+    box-shadow:
+
+    0 0 25px rgba(0,198,255,.5),
+
+    inset 0 0 20px rgba(255,255,255,.2);
+
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    background: #0099ff;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+
+
+
+
+/* LABEL */
+
+label{
+
+    display:block;
+
+    margin-top:10px;
+
+    margin-bottom:5px;
+
+    color:#00ffff;
+
+    font-weight:bold;
+
+    font-size:14px;
+
 }
 
-.result {
-    margin-top: 10px;
-    padding: 10px;
-    background: #e7f7ff;
-    border-radius: 8px;
-    font-size: 13px;
+
+
+
+
+/* INPUT */
+
+input{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-bottom:15px;
+
+    border:none;
+
+    border-radius:15px;
+
+    outline:none;
+
+    font-size:14px;
+
+
+    background:
+
+    rgba(255,255,255,.9);
+
 }
+
+
+
+
+/* GENERATE BUTTON */
+
+button{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:25px;
+
+
+    background:
+
+    linear-gradient(90deg,#00ffcc,#0072ff);
+
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+
+    box-shadow:
+
+    0 0 20px cyan;
+
+
+    cursor:pointer;
+
+}
+
+
+
+button:active{
+
+    transform:scale(.95);
+
+}
+
+
+
+
+
+/* RESULT */
+
+.result{
+
+    margin-top:15px;
+
+    padding:15px;
+
+
+    border-radius:15px;
+
+
+    background:
+
+    rgba(0,255,204,.15);
+
+
+    border:
+
+    1px solid cyan;
+
+
+    font-size:14px;
+
+}
+
+
+
+
+
+/* HOME BUTTON */
+
+.home-btn{
+
+
+    position:fixed;
+
+
+    bottom:15px;
+
+
+    left:50%;
+
+
+    transform:translateX(-50%);
+
+
+    background:
+
+    linear-gradient(90deg,#00c6ff,#0072ff);
+
+
+    color:white;
+
+
+    padding:14px 30px;
+
+
+    border-radius:30px;
+
+
+    text-decoration:none;
+
+
+    font-size:14px;
+
+
+    font-weight:bold;
+
+
+    box-shadow:
+
+    0 0 20px cyan;
+
+
+    z-index:9999;
+
+}
+
+
+
+
+@media(max-width:600px){
+
+
+.header{
+
+    font-size:18px;
+
+}
+
+
+.card{
+
+    padding:15px;
+
+}
+
+
+}
+
+
 </style>
+
 </head>
+
+
 
 <body>
 
+
+
 <div class="header">
+
 🎁 Bonus Code Generator (Admin)
+
 </div>
+
+
+
+
 
 <div class="container">
 
+
 <div class="card">
 
-    <label>💰 Bonus Amount</label>
-    <input type="number" id="amount" placeholder="Enter amount e.g 5000">
 
-    <label>👥 Number of Users Allowed</label>
-    <input type="number" id="users" placeholder="e.g 10 users">
 
-    <label>⏳ Expiry Hours</label>
-<input type="number" id="hours" placeholder="e.g 1">
+<label>
+💰 Bonus Amount
+</label>
 
-<label>⏳ Expiry Minutes</label>
-<input type="number" id="minutes" placeholder="e.g 30">
 
-    <button onclick="generateBonus()">Generate Code</button>
+<input 
+type="number" 
+id="amount" 
+placeholder="Enter amount e.g 5000">
 
-    <div class="result" id="resultBox" style="display:none;"></div>
+
+
+
+
+<label>
+👥 Number of Users Allowed
+</label>
+
+
+<input 
+type="number" 
+id="users" 
+placeholder="e.g 10 users">
+
+
+
+
+
+<label>
+⏳ Expiry Hours
+</label>
+
+
+<input 
+type="number" 
+id="hours" 
+placeholder="e.g 1">
+
+
+
+
+
+<label>
+⏳ Expiry Minutes
+</label>
+
+
+<input 
+type="number" 
+id="minutes" 
+placeholder="e.g 30">
+
+
+
+
+
+<button onclick="generateBonus()">
+
+🎁 Generate Code
+
+</button>
+
+
+
+
+<div 
+class="result" 
+id="resultBox" 
+style="display:none;">
 
 </div>
-<a href="dashboard.html"
-   style="
-   position: fixed;
-   bottom: 15px;
-   left: 50%;
-   transform: translateX(-50%);
-   background: #0099ff;
-   color: white;
-   padding: 12px 20px;
-   border-radius: 25px;
-   text-decoration: none;
-   font-size: 14px;
-   font-weight: bold;
-   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-   z-index: 9999;
-">
-   🏠 Home
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<a href="dashboard.html" class="home-btn">
+
+🏠 Home
+
 </a>
 
 

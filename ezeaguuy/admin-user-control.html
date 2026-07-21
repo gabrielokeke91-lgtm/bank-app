@@ -5,94 +5,326 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-    font-family: Arial;
-    background: #f5f7fb;
-    margin: 0;
+
+*{
+    box-sizing:border-box;
 }
 
-.header {
-    background: #0066ff;
-    color: white;
-    padding: 15px;
-    font-weight: bold;
-    text-align: center;
+
+body{
+
+    margin:0;
+
+    font-family:Arial, sans-serif;
+
+    background:
+    linear-gradient(135deg,#0b0f2f,#182848);
+
+    color:white;
+
+    padding-bottom:80px;
+
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
+
+/* HEADER */
+
+.header{
+
+    background:
+    linear-gradient(90deg,#00c6ff,#0072ff);
+
+    color:white;
+
+    padding:18px;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    text-align:center;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,.5);
+
 }
 
-th, td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
+
+
+/* TABLE */
+
+table{
+
+    width:95%;
+
+    margin:20px auto;
+
+    border-collapse:collapse;
+
+    background:
+
+    rgba(255,255,255,.12);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:
+
+    0 0 25px rgba(0,198,255,.5);
+
 }
 
-button {
-    padding: 6px 10px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+
+
+th{
+
+    background:
+
+    rgba(0,198,255,.7);
+
+    padding:14px;
+
+    text-align:left;
+
+    font-size:13px;
+
 }
 
-.lock {
-    background: red;
-    color: white;
+
+
+td{
+
+    padding:12px;
+
+    border-bottom:
+
+    1px solid rgba(255,255,255,.15);
+
+    font-size:13px;
+
 }
 
-.unlock {
-    background: green;
-    color: white;
+
+
+tr:hover{
+
+    background:
+
+    rgba(255,255,255,.1);
+
 }
+
+
+
+/* BUTTON */
+
+button{
+
+    padding:8px 14px;
+
+    border:none;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+button:active{
+
+    transform:scale(.95);
+
+}
+
+
+
+/* LOCK BUTTON */
+
+.lock{
+
+    background:
+
+    linear-gradient(90deg,#ff1744,#ff5252);
+
+    color:white;
+
+    box-shadow:
+
+    0 0 15px red;
+
+}
+
+
+
+/* UNLOCK BUTTON */
+
+.unlock{
+
+    background:
+
+    linear-gradient(90deg,#00ff88,#00c853);
+
+    color:white;
+
+    box-shadow:
+
+    0 0 15px lime;
+
+}
+
+
 
 /* BACK BUTTON */
+
 .bottom{
+
     position:fixed;
+
     bottom:0;
+
     left:0;
+
     right:0;
-    display:flex;
+
+    padding:8px;
+
+    background:
+
+    rgba(0,0,0,.6);
+
+    backdrop-filter:blur(15px);
+
+    z-index:9999;
+
 }
+
+
 
 .bottom a{
-    flex:1;
+
+    text-decoration:none;
+
 }
 
+
+
 .bottom button{
+
     width:100%;
-    border-radius:0;
-    background:#0099ff;
+
+    background:
+
+    linear-gradient(90deg,#00c6ff,#0072ff);
+
     color:white;
-    padding:12px;
+
+    padding:14px;
+
+    border-radius:25px;
+
+    box-shadow:
+
+    0 0 15px cyan;
+
 }
+
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+
+table{
+
+    width:98%;
+
+}
+
+
+th,td{
+
+    padding:10px;
+
+    font-size:11px;
+
+}
+
+
+.header{
+
+    font-size:18px;
+
+}
+
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<div class="header">User Access Control</div>
+
+<div class="header">
+
+🔐 User Access Control
+
+</div>
+
+
 
 <table>
+
 <thead>
+
 <tr>
-<th>Phone</th>
+
+<th>📱 Phone</th>
+
 <th>Status</th>
+
 <th>Action</th>
+
 </tr>
+
 </thead>
 
-<tbody id="users"></tbody>
+
+<tbody id="users">
+
+</tbody>
+
+
 </table>
 
-<!-- BACK -->
+
+
+
 <div class="bottom">
+
 <a href="dashboard.html">
-<button>⬅️ admin Dashboard</button>
+
+<button>
+
+⬅️ Admin Dashboard
+
+</button>
+
 </a>
+
 </div>
+
 
 <script>
 

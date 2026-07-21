@@ -1,140 +1,847 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>User Bank Details Admin</title>
+
+<title>Smartearn User Bank Admin</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f5f7fb;
+
+
+*{
+
+box-sizing:border-box;
+
 }
+
+
+
+body{
+
+
+margin:0;
+
+
+
+font-family:
+
+
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+
+min-height:100vh;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+
+color:white;
+
+
+
+}
+
+
+
+
+
+
+
+/* BACKGROUND IMAGE */
+
+
+body::before{
+
+
+content:"";
+
+
+position:fixed;
+
+
+
+inset:0;
+
+
+
+background:
+
+
+url("/images/index3.jpeg")
+
+center/cover no-repeat;
+
+
+
+opacity:.3;
+
+
+
+z-index:-1;
+
+
+
+}
+
+
+
+
+
+
 
 /* TOP BAR */
+
+
 .topbar{
-    background:linear-gradient(135deg,#0099ff,#0066ff);
-    color:white;
-    padding:15px;
-    text-align:center;
-    font-size:16px;
-    font-weight:bold;
+
+
+padding:20px;
+
+
+
+text-align:center;
+
+
+
+font-size:22px;
+
+
+
+font-weight:bold;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
 }
 
-/* SEARCH */
+
+
+
+
+
+
+/* SEARCH AREA */
+
+
 .searchBox{
-    padding:10px;
-    background:white;
-    margin:10px;
-    border-radius:10px;
-    display:flex;
+
+
+margin:15px;
+
+
+
+padding:15px;
+
+
+
+display:flex;
+
+
+
+gap:10px;
+
+
+
+border-radius:20px;
+
+
+
+background:
+
+
+rgba(255,255,255,.15);
+
+
+
+backdrop-filter:blur(15px);
+
+
+
+border:
+
+
+1px solid rgba(255,255,255,.3);
+
+
+
 }
+
+
+
+
+
+
 
 .searchBox input{
-    flex:1;
-    padding:10px;
-    border:1px solid #ddd;
-    border-radius:8px;
+
+
+flex:1;
+
+
+
+padding:13px;
+
+
+
+border:none;
+
+
+
+outline:none;
+
+
+
+border-radius:20px;
+
+
+
+font-size:14px;
+
+
+
 }
+
+
+
+
+
+
 
 .searchBox button{
-    margin-left:10px;
-    padding:10px;
-    background:#0099ff;
-    color:white;
-    border:none;
-    border-radius:8px;
-}
 
-/* CARD */
+
+padding:12px 18px;
+
+
+
+border:none;
+
+
+
+border-radius:20px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00ffcc,
+#0072ff
+);
+
+
+
+color:white;
+
+
+
+font-weight:bold;
+
+
+
+}
+/* USER BANK CARD */
+
+
 .card{
-    background:white;
-    margin:10px;
-    padding:12px;
-    border-radius:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+
+
+margin:15px;
+
+
+
+padding:18px;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border:
+
+
+1px solid rgba(255,255,255,.35);
+
+
+
+backdrop-filter:blur(15px);
+
+
+
+box-shadow:
+
+
+0 0 25px rgba(0,198,255,.4);
+
+
+
 }
 
-/* TEXT */
-p{
-    margin:5px 0;
-    font-size:14px;
+
+
+
+
+.card p{
+
+
+margin:8px 0;
+
+
+
+font-size:14px;
+
+
+
 }
 
-/* BUTTON */
-button{
-    padding:8px 10px;
-    border:none;
-    border-radius:8px;
-    font-size:13px;
-    cursor:pointer;
-    margin-top:8px;
+
+
+.card b{
+
+
+color:#00ffff;
+
+
+
 }
+
+
+
+
+
+
+
+
+/* VIEW BUTTON */
+
 
 .view{
-    background:#00c853;
-    color:white;
+
+
+width:100%;
+
+
+
+padding:12px;
+
+
+
+border:none;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00ff88,
+#00c853
+);
+
+
+
+color:white;
+
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 20px #00ff88;
+
+
+
 }
 
-/* POPUP */
-.popup{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.6);
-    justify-content:center;
-    align-items:center;
+
+
+button:active{
+
+
+transform:scale(.95);
+
+
+
 }
+
+
+
+
+
+
+
+
+/* WITHDRAWAL BUTTON AREA */
+
+
+.bottom-actions{
+
+
+margin:15px;
+
+
+
+text-align:center;
+
+
+
+}
+
+
+
+.bottom-actions button{
+
+
+width:100%;
+
+
+
+padding:14px;
+
+
+
+border:none;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+color:white;
+
+
+
+font-weight:bold;
+
+
+
+font-size:15px;
+
+
+
+box-shadow:
+
+
+0 0 20px cyan;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* POPUP BACKGROUND */
+
+
+.popup{
+
+
+display:none;
+
+
+
+position:fixed;
+
+
+
+top:0;
+
+
+
+left:0;
+
+
+
+width:100%;
+
+
+
+height:100%;
+
+
+
+background:
+
+
+rgba(0,0,0,.75);
+
+
+
+justify-content:center;
+
+
+
+align-items:center;
+
+
+
+z-index:9999;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* POPUP BOX */
+
 
 .popup-content{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    width:90%;
-    max-width:350px;
+
+
+width:90%;
+
+
+
+max-width:380px;
+
+
+
+padding:25px;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.95),
+rgba(230,250,255,.95)
+);
+
+
+
+color:#111;
+
+
+
+box-shadow:
+
+
+0 0 35px cyan;
+
+
+
 }
 
+
+
+
+
+
+
+.popup-content h3{
+
+
+text-align:center;
+
+
+
+color:#0072ff;
+
+
+
+font-size:20px;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* CLOSE BUTTON */
+
+
 .close{
-    background:red;
-    color:white;
-    width:100%;
+
+
+width:100%;
+
+
+
+padding:12px;
+
+
+
+margin-top:15px;
+
+
+
+border:none;
+
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#ff1744,
+#ff5252
+);
+
+
+
+color:white;
+
+
+
+font-weight:bold;
+
+
+
+}
+
+
+
+
+
+
+
+
+@media(max-width:600px){
+
+
+.topbar{
+
+
+font-size:19px;
+
+
+
+}
+
+
+
+.card{
+
+
+margin:12px;
+
+
+
+}
+
+
 }
 </style>
 </head>
-
 <body>
 
+
 <div class="topbar">
-User Bank Details Admin
+
+🏦💎 User Bank Details Admin
+
 </div>
 
-<!-- SEARCH -->
+
+
+
+
 <div class="searchBox">
-    <input id="searchPhone" placeholder="Search phone number">
-    <button onclick="search()">Search</button>
+
+
+<input 
+
+id="searchPhone"
+
+placeholder="📱 Search phone number">
+
+
+
+<button onclick="search()">
+
+SEARCH
+
+</button>
+
+
+
 </div>
-<div class="bottom-actions"></div>
-<a href="withdrawals.html"><button>Withdrawals</button></a>
+
+
+
+
+
+
+<div class="bottom-actions">
+
+<a href="withdrawals.html">
+
+<button>
+
+💸 Withdrawal Requests
+
+</button>
+
+</a>
+
 </div>
-</body>
-<!-- LIST -->
-<div id="list"></div>
+
+
+
+
+
+
+
+<!-- USER BANK LIST -->
+
+<div id="list">
+
+
+<div class="card">
+
+
+<p>
+
+⏳ Loading users...
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
 
 <!-- POPUP -->
+
 <div class="popup" id="popup">
-    <div class="popup-content">
 
-        <h3>Bank Details</h3>
 
-        <div id="popupData"></div>
+<div class="popup-content">
 
-        <button class="close" onclick="closePopup()">Close</button>
 
-    </div>
+
+<h3>
+
+🏦 Bank Details
+
+</h3>
+
+
+
+<div id="popupData">
+
 </div>
+
+
+
+
+<button class="close" onclick="closePopup()">
+
+Close
+
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
 
 <script>
 
