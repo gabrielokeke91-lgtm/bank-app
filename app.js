@@ -811,8 +811,8 @@ app.post("/withdraw", (req, res) => {
     }
 
     // STEP 1: MINIMUM WITHDRAWAL
-    if (withdrawAmount < 7000) {
-        return res.send("Minimum withdrawal is ₦7000");
+    if (withdrawAmount < 1500) {
+        return res.send("Minimum withdrawal is ₦1500");
     }
 
     // STEP 2: GET USER FIRST (IMPORTANT FIX)
