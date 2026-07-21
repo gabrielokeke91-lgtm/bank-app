@@ -860,7 +860,7 @@ async function loadBalance(){
 try{
 
 
-const res=await fetch(${API}/balance/${user.phone});
+const res=await fetch(`${API}/balance/${user.phone}`);
 
 
 const data=await res.json();
@@ -895,7 +895,7 @@ try{
 
 
 const refRes=await fetch(
-${API}/referral-amount/${user.phone}
+`${API}/referral-amount/${user.phone}`
 );
 
 
@@ -910,7 +910,7 @@ formatMoney(refData.referral_amount);
 
 
 const res=await fetch(
-${API}/returns/${user.phone}
+`${API}/returns/${user.phone}`
 );
 
 
@@ -948,7 +948,7 @@ try{
 
 
 const res=await fetch(
-${API}/total-invested/${user.phone}
+`${API}/total-invested/${user.phone}`
 );
 
 
@@ -1021,7 +1021,7 @@ if(ref){
 
 ref.value=
 
-${location.origin}/signup.html?ref=${userRef.referral_code};
+`${location.origin}/signup.html?ref=${userRef.referral_code}`;
 
 
 }
@@ -1113,7 +1113,7 @@ const user=JSON.parse(localStorage.getItem("user"));
 try{
 
 
-const res=await fetch(${API}/claim-bonus,{
+const res=await fetch(`${API}/claim-bonus`,{
 
 
 method:"POST",
