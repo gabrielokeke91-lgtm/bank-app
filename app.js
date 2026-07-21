@@ -1104,23 +1104,23 @@ app.post("/ezeaguuy/approve-withdraw", (req, res) => {
                     }
 
                     // 2. REFERRAL ELIGIBILITY CHECK (FIXED)
-                    db.query(
-                        `SELECT COUNT(*) AS total 
-                         FROM users 
-                         WHERE referred_by = ? 
-                         AND first_deposit >= 5000`,
-                        [user.referral_code],   // ✅ FIXED HERE
-                        (err3, ref) => {
+                    //db.query(
+                       // `SELECT COUNT(*) AS total 
+                        // FROM users 
+                        // WHERE referred_by = ? 
+                         //AND first_deposit >= 5000`,
+                       // [user.referral_code],   // ✅ FIXED HERE
+                       // (err3, ref) => {
 
-                            if (err3) {
-                                return res.status(500).send("Referral check error");
-                            }
+                           // if (err3) {
+                           //     return res.status(500).send("Referral check error");
+                           // }
 
-                            if (ref[0].total < 2) {
-                                return res.status(403).send(
-                                    "User not eligible for withdrawal (need 3 referrals)"
-                                );
-                            }
+                           // if (ref[0].total < 2) {
+                              //  return res.status(403).send(
+                              //      "User not eligible for withdrawal (need 3 referrals)"
+                              //  );
+                            //}
 
                             // 3. DEDUCT USER BALANCE
                             db.query(
@@ -1700,7 +1700,7 @@ app.post("/chat-ai", async (req, res) => {
                     {
                         role: "system",
                         content: `
-You are Mobile Wealth AI support assistant.
+You are Smartearn AI support assistant.
 
 Rules:
 - Only answer questions about deposit, investment, withdrawal, referral system.
