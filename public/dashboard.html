@@ -1093,7 +1093,7 @@ async function loadReturns(){
 
 try{
 
-fetch(${API}/referralamount/${user.phone})
+fetch(`${API}/referral-amount/${user.phone}`)
 .then(res=>res.json())
 .then(data=>{
 

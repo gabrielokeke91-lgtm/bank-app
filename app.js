@@ -496,6 +496,41 @@ app.get("/balance/:phone", (req, res) => {
     );
 });
 
+// GET REFERRAL AMOUNT
+app.get("/referral-amount/:phone", (req, res) => {
+
+    const phone = req.params.phone;
+
+
+    db.query(
+        "SELECT referral_amount FROM users WHERE phone=?",
+        [phone],
+        (err, result) => {
+
+            if (err) {
+                return res.status(500).json({
+                    error: "DB error"
+                });
+            }
+
+
+            if (!result || result.length === 0) {
+                return res.status(404).json({
+                    error: "User not found"
+                });
+            }
+
+
+            res.json({
+                referral_amount: result[0].referral_amount || 0
+            });
+
+
+        }
+    );
+
+});
+
 app.post("/deposit", upload.single("receipt"), (req, res) => {
 
     const phone = req.body.phone?.trim();
