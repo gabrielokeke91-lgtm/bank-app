@@ -414,6 +414,32 @@ grid-template-columns:repeat(2,1fr);
     box-shadow:0 0 35px #ffd700;
 }
 
+/* VIP DETAILS */
+
+.vip-details{
+
+    margin:10px 0;
+
+    padding:10px;
+
+    border-radius:12px;
+
+    background:rgba(0,0,0,.25);
+
+    font-size:13px;
+
+    line-height:1.7;
+
+}
+
+
+.vip-details span{
+
+    color:#00ffcc;
+
+    font-weight:bold;
+
+}
 </style>
 
 </head>
@@ -474,6 +500,23 @@ VIP 1
 ₦1000
 </div>
 
+
+<div class="vip-details">
+
+<p>
+Daily earning:
+<span>₦100</span>
+</p>
+
+
+<p>
+Duration:
+<span>30 Days</span>
+</p>
+
+</div>
+
+
 <button onclick="buyProduct('VIP1',1000)">
 INVEST NOW
 </button>
@@ -496,12 +539,28 @@ VIP 2
 ₦3000
 </div>
 
+
+<div class="vip-details">
+
+<p>
+Daily earning:
+<span>₦300</span>
+</p>
+
+
+<p>
+Duration:
+<span>30 Days</span>
+</p>
+
+</div>
+
+
 <button onclick="buyProduct('VIP2',3000)">
 INVEST NOW
 </button>
 
 </div>
-
 
 
 <!-- VIP 3 -->
@@ -517,6 +576,23 @@ VIP 3
 <div class="price">
 ₦5000
 </div>
+
+
+<div class="vip-details">
+
+<p>
+Daily earning:
+<span>₦500</span>
+</p>
+
+
+<p>
+Duration:
+<span>30 Days</span>
+</p>
+
+</div>
+
 
 <button onclick="buyProduct('VIP3',5000)">
 INVEST NOW
@@ -540,12 +616,28 @@ VIP 4
 ₦10000
 </div>
 
+
+<div class="vip-details">
+
+<p>
+Daily earning:
+<span>₦1000</span>
+</p>
+
+
+<p>
+Duration:
+<span>30 Days</span>
+</p>
+
+</div>
+
+
 <button onclick="buyProduct('VIP4',10000)">
 INVEST NOW
 </button>
 
 </div>
-
 
 
 
@@ -563,6 +655,23 @@ VIP 5
 ₦15000
 </div>
 
+
+<div class="vip-details">
+
+<p>
+Daily earning:
+<span>₦1500</span>
+</p>
+
+
+<p>
+Duration:
+<span>30 Days</span>
+</p>
+
+</div>
+
+
 <button onclick="buyProduct('VIP5',15000)">
 INVEST NOW
 </button>
@@ -571,8 +680,8 @@ INVEST NOW
 
 
 
-
 <!-- VIP 6 -->
+
 
 <div class="vip-card">
 
@@ -586,12 +695,28 @@ VIP 6
 ₦20000
 </div>
 
+
+<div class="vip-details">
+
+<p>
+Daily earning:
+<span>₦2000</span>
+</p>
+
+
+<p>
+Duration:
+<span>30 Days</span>
+</p>
+
+</div>
+
+
 <button onclick="buyProduct('VIP6',20000)">
 INVEST NOW
 </button>
 
 </div>
-
 
 
 
@@ -608,6 +733,23 @@ VIP 7
 <div class="price">
 ₦25000
 </div>
+
+
+<div class="vip-details">
+
+<p>
+Daily earning:
+<span>₦2500</span>
+</p>
+
+
+<p>
+Duration:
+<span>30 Days</span>
+</p>
+
+</div>
+
 
 <button onclick="buyProduct('VIP7',25000)">
 INVEST NOW
@@ -632,12 +774,28 @@ VIP 8
 ₦30000
 </div>
 
+
+<div class="vip-details">
+
+<p>
+Daily earning:
+<span>₦3000</span>
+</p>
+
+
+<p>
+Duration:
+<span>30 Days</span>
+</p>
+
+</div>
+
+
 <button onclick="buyProduct('VIP8',30000)">
 INVEST NOW
 </button>
 
 </div>
-
 
 
 
@@ -655,6 +813,23 @@ VIP 9
 ₦40000
 </div>
 
+
+<div class="vip-details">
+
+<p>
+Daily earning:
+<span>₦4000</span>
+</p>
+
+
+<p>
+Duration:
+<span>30 Days</span>
+</p>
+
+</div>
+
+
 <button onclick="buyProduct('VIP9',50000)">
 INVEST NOW
 </button>
@@ -663,8 +838,8 @@ INVEST NOW
 
 
 
-
 <!-- VIP 10 -->
+
 
 <div class="vip-card">
 
@@ -678,12 +853,28 @@ VIP 10
 ₦70000
 </div>
 
+
+<div class="vip-details">
+
+<p>
+Daily earning:
+<span>₦7000</span>
+</p>
+
+
+<p>
+Duration:
+<span>30 Days</span>
+</p>
+
+</div>
+
+
 <button onclick="buyProduct('VIP10',70000)">
 INVEST NOW
 </button>
 
 </div>
-
 
 </div>
 
@@ -737,12 +928,8 @@ if(!user || !user.phone){
 
 async function buyProduct(grade, amount){
 
-
     const wallet = document.getElementById("wallet").value;
 
-
-
-    // Confirmation
 
     const confirmBuy = confirm(
         Buy ${grade} investment with ₦${amount.toLocaleString()} using ${wallet} wallet?
@@ -750,53 +937,34 @@ async function buyProduct(grade, amount){
 
 
     if(!confirmBuy){
-
         return;
-
     }
-
-
 
 
     try{
 
-
         const res = await fetch(${API}/buy,{
-
 
             method:"POST",
 
-
             headers:{
-
-
                 "Content-Type":"application/json"
-
-
             },
 
 
             body:JSON.stringify({
 
-
                 phone:user.phone,
-
 
                 amount:amount,
 
-
                 grade:grade,
-
 
                 wallet:wallet
 
-
             })
 
-
         });
-
-
 
 
 
@@ -804,53 +972,33 @@ async function buyProduct(grade, amount){
 
 
 
-
-
         if(!res.ok){
-
 
             alert(data.error || "Investment failed");
 
-
             return;
-
 
         }
 
 
 
+        alert(data.message || "Investment successful");
 
 
-        alert(
-            data.message || "Investment successful"
-        );
-
-
-
-        window.location.href="investments.html";
-
-
+        window.location.href="products.html";
 
 
     }
 
     catch(err){
 
-
         console.log("BUY ERROR:",err);
 
-
-        alert(
-            "Server connection failed"
-        );
-
+        alert("Server connection failed");
 
     }
 
-
-
 }
-
 
 
 
