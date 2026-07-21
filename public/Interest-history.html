@@ -1,145 +1,767 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Interest History</title>
+
+<title>Smartearn Interest History</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f4f7fb;
+
+*{
+box-sizing:border-box;
 }
+
+
+
+body{
+
+
+margin:0;
+
+
+font-family:
+
+
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+
+color:white;
+
+
+overflow-x:hidden;
+
+
+}
+
+
+
+
+
 
 /* TOP BAR */
+
+
 .topbar{
-    background:#0099ff;
-    color:white;
-    padding:15px;
-    font-size:18px;
-    font-weight:bold;
-    text-align:center;
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+color:white;
+
+
+padding:20px;
+
+
+
+text-align:center;
+
+
+font-size:22px;
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
 }
+
+
+
+
+
+
 
 /* CONTAINER */
+
+
 .container{
-    padding:15px;
+
+
+padding:15px;
+
+
 }
 
-/* CARD */
+
+
+
+
+
+/* CRYSTAL CARD */
+
+
 .card{
-    background:white;
-    border-radius:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
-    overflow:hidden;
+
+
+position:relative;
+
+
+border-radius:25px;
+
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border:
+
+
+2px solid rgba(255,255,255,.35);
+
+
+
+backdrop-filter:blur(15px);
+
+
+
+box-shadow:
+
+
+0 0 25px rgba(0,198,255,.45),
+
+
+inset 0 0 20px rgba(255,255,255,.15);
+
+
+
+overflow:hidden;
+
+
+
 }
 
-/* TABLE STYLE */
-table{
-    width:100%;
-    border-collapse:collapse;
+
+
+
+
+
+/* SHINE EFFECT */
+
+
+.card::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:80px;
+
+
+height:200%;
+
+
+
+background:
+
+
+rgba(255,255,255,.35);
+
+
+
+transform:
+
+
+rotate(35deg);
+
+
+
+left:-120px;
+
+
+top:-50px;
+
+
+
+animation:
+
+
+shine 5s infinite;
+
+
+
 }
+
+
+
+
+@keyframes shine{
+
+
+0%{
+
+left:-120px;
+
+}
+
+
+50%,100%{
+
+left:350px;
+
+}
+
+
+}
+
+
+
+
+
+/* TABLE */
+
+
+table{
+
+
+width:100%;
+
+
+border-collapse:collapse;
+
+
+
+}
+
+
+
+
 
 th{
-    background:#f1f5f9;
-    text-align:left;
-    padding:12px;
-    font-size:13px;
-    color:#555;
+
+
+background:
+
+
+rgba(0,198,255,.2);
+
+
+
+color:white;
+
+
+padding:13px;
+
+
+font-size:12px;
+
+
+text-align:left;
+
+
+
 }
+
+
+
+
 
 td{
-    padding:12px;
-    font-size:13px;
-    border-bottom:1px solid #eee;
+
+
+padding:13px;
+
+
+font-size:13px;
+
+
+color:white;
+
+
+border-bottom:
+
+
+1px solid rgba(255,255,255,.15);
+
+
+
 }
 
-/* EMPTY STATE */
-.empty{
-    text-align:center;
-    padding:20px;
-    color:gray;
-}
+/* INTEREST AMOUNT */
 
-/* BACK BUTTON */
-.back-btn{
-    margin:15px;
-    width:calc(100% - 30px);
-    padding:12px;
-    background:#222;
-    color:white;
-    border:none;
-    border-radius:12px;
-    font-size:14px;
-}
 
-/* AMOUNT COLORS */
 .credit{
-    color:#16a34a;
-    font-weight:bold;
+
+
+color:#00ff88;
+
+
+font-weight:bold;
+
+
+font-size:16px;
+
+
+
+text-shadow:
+
+
+0 0 10px #00ff88;
+
+
+
 }
+
+
+
+
 
 .date{
-    font-size:12px;
-    color:#777;
+
+
+font-size:12px;
+
+
+color:#d8eaff;
+
+
+
 }
+
+
+
+
+
+
+
+/* EMPTY STATE */
+
+
+.empty{
+
+
+text-align:center;
+
+
+padding:25px;
+
+
+color:#ddd;
+
+
+font-size:14px;
+
+
+
+}
+
+
+
+
+
+
+/* BACK BUTTON (OPTIONAL) */
+
+
+.back-btn{
+
+
+margin:15px;
+
+
+width:calc(100% - 30px);
+
+
+
+padding:14px;
+
+
+border:none;
+
+
+border-radius:20px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#8a2be2,
+#0072ff
+);
+
+
+
+color:white;
+
+
+font-size:15px;
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 20px cyan;
+
+
+
+}
+
+
+
+
+
+
 
 /* BOTTOM NAV */
+
+
 .bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:white;
-    display:flex;
-    justify-content:space-around;
-    padding:10px;
-    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+
+
+position:fixed;
+
+
+bottom:0;
+
+
+left:0;
+
+
+right:0;
+
+
+
+display:flex;
+
+
+justify-content:space-around;
+
+
+
+padding:10px 5px;
+
+
+
+background:
+
+
+rgba(255,255,255,.9);
+
+
+
+backdrop-filter:blur(15px);
+
+
+
+box-shadow:
+
+
+0 -5px 25px rgba(0,198,255,.5);
+
+
+
+z-index:9999;
+
+
+
 }
+
+
+
+
 
 .bottom-nav a{
-    text-decoration:none;
-    color:#0099ff;
-    font-size:13px;
+
+
+flex:1;
+
+
+text-align:center;
+
+
+text-decoration:none;
+
+
+color:#0072ff;
+
+
+font-size:11px;
+
+
+font-weight:bold;
+
+
+
 }
 
+
+
+
+
+.bottom-nav span{
+
+
+display:block;
+
+
+font-size:18px;
+
+
+
+}
+
+
+
+
+
 .space{
-    height:70px;
+
+
+height:90px;
+
+
+
+}
+
+
+
+
+
+
+@media(max-width:600px){
+
+
+th,td{
+
+
+padding:10px;
+
+
+font-size:11px;
+
+
+}
+
+
+
+.topbar{
+
+
+font-size:20px;
+
+
+}
+
+
 }
 </style>
 </head>
 
 <body>
 
-<div class="topbar">Interest History</div>
 
-<div class="container">
+<div class="topbar">
 
-    <div class="card">
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Invested</th>
-                    <th>Interest</th>
-                </tr>
-            </thead>
-
-            <tbody id="history">
-                <tr><td colspan="3" class="empty">Loading...</td></tr>
-            </tbody>
-        </table>
-    </div>
+📈💎 Interest History 💎📈
 
 </div>
 
 
 
+
+
+<div class="container">
+
+
+<div class="card">
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>
+Date
+</th>
+
+
+<th>
+Invested
+</th>
+
+
+<th>
+Interest
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+
+<tbody id="history">
+
+
+<tr>
+
+
+<td colspan="3" class="empty">
+
+Loading...
+
+</td>
+
+
+</tr>
+
+
+</tbody>
+
+
+
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
 <div class="space"></div>
 
+
+
+
+
+
+
 <!-- BOTTOM NAV -->
+
+
 <div class="bottom-nav">
-    <a href="dashboard.html">Home</a>
+
+
+<a href="dashboard.html">
+
+<span>
+🏠
+</span>
+
+HOME
+
+</a>
+
+
+
+
+<a href="deposit.html">
+
+<span>
+💰
+</span>
+
+DEPOSIT
+
+</a>
+
+
+
+
+<a href="products.html">
+
+<span>
+💎
+</span>
+
+PRODUCTS
+
+</a>
+
+
+
+
+<a href="Transactions.html">
+
+<span>
+📊
+</span>
+
+HISTORY
+
+</a>
+
+
+
+
+<a href="login.html">
+
+<span>
+🚪
+</span>
+
+EXIT
+
+</a>
+
+
+
 </div>
 
 <script>
