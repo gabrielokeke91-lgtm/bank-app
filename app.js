@@ -333,10 +333,10 @@ app.post("/signup", (req, res) => {
                     (err2, refUser) => {
 
                         const validRef =
-                            (!err2 && refUser && refUser.length > 0)
+                            (!err2 && refUser && refUser.length > 0);
                                 ? referredBy
                                 : null;
-
+                    
                         insertUser(validRef);
                     }
                 );
@@ -347,7 +347,6 @@ app.post("/signup", (req, res) => {
         }
     );
 });
-
 // =================user LOGIN =================
 app.post("/login", (req, res) => {
 
@@ -653,7 +652,7 @@ app.post("/ezeaguuy/deposit/approve", (req, res) => {
             );
         }
     );
-});
+);
 //referral history
 app.get("/referral-history/:userId", (req, res) => {
 
