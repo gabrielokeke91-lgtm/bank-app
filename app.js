@@ -617,12 +617,9 @@ app.post("/ezeaguuy/deposit/approve", (req, res) => {
                             // CREDIT REFERRER
                             db.query(
     `UPDATE users
-     SET referral_amount = referral_amount + ?
-     WHERE id=?`,
-    [commissionAmount, referrerId],
-    (err)=>{
-        if(err) console.log(err);
-    }
+     SET referral_amount = referral_amount + 1100
+     WHERE id=referrer_id`,
+    
 );
 
                             // 💥 FIXED INSERT (THIS WAS YOUR MAIN BUG)
