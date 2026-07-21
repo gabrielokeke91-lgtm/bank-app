@@ -1,165 +1,854 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Transactions</title>
+<head>
+
+<title>Smartearn Transactions</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f4f7fb;
+
+*{
+box-sizing:border-box;
 }
+
+
+
+body{
+
+margin:0;
+
+font-family:
+"Segoe UI",
+Arial,
+sans-serif;
+
+
+background:
+
+linear-gradient(
+135deg,
+#050b2c,
+#182848,
+#000814
+);
+
+
+color:white;
+
+overflow-x:hidden;
+
+
+}
+
+
+
 
 /* TOP BAR */
+
+
 .topbar{
-    background:#0099ff;
-    color:white;
-    padding:15px;
-    font-size:18px;
-    font-weight:bold;
-    text-align:center;
+
+
+padding:18px;
+
+
+text-align:center;
+
+
+font-size:22px;
+
+
+font-weight:bold;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#00c6ff,
+#0072ff
+);
+
+
+
+box-shadow:
+
+
+0 0 25px cyan;
+
+
+
 }
+
+
+
+
+
 
 /* CONTAINER */
+
+
 .container{
-    padding:15px;
+
+
+padding:15px;
+
+
+
 }
 
-/* CARD */
+
+
+
+
+
+
+/* CRYSTAL CARD */
+
+
 .card{
-    background:white;
-    border-radius:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
-    overflow:hidden;
+
+
+position:relative;
+
+
+background:
+
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.35),
+rgba(255,255,255,.05)
+);
+
+
+
+border-radius:25px;
+
+
+
+border:
+
+2px solid rgba(255,255,255,.35);
+
+
+
+backdrop-filter:blur(15px);
+
+
+
+box-shadow:
+
+
+0 0 25px rgba(0,198,255,.45),
+
+
+inset 0 0 20px rgba(255,255,255,.15);
+
+
+
+overflow:hidden;
+
+
 }
+
+
+
+
+
+/* SHINE EFFECT */
+
+
+.card::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:80px;
+
+
+height:200%;
+
+
+
+background:
+
+
+rgba(255,255,255,.35);
+
+
+
+transform:
+
+
+rotate(35deg);
+
+
+
+left:-120px;
+
+
+top:-50px;
+
+
+
+animation:
+
+
+shine 5s infinite;
+
+
+
+}
+
+
+
+@keyframes shine{
+
+
+0%{
+
+left:-120px;
+
+}
+
+
+50%,100%{
+
+left:350px;
+
+}
+
+
+}
+
+
+
+
 
 /* TABLE */
+
+
 table{
-    width:100%;
-    border-collapse:collapse;
+
+
+width:100%;
+
+
+border-collapse:collapse;
+
+
+
 }
+
+
+
+
 
 th{
-    background:#f1f5f9;
-    color:#555;
-    font-size:12px;
-    text-align:left;
-    padding:12px;
+
+
+background:
+
+
+rgba(0,198,255,.2);
+
+
+
+color:white;
+
+
+font-size:12px;
+
+
+padding:12px;
+
+
+text-align:left;
+
+
+
 }
 
+
+
+
+
 td{
-    padding:12px;
-    font-size:13px;
-    border-bottom:1px solid #eee;
+
+
+padding:12px;
+
+
+font-size:13px;
+
+
+border-bottom:
+
+
+1px solid rgba(255,255,255,.15);
+
+
+
+color:white;
+
+
+
+}
+
+
+
+
+tr:hover{
+
+
+background:
+
+
+rgba(0,198,255,.15);
+
+
+
 }
 
 /* STATUS BADGES */
+
+
 .status{
-    padding:5px 10px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:bold;
+
+
+padding:6px 12px;
+
+
+border-radius:20px;
+
+
+font-size:11px;
+
+
+font-weight:bold;
+
+
+
+display:inline-block;
+
+
+
 }
+
+
 
 .success{
-    background:#dcfce7;
-    color:#16a34a;
+
+
+background:
+
+
+rgba(0,255,120,.2);
+
+
+
+color:#00ff88;
+
+
+
+box-shadow:
+
+
+0 0 10px #00ff88;
+
+
+
 }
+
+
 
 .pending{
-    background:#fef9c3;
-    color:#a16207;
+
+
+background:
+
+
+rgba(255,220,0,.2);
+
+
+
+color:#ffe600;
+
+
+
+box-shadow:
+
+
+0 0 10px #ffe600;
+
+
+
 }
+
+
 
 .failed{
-    background:#fee2e2;
-    color:#dc2626;
+
+
+background:
+
+
+rgba(255,0,80,.2);
+
+
+
+color:#ff6688;
+
+
+
+box-shadow:
+
+
+0 0 10px #ff3366;
+
+
+
 }
 
-/* EMPTY */
+
+
+
+
+
+/* EMPTY MESSAGE */
+
+
 .empty{
-    text-align:center;
-    padding:20px;
-    color:gray;
+
+
+text-align:center;
+
+
+padding:25px;
+
+
+color:#ddd;
+
+
+font-size:14px;
+
+
+
 }
+
+
+
+
 
 /* BACK BUTTON */
+
+
 .back-btn{
-    margin:15px;
-    width:calc(100% - 30px);
-    padding:12px;
-    background:#222;
-    color:white;
-    border:none;
-    border-radius:12px;
-    font-size:14px;
+
+
+margin:15px;
+
+
+width:calc(100% - 30px);
+
+
+padding:14px;
+
+
+border:none;
+
+
+border-radius:20px;
+
+
+
+background:
+
+
+linear-gradient(
+90deg,
+#8a2be2,
+#0072ff
+);
+
+
+
+color:white;
+
+
+font-size:15px;
+
+
+font-weight:bold;
+
+
+
+box-shadow:
+
+
+0 0 20px cyan;
+
+
+
 }
 
-/* ROW STYLE (CARD FEEL ON MOBILE) */
-tr:hover{
-    background:#f9fafb;
+
+
+
+
+
+.back-btn:active{
+
+
+transform:scale(.96);
+
+
+
 }
+
+
+
+
+
 
 /* BOTTOM NAV */
+
+
 .bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:white;
-    display:flex;
-    justify-content:space-around;
-    padding:10px;
-    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+
+
+position:fixed;
+
+
+bottom:0;
+
+
+left:0;
+
+
+right:0;
+
+
+
+display:flex;
+
+
+justify-content:space-around;
+
+
+
+padding:10px 5px;
+
+
+
+background:
+
+
+rgba(255,255,255,.9);
+
+
+
+backdrop-filter:blur(15px);
+
+
+
+box-shadow:
+
+
+0 -5px 25px rgba(0,198,255,.5);
+
+
+
+z-index:9999;
+
+
+
 }
+
+
+
+
 
 .bottom-nav a{
-    text-decoration:none;
-    color:#0099ff;
-    font-size:13px;
+
+
+flex:1;
+
+
+text-align:center;
+
+
+text-decoration:none;
+
+
+color:#0072ff;
+
+
+font-size:11px;
+
+
+font-weight:bold;
+
+
+
 }
 
-.space{
-    height:70px;
+
+
+
+
+.bottom-nav span{
+
+
+display:block;
+
+
+font-size:18px;
+
+
+
 }
-</style>
-</head>
+
+
+
+
+
+.space{
+
+
+height:90px;
+
+
+
+}
+
+
+
+
+
+@media(max-width:600px){
+
+
+th,td{
+
+
+font-size:11px;
+
+
+padding:10px;
+
+
+
+}
+
+
+
+.topbar{
+
+
+font-size:20px;
+
+
+}
+
+
+}
 
 <body>
 
-<div class="topbar">Transactions</div>
+
+<div class="topbar">
+
+💎 Smartearn Transactions 💎
+
+</div>
+
+
+
+
 
 <div class="container">
 
-    <div class="card">
-        <table>
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
 
-            <tbody id="txnBody">
-                <tr><td colspan="4" class="empty">Loading...</td></tr>
-            </tbody>
-        </table>
-    </div>
+<div class="card">
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>
+Type
+</th>
+
+
+<th>
+Amount
+</th>
+
+
+<th>
+Status
+</th>
+
+
+<th>
+Date
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+
+<tbody id="txnBody">
+
+
+<tr>
+
+<td colspan="4" class="empty">
+
+Loading...
+
+</td>
+
+
+</tr>
+
+
+</tbody>
+
+
+
+
+</table>
+
 
 </div>
 
-<button class="back-btn" onclick="goBack()">⬅️ Back to Dashboard</button>
+
+</div>
+
+
+
+
+
+
+
+<button class="back-btn" onclick="goBack()">
+
+⬅️ Back to Dashboard
+
+</button>
+
+
+
+
+
+
+
 
 <div class="space"></div>
 
+
+
+
+
+
 <!-- BOTTOM NAV -->
+
+
 <div class="bottom-nav">
-    <a href="dashboard.html">Home</a>
+
+
+<a href="dashboard.html">
+
+<span>
+🏠
+</span>
+
+HOME
+
+</a>
+
+
+
+
+<a href="deposit.html">
+
+<span>
+💰
+</span>
+
+DEPOSIT
+
+</a>
+
+
+
+
+<a href="products.html">
+
+<span>
+💎
+</span>
+
+PRODUCTS
+
+</a>
+
+
+
+
+<a href="Transactions.html">
+
+<span>
+📊
+</span>
+
+HISTORY
+
+</a>
+
+
+
+
+<a href="login.html">
+
+<span>
+🚪
+</span>
+
+EXIT
+
+</a>
+
+
+
 </div>
 
+
+
+</body>
 <script>
 const API = "https://smartearn.onrender.com";
 
