@@ -294,37 +294,61 @@ app.post("/signup", (req, res) => {
             }
 
             const referralCode = generateReferralCode();
+function insertUser(validRef) {
 
-            function insertUser(validRef) {
+    db.query(
+        `INSERT INTO users 
+        (
+        phone,
+        password,
+        balance,
+        withdrawable_balance,
+        total_invested,
+        total_returns,
+        status,
+        role,
+        referral_code,
+        referred_by,
+        referral_amount
+        )
+        VALUES (?, ?, 0, 0, 0, 0, 'active', 'user', ?, ?, 0)`,
+        [
+            phone,
+            password,
+            referralCode,
+            validRef
+        ],
+        (err3) => {
 
-                db.query(
-                    `INSERT INTO users 
-                    (phone, password, balance, withdrawable_balance, total_invested, total_returns, status, role, referral_code, referred_by,referral_amount)
-                    VALUES (?, ?, 0, 0, 0, 0, 'active', 'user', ?, ?,0)`,
-                    [phone, password, referralCode, validRef],
-                    (err3) => {
-
-                        if (err3) {
-                            console.log("SIGNUP ERROR:", err3);
-                            return res.status(500).json({ error: "Signup failed" });
-                        }
-
-                        db.query(
-                            "SELECT id, phone, referral_code, balance FROM users WHERE phone=?",
-                            [phone],
-                            (err4, users) => {
-
-                                if (err4) {
-                                    return res.status(500).json({ error: "DB error" });
-                                }
-
-                                return res.json(users[0]);
-                            }
-                        );
-                    }
-                );
+            if (err3) {
+                console.log("SIGNUP ERROR:", err3);
+                return res.status(500).json({
+                    error: "Signup failed"
+                });
             }
 
+
+            db.query(
+                "SELECT id, phone, referral_code, balance FROM users WHERE phone=?",
+                [phone],
+                (err4, users) => {
+
+                    if (err4) {
+                        return res.status(500).json({
+                            error: "DB error"
+                        });
+                    }
+
+                    return res.json(users[0]);
+
+                }
+            );
+
+        }
+    );
+
+}
+            
             if (referredBy) {
 
                 db.query(
@@ -555,21 +579,27 @@ app.post("/ezeaguuy/deposit/approve", (req, res) => {
         return res.status(400).json({ error: "Missing deposit id" });
     }
 
+
     db.query(
         "SELECT * FROM transactions WHERE id=?",
         [id],
         (err, trx) => {
 
+
             if (err) {
                 return res.status(500).json({ error: "DB error" });
             }
+
 
             if (!trx || trx.length === 0) {
                 return res.status(404).json({ error: "Transaction not found" });
             }
 
+
             const amount = Number(trx[0].amount || 0);
             const user_id = trx[0].user_id;
+
+
 
             // APPROVE TRANSACTION
             db.query(
@@ -577,11 +607,15 @@ app.post("/ezeaguuy/deposit/approve", (req, res) => {
                 [id]
             );
 
+
+
             // CREDIT USER BALANCE
             db.query(
                 "UPDATE users SET balance = balance + ? WHERE id=?",
                 [amount, user_id]
             );
+
+
 
             // CHECK REFERRAL INFO
             db.query(
@@ -589,53 +623,119 @@ app.post("/ezeaguuy/deposit/approve", (req, res) => {
                 [user_id],
                 (err2, userRes) => {
 
+
                     if (err2 || !userRes || userRes.length === 0) {
-                        return res.json({ message: "Deposit approved" });
+
+                        return res.json({
+                            message:"Deposit approved"
+                        });
+
                     }
+
+
 
                     const referredBy = userRes[0].referred_by;
                     const alreadyPaid = userRes[0].referral_bonus_paid;
 
+
+
                     if (!referredBy || alreadyPaid === 1) {
-                        return res.json({ message: "Deposit approved" });
+
+                        return res.json({
+                            message:"Deposit approved"
+                        });
+
                     }
 
+
+
+
+                    // FIND REFERRER
                     db.query(
                         "SELECT id FROM users WHERE referral_code=?",
                         [referredBy],
                         (err3, refUser) => {
 
+
+
                             if (err3 || !refUser || refUser.length === 0) {
-                                return res.json({ message: "Deposit approved" });
+
+                                return res.json({
+                                    message:"Deposit approved"
+                                });
+
                             }
+
+
 
                             const refId = refUser[0].id;
 
+
                             const commission = amount * 0.11;
 
-                            // CREDIT REFERRER
-                          `UPDATE users
-     SET referral_amount = referral_amount + ?
-     WHERE id=?`,
-    [commissionAmount, referrerId],
-    (err)=>{
-        if(err) console.log(err);
-    }
-);
 
-                            // 💥 FIXED INSERT (THIS WAS YOUR MAIN BUG)
+
+                            // CREDIT REFERRAL WALLET ONLY
                             db.query(
-                                `INSERT INTO referral_commission 
-                                (referrer_id, referred_user_id, deposit_id, deposit_amount, commission_amount)
-                                VALUES (?, ?, ?, ?, ?)`,
+                                `
+                                UPDATE users
+                                SET referral_amount = COALESCE(referral_amount,0) + ?
+                                WHERE id=?
+                                `,
+                                [
+                                    commission,
+                                    refId
+                                ],
+                                (err4)=>{
+
+                                    if(err4){
+                                        console.log(
+                                            "Referral credit error:",
+                                            err4
+                                        );
+                                    }
+
+                                }
+                            );
+
+
+
+
+                            // SAVE REFERRAL COMMISSION HISTORY
+                            db.query(
+                                `
+                                INSERT INTO referral_commission
+                                (
+                                    referrer_id,
+                                    referred_user_id,
+                                    deposit_id,
+                                    deposit_amount,
+                                    commission_amount
+                                )
+                                VALUES (?, ?, ?, ?, ?)
+                                `,
                                 [
                                     refId,
                                     user_id,
                                     id,
                                     amount,
                                     commission
-                                ]
+                                ],
+                                (err5)=>{
+
+                                    if(err5){
+                                        console.log(
+                                            "Referral commission insert error:",
+                                            err5
+                                        );
+                                    }
+
+                                }
                             );
+
+
+
+
 
                             // MARK BONUS PAID
                             db.query(
@@ -643,16 +743,32 @@ app.post("/ezeaguuy/deposit/approve", (req, res) => {
                                 [user_id]
                             );
 
+
+
+
                             return res.json({
-                                message: "Deposit approved + referral commission saved"
+
+                                message:
+                                "Deposit approved + referral commission saved"
+
                             });
+
+
+
                         }
                     );
+
+
+
                 }
             );
+
+
+
         }
     );
-);
+
+});
 //referral history
 app.get("/referral-history/:userId", (req, res) => {
 
