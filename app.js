@@ -959,7 +959,7 @@ db.query(
             );
         }
     );
-});
+
 
 // bank details update`
 app.post("/bank-details", (req, res) => {
@@ -1167,7 +1167,7 @@ app.post("/ezeaguuy/approve-withdraw", (req, res) => {
             );
         }
     );
-});
+
 
 app.post("/ezeaguuy/withdrawals/approve", (req, res) => {
 
