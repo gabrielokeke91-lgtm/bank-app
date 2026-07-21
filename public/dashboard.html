@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
-<title>Dashboard</title>
+<title>Smartearn Dashboard</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -24,14 +23,16 @@ body{
     Arial,
     sans-serif;
 
+
     background:
 
-    radial-gradient(
-    circle at top,
-    #b026ff,
-    #4b0082 40%,
-    #12002b
+    linear-gradient(
+    135deg,
+    #050b2c,
+    #182848,
+    #000814
     );
+
 
     color:white;
 
@@ -41,15 +42,16 @@ body{
 
 
 
-/* HEADER */
+/* TOP HEADER */
 
 .header{
+
 
     display:flex;
 
     align-items:center;
 
-    gap:12px;
+    gap:15px;
 
     padding:18px;
 
@@ -57,9 +59,9 @@ body{
     background:
 
     linear-gradient(
-    135deg,
+    145deg,
     rgba(255,255,255,.35),
-    rgba(138,43,226,.35)
+    rgba(0,198,255,.15)
     );
 
 
@@ -73,21 +75,24 @@ body{
 
     box-shadow:
 
-    0 10px 35px rgba(0,0,0,.4);
+    0 0 25px rgba(0,198,255,.5);
+
 
 }
 
 
 
-/* PROFILE ICON */
+/* PROFILE */
 
 .profile-icon{
 
-    width:45px;
 
-    height:45px;
+    width:50px;
+
+    height:50px;
 
     border-radius:50%;
+
 
     overflow:hidden;
 
@@ -99,9 +104,11 @@ body{
 
     box-shadow:
 
-    0 0 20px #e0b0ff;
+    0 0 20px cyan;
+
 
 }
+
 
 
 .profile-icon img{
@@ -118,36 +125,9 @@ body{
 
 /* WELCOME */
 
-.welcome-box{
-
-    animation:
-    welcomeFloat 2s infinite alternate;
-
-}
-
-
-@keyframes welcomeFloat{
-
-from{
-
-transform:translateY(0);
-
-}
-
-
-to{
-
-transform:translateY(-4px);
-
-}
-
-}
-
-
-
 .welcome-text{
 
-    font-size:18px;
+    font-size:20px;
 
     font-weight:bold;
 
@@ -157,250 +137,917 @@ transform:translateY(-4px);
 
 .user-number{
 
+
     margin-left:5px;
-
-    font-size:14px;
-
-    font-weight:bold;
 
 
     background:
 
     linear-gradient(
     90deg,
-    #ffffff,
-    #ffd700,
-    #e0c3fc
+    cyan,
+    white,
+    gold
     );
 
 
-    background-clip:text;
-
     -webkit-background-clip:text;
 
-    -webkit-text-fill-color:transparent;
+    color:transparent;
+
+
+    font-weight:bold;
 
 }
 
-/* BOTTOM NAV */  
-  
-  
-.bottom-nav{  
-  
-    position:fixed;  
-  
-    bottom:0;  
-  
-    left:0;  
-  
-    right:0;  
-  
-    background:#bfc3ce;  
-  
-    display:flex;  
-  
-    justify-content:space-around;  
-  
-    padding:5px;  
-  
-    z-index:9999;  
-  
-}  
-  
-  
-  
-.bottom-nav a{  
-  
-    flex:1;  
-  
-    text-align:center;  
-  
-    text-decoration:none;  
-  
-    color:#333;  
-  
-    font-size:9px;  
-  
-}  
-  
-  
-  
-.bottom-nav span{  
-  
-    display:block;  
-  
-    font-size:14px;  
-  
-}  
-  
-/* TIME */  
-  
-  
-.top-time{  
-  
-    position:fixed;  
-  
-    top:5px;  
-  
-    right:5px;  
-  
-    background:rgb(53, 186, 30);  
-  
-    padding:5px;  
-  
-    border-radius:8px;  
-  
-    font-size:10px;  
-  
-    z-index:999;  
-  
-}  
 
-.card{  
-  
-    background:diamond;  
-    padding:12px;  
-    border-radius:15px;  
-    box-shadow:0 5px 15px rgba(32, 224, 160, 0.08);  
-    min-height: 120;  
-      
-}  
-  
-  
-.full{  
-  
-    grid-column:span 2;  
-  
-}  
-  
-  
-  
-.card h2{  
-  
-    font-size:14px;  
-    margin:0;  
-    color:#555;  
-  
-}  
-  
-  
-  
-.value{  
-  
-    font-size:20px;  
-    font-weight:bold;  
-    margin-top:8px;  
-  
-}  
-  
-  
-  
-#balance{  
-  
-    color:#8b4513;  
-  
-}  
-  
-  
-#totalInvested{  
-  
-    color:#d4af37;  
-  
-}  
-  
-  
-.returns{  
-  
-    color:#00c853;  
-  
-}  
-.referralwallet{  
-  
-    color:#00c851;  
-  
-}  
 
-/* DEPOSIT & WITHDRAW BUTTON AREA */  
-  
-.action-buttons{  
-  
-    display:flex;  
-    justify-content:left;  
-    align-items:left;  
-    gap:12px;  
-    margin:10px 0 15px;  
-  
-}  
-  
-  
-.action-buttons button{  
-  
-    width:115px;  
-    height:30px;  
-    border-radius:15px;  
-    font-size:14px;  
-  
-}  
-  
-.about-btn,  
-.help-btn,  
-.myinvestment-btn{  
-  
-    display:inline-block;  
-  
-    padding:12px 12px;  
-  
-    border-radius:20px;  
-  
-    text-decoration:none;  
-  
-    color:white;  
-  
-    font-size:12px;  
-  
-    font-weight:bold;  
-  
-    margin:5px;  
-  
-}  
-  
-  
-  
-.about-btn{  
-  
-    background:#876076;  
-  
-}  
-  
-  
-  
-.help-btn{  
-  
-    background:#53ed0d;  
-  
-}  
-  
-  
-  
-.myinvestment-btn{  
-  
-    background:#53ed8d;  
-  
-}  
-  
-  
+/* ADVERTISEMENT */
 
-/* AVIATOR CRYSTAL BUTTON */
+
+.dashboard-ad{
+
+
+    padding:15px;
+
+
+}
+
+
+
+.dashboard-ad img{
+
+
+    width:100%;
+
+
+    height:160px;
+
+
+    object-fit:cover;
+
+
+    border-radius:22px;
+
+
+    box-shadow:
+
+
+    0 0 25px cyan;
+
+
+}
+
+
+
+/* TIME */
+
+
+.top-time{
+
+
+    position:fixed;
+
+
+    top:10px;
+
+
+    right:10px;
+
+
+    background:
+
+
+    rgba(0,255,100,.8);
+
+
+    padding:6px;
+
+
+    border-radius:10px;
+
+
+    font-size:10px;
+
+
+    z-index:999;
+
+}
+
+/* MAIN DASHBOARD GRID */
+
+
+.container{
+
+    padding:15px;
+
+}
+
+
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:15px;
+
+}
 
 
 
 
+/* CRYSTAL CARD */
 
 
-</style>
+.card,
+.balance-card{
 
-</head>
 
+    position:relative;
+
+
+    padding:18px 12px;
+
+
+    border-radius:25px;
+
+
+
+    background:
+
+
+    linear-gradient(
+    145deg,
+    rgba(255,255,255,.35),
+    rgba(255,255,255,.05)
+    );
+
+
+
+    border:
+
+    2px solid rgba(255,255,255,.35);
+
+
+
+    backdrop-filter:blur(15px);
+
+
+
+    box-shadow:
+
+
+    0 0 25px rgba(0,198,255,.45),
+
+
+    inset 0 0 20px rgba(255,255,255,.15);
+
+
+
+    overflow:hidden;
+
+
+
+}
+
+
+
+/* SHINING EFFECT */
+
+
+.card::before,
+.balance-card::before{
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    width:70px;
+
+
+    height:200%;
+
+
+    background:
+
+
+    rgba(255,255,255,.35);
+
+
+
+    transform:
+
+    rotate(35deg);
+
+
+
+    left:-120px;
+
+
+    top:-50px;
+
+
+
+    animation:
+
+    crystalShine 5s infinite;
+
+
+
+}
+
+
+
+
+@keyframes crystalShine{
+
+
+0%{
+
+left:-120px;
+
+}
+
+
+50%,100%{
+
+left:300px;
+
+}
+
+
+}
+
+
+
+
+/* CARD TITLES */
+
+
+.card h2,
+.balance-card h4{
+
+
+    font-size:14px;
+
+
+    color:white;
+
+
+    margin:0;
+
+
+
+    text-shadow:
+
+    0 0 8px cyan;
+
+
+}
+
+
+
+
+
+/* VALUES */
+
+
+.value{
+
+
+    margin-top:12px;
+
+
+    font-size:22px;
+
+
+    font-weight:bold;
+
+
+
+    color:white;
+
+
+    text-shadow:
+
+
+    0 0 10px cyan;
+
+
+
+}
+
+
+
+
+
+/* MAIN BALANCE COLOR */
+
+
+#balance{
+
+
+    color:#00ffff;
+
+
+}
+
+
+
+
+
+/* INVESTMENT */
+
+
+#totalInvested{
+
+
+    color:#ffd700;
+
+
+}
+
+
+
+
+
+/* RETURNS */
+
+
+.returns{
+
+
+    color:#00ff88;
+
+
+}
+
+
+
+
+
+/* REFERRAL WALLET */
+
+
+.referralwallet{
+
+
+    color:#ff66ff;
+
+
+}
+
+
+
+#referralAmount{
+
+
+    color:#00ffcc;
+
+
+    font-size:22px;
+
+
+    font-weight:bold;
+
+
+}
+
+
+
+
+
+/* FULL WIDTH CARD */
+
+
+.full{
+
+
+    grid-column:span 2;
+
+
+}
+
+
+
+
+/* ACTION BUTTONS */
+
+
+.action-buttons{
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    gap:15px;
+
+
+    padding:10px 15px;
+
+
+}
+
+
+
+
+.action-buttons button{
+
+
+    width:130px;
+
+
+    height:40px;
+
+
+    border:none;
+
+
+    border-radius:20px;
+
+
+
+    background:
+
+
+    linear-gradient(
+    90deg,
+    #00ffcc,
+    #0072ff
+    );
+
+
+
+    color:white;
+
+
+    font-weight:bold;
+
+
+    box-shadow:
+
+
+    0 0 15px cyan;
+
+
+
+}
+
+
+
+.action-buttons button:active{
+
+
+    transform:scale(.95);
+
+
+}
+
+
+
+/* OTHER LINKS */
+
+
+.action-links{
+
+
+    text-align:center;
+
+
+    padding:10px;
+
+
+}
+
+
+
+.about-btn,
+.help-btn,
+.myinvestment-btn{
+
+
+    display:inline-block;
+
+
+    padding:12px 15px;
+
+
+    margin:5px;
+
+
+    border-radius:20px;
+
+
+    text-decoration:none;
+
+
+    color:white;
+
+
+    font-size:12px;
+
+
+    font-weight:bold;
+
+
+
+    background:
+
+
+    linear-gradient(
+    90deg,
+    #8a2be2,
+    #00c6ff
+    );
+
+
+
+    box-shadow:
+
+
+    0 0 15px cyan;
+
+
+
+}
+
+/* BONUS AND REFERRAL ROW */
+
+
+.bonus-ref-row{
+
+
+    display:grid;
+
+
+    grid-template-columns:repeat(2,1fr);
+
+
+    gap:15px;
+
+
+    padding:15px;
+
+
+}
+
+
+
+/* BONUS BOX */
+
+
+#bonusBox,
+.ref-box{
+
+
+    position:relative;
+
+
+    padding:15px;
+
+
+    border-radius:22px;
+
+
+    background:
+
+
+    linear-gradient(
+    145deg,
+    rgba(255,255,255,.3),
+    rgba(255,255,255,.05)
+    );
+
+
+    border:
+
+    2px solid rgba(255,255,255,.35);
+
+
+
+    backdrop-filter:blur(12px);
+
+
+
+    box-shadow:
+
+
+    0 0 25px rgba(0,255,255,.35);
+
+
+
+    text-align:center;
+
+
+
+}
+
+
+
+#bonusBox b,
+.ref-box h3{
+
+
+    color:white;
+
+
+    font-size:16px;
+
+
+    text-shadow:
+
+
+    0 0 10px cyan;
+
+
+
+}
+
+
+
+
+/* INPUT STYLE */
+
+
+#bonusCode,
+#refLink{
+
+
+    width:100%;
+
+
+    padding:10px;
+
+
+    border:none;
+
+
+    border-radius:15px;
+
+
+    outline:none;
+
+
+
+    background:
+
+
+    rgba(255,255,255,.9);
+
+
+
+    color:#111;
+
+
+}
+
+
+
+
+/* BUTTON */
+
+
+#bonusBox button,
+.ref-box button{
+
+
+    width:100%;
+
+
+    margin-top:10px;
+
+
+    padding:10px;
+
+
+    border:none;
+
+
+    border-radius:15px;
+
+
+
+    background:
+
+
+    linear-gradient(
+    90deg,
+    #00ffcc,
+    #0072ff
+    );
+
+
+
+    color:white;
+
+
+    font-weight:bold;
+
+
+    box-shadow:
+
+
+    0 0 15px cyan;
+
+
+}
+
+
+
+/* BOTTOM NAVIGATION */
+
+
+.bottom-nav{
+
+
+    position:fixed;
+
+
+    bottom:0;
+
+
+    left:0;
+
+
+    right:0;
+
+
+    display:flex;
+
+
+    justify-content:space-around;
+
+
+    padding:10px 5px;
+
+
+
+    background:
+
+
+    rgba(255,255,255,.85);
+
+
+
+    backdrop-filter:blur(15px);
+
+
+
+    box-shadow:
+
+
+    0 -5px 25px rgba(0,198,255,.5);
+
+
+
+    z-index:9999;
+
+
+
+}
+
+
+
+
+
+.bottom-nav a{
+
+
+    flex:1;
+
+
+    text-align:center;
+
+
+    text-decoration:none;
+
+
+    color:#0072ff;
+
+
+    font-size:9px;
+
+
+    font-weight:bold;
+
+
+
+}
+
+
+
+
+.bottom-nav span{
+
+
+    display:block;
+
+
+    font-size:18px;
+
+
+    margin-bottom:3px;
+
+
+
+}
+
+
+
+
+
+/* EMPTY SPACE FOR NAV */
+
+
+.space{
+
+
+    height:90px;
+
+
+}
+
+
+
+
+
+/* MOBILE RESPONSIVE */
+
+
+@media(max-width:600px){
+
+
+
+.grid{
+
+
+    grid-template-columns:repeat(2,1fr);
+
+
+}
+
+
+
+.card,
+.balance-card{
+
+
+    min-height:120px;
+
+
+}
+
+
+
+.value{
+
+
+    font-size:19px;
+
+
+}
+
+
+
+.dashboard-ad img{
+
+
+    height:140px;
+
+
+}
+
+
+
+.bonus-ref-row{
+
+
+    grid-template-columns:1fr;
+
+
+}
+
+
+
+.action-buttons button{
+
+
+    width:120px;
+
+
+}
+
+
+
+}
 
 <body>
 
@@ -419,7 +1066,7 @@ alt="Profile">
 
 
 
-<div class="welcome-box">
+<div>
 
 <span class="welcome-text">
 Welcome
@@ -440,30 +1087,43 @@ Welcome
 
 <!-- ADVERTISEMENT -->
 
+
 <div class="dashboard-ad">
+
 
 <img id="advertImage"
 src="images/investment1.jpeg"
-alt="Investment Advert">
+alt="Advertisement">
+
 
 </div>
+
+
+
 
 
 
 <!-- TIME -->
 
+
 <div class="top-time">
+
 
 <div id="date"></div>
 
 <div id="time"></div>
+
 
 </div>
 
 
 
 
-<!-- MAIN CONTAINER -->
+
+
+
+<!-- DASHBOARD CARDS -->
+
 
 <div class="container">
 
@@ -472,9 +1132,11 @@ alt="Investment Advert">
 
 
 
-<!-- BALANCE -->
+<!-- MAIN BALANCE -->
+
 
 <div class="card">
+
 
 <h2>
 💰 Main Balance
@@ -482,16 +1144,20 @@ alt="Investment Advert">
 
 
 <div class="value" id="balance">
+
 ₦0
+
 </div>
 
 
 </div>
-</div>
+
+
 
 
 
 <!-- REFERRAL WALLET -->
+
 
 <div class="balance-card">
 
@@ -501,13 +1167,15 @@ alt="Investment Advert">
 </h4>
 
 
-<h2>
+<div class="value">
+
 
 ₦<span id="referralAmount">
 0
 </span>
 
-</h2>
+
+</div>
 
 
 </div>
@@ -515,7 +1183,9 @@ alt="Investment Advert">
 
 
 
+
 <!-- RETURNS -->
+
 
 <div class="card">
 
@@ -538,7 +1208,7 @@ alt="Investment Advert">
 
 
 
-<!-- TOTAL INVESTED -->
+<!-- INVESTED -->
 
 
 <div class="card full">
@@ -562,7 +1232,17 @@ alt="Investment Advert">
 
 </div>
 
-<!-- ACTION BUTTONS -->
+
+</div>
+
+
+
+
+
+
+
+<!-- DEPOSIT WITHDRAW -->
+
 
 <div class="action-buttons">
 
@@ -572,6 +1252,7 @@ alt="Investment Advert">
 💰 Deposit
 
 </button>
+
 
 
 
@@ -588,13 +1269,15 @@ alt="Investment Advert">
 
 
 
-<!-- BONUS + REFERRAL -->
+
+
+
+<!-- BONUS AND REFERRAL -->
+
 
 <div class="bonus-ref-row">
 
 
-
-<!-- BONUS BOX -->
 
 <div id="bonusBox">
 
@@ -607,12 +1290,11 @@ alt="Investment Advert">
 <br><br>
 
 
+
 <input 
 id="bonusCode"
 placeholder="Enter bonus code">
 
-
-<br><br>
 
 
 <button onclick="claimBonus()">
@@ -629,27 +1311,20 @@ Accept
 
 
 
-<!-- REFERRAL BOX -->
-
 
 <div class="ref-box">
 
 
 <h3>
-
 🔗 Referral Link
-
 </h3>
 
 
 
-<input 
+<input
 id="refLink"
 readonly>
 
-
-
-<br><br>
 
 
 <button onclick="copyLink()">
@@ -664,7 +1339,6 @@ Copy
 
 
 
-
 </div>
 
 
@@ -672,19 +1346,20 @@ Copy
 
 
 
-<!-- OTHER LINKS -->
+
+
+<!-- OTHER BUTTONS -->
+
 
 <div class="action-links">
 
 
-
-<a href="about.html" 
+<a href="about.html"
 class="about-btn">
 
 About
 
 </a>
-
 
 
 
@@ -697,12 +1372,10 @@ Forum
 
 
 
-
-
 <a href="myinvestment.html"
 class="myinvestment-btn">
 
-MY 🛍️ INVESTMENT
+💎 MY INVESTMENT
 
 </a>
 
@@ -710,14 +1383,37 @@ MY 🛍️ INVESTMENT
 
 </div>
 
+
+
+
+
+
+
+
 <!-- BOTTOM NAVIGATION -->
+
 
 <div class="bottom-nav">
 
 
+<a href="dashboard.html">
+
+<span>
+🏠
+</span>
+
+HOME
+
+</a>
+
+
+
+
 <a href="deposit.html">
 
-<span>💰</span>
+<span>
+💰
+</span>
 
 DEP
 
@@ -725,9 +1421,13 @@ DEP
 
 
 
+
+
 <a href="products.html">
 
-<span>💎</span>
+<span>
+💎
+</span>
 
 PRODUCT
 
@@ -736,9 +1436,12 @@ PRODUCT
 
 
 
+
 <a href="Transactions.html">
 
-<span>📊</span>
+<span>
+📊
+</span>
 
 HISTORY
 
@@ -747,9 +1450,12 @@ HISTORY
 
 
 
+
 <a href="referral-commission.html">
 
-<span>🔗</span>
+<span>
+🔗
+</span>
 
 REF
 
@@ -758,20 +1464,11 @@ REF
 
 
 
-<a href="Interest-history.html">
-
-<span>📈</span>
-
-INTEREST
-
-</a>
-
-
-
-
 <a href="login.html">
 
-<span>🚪</span>
+<span>
+🚪
+</span>
 
 OUT
 
@@ -784,72 +1481,10 @@ OUT
 
 
 
-</div>
-<!-- END CONTAINER -->
+
+<div class="space"></div>
 
 
-
-
-
-<style>
-
-
-/* MOBILE RESPONSIVE */
-
-@media(max-width:600px){
-
-
-.grid{
-
-grid-template-columns:repeat(2,1fr);
-
-gap:10px;
-
-}
-
-
-
-.card,
-.balance-card{
-
-padding:14px;
-
-min-height:110px;
-
-}
-
-
-
-
-.value{
-
-font-size:20px;
-
-}
-
-
-
-.dashboard-ad img{
-
-height:140px;
-
-}
-
-
-
-.bottom-nav a{
-
-font-size:8px;
-
-}
-
-
-
-}
-
-
-
-</style>
 
 <script>
 
