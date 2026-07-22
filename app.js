@@ -311,7 +311,7 @@ function insertUser(validRef) {
         referred_by,
         referral_amount
         )
-        VALUES (?, ?, 0, 0, 0, 0, 'active', 'user', ?, ?, 0)`,
+        VALUES (?, ?, 0, 0, 0, 0, 'active', 'user', ?, ?, 1000)`,
         [
             phone,
             password,
