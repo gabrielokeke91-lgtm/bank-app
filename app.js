@@ -959,10 +959,10 @@ app.post("/buy", (req, res) => {
             if (wallet === "referral") {
 
 
-                if (referralAmount < 10000) {
+                if (referralAmount < 4000) {
                     return res.status(400).json({
                         error:
-                        "Referral wallet must reach ₦10,000 before use."
+                        "Referral wallet must reach ₦4000 before use."
                     });
                 }
 
