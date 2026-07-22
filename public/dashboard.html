@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>Smartearn Dashboard</title>
+<title>SmartEarn Dashboard</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,114 +10,97 @@
 <style>
 
 *{
-    box-sizing:border-box;
+box-sizing:border-box;
 }
 
 
 body{
 
-    margin:0;
+margin:0;
 
-    font-family:
-    "Segoe UI",
-    Arial,
-    sans-serif;
+font-family:
+"Segoe UI",
+Arial,
+sans-serif;
 
+background:
 
-    background:
+radial-gradient(
+circle at top,
+#28105f,
+#050816 45%,
+#02030b
+);
 
-    linear-gradient(
-    135deg,
-    #050b2c,
-    #182848,
-    #000814
-    );
+color:white;
 
-
-    color:white;
-
-    overflow-x:hidden;
+overflow-x:hidden;
 
 }
 
 
 
-/* TOP HEADER */
+/* ===== HEADER ===== */
+
 
 .header{
 
+display:flex;
 
-    display:flex;
+align-items:center;
 
-    align-items:center;
+justify-content:space-between;
 
-    gap:15px;
+padding:15px 20px;
 
-    padding:18px;
+background:
 
+rgba(255,255,255,0.06);
 
-    background:
+backdrop-filter:blur(20px);
 
-    linear-gradient(
-    145deg,
-    rgba(255,255,255,.35),
-    rgba(0,198,255,.15)
-    );
+border-bottom:
 
+1px solid rgba(124,58,237,.5);
 
-    backdrop-filter:blur(15px);
+box-shadow:
 
-
-    border-bottom:
-
-    1px solid rgba(255,255,255,.4);
-
-
-    box-shadow:
-
-    0 0 25px rgba(0,198,255,.5);
-
+0 0 25px rgba(124,58,237,.5);
 
 }
 
 
 
-/* PROFILE */
+/* SMART EARN LOGO ICON */
 
 .profile-icon{
 
+width:58px;
 
-    width:50px;
+height:58px;
 
-    height:50px;
+border-radius:50%;
 
-    border-radius:50%;
+overflow:hidden;
 
+border:
 
-    overflow:hidden;
+2px solid #8b5cf6;
 
+box-shadow:
 
-    border:
-
-    2px solid white;
-
-
-    box-shadow:
-
-    0 0 20px cyan;
-
+0 0 25px #7c3aed;
 
 }
-
 
 
 .profile-icon img{
 
-    width:100%;
+width:100%;
 
-    height:100%;
+height:100%;
 
-    object-fit:cover;
+object-fit:cover;
 
 }
 
@@ -127,38 +110,69 @@ body{
 
 .welcome-text{
 
-    font-size:20px;
+font-size:14px;
 
-    font-weight:bold;
+color:#b8e7ff;
+
+display:block;
 
 }
-
 
 
 .user-number{
 
+font-size:22px;
 
-    margin-left:5px;
-
-
-    background:
-
-    linear-gradient(
-    90deg,
-    cyan,
-    white,
-    gold
-    );
+font-weight:700;
 
 
-    -webkit-background-clip:text;
+background:
 
-    color:transparent;
+linear-gradient(
+90deg,
+#b8e7ff,
+#7c3aed,
+#c026ff
+);
 
 
-    font-weight:bold;
+-webkit-background-clip:text;
+
+color:transparent;
 
 }
+
+
+
+/* VIP BADGE */
+
+
+.vip-badge{
+
+
+padding:6px 15px;
+
+border-radius:20px;
+
+
+background:
+
+linear-gradient(
+90deg,
+#7c3aed,
+#c026ff
+);
+
+
+font-weight:bold;
+
+
+box-shadow:
+
+0 0 15px #c026ff;
+
+}
+
 
 
 
@@ -167,33 +181,32 @@ body{
 
 .dashboard-ad{
 
-
-    padding:15px;
-
+padding:15px;
 
 }
-
 
 
 .dashboard-ad img{
 
 
-    width:100%;
+width:100%;
+
+height:170px;
+
+object-fit:cover;
+
+border-radius:25px;
 
 
-    height:160px;
+border:
+
+1px solid rgba(184,231,255,.4);
 
 
-    object-fit:cover;
+box-shadow:
 
 
-    border-radius:22px;
-
-
-    box-shadow:
-
-
-    0 0 25px cyan;
+0 0 30px rgba(124,58,237,.7);
 
 
 }
@@ -206,211 +219,220 @@ body{
 .top-time{
 
 
-    position:fixed;
+position:fixed;
 
 
-    top:10px;
+right:10px;
 
 
-    right:10px;
+top:10px;
 
 
-    background:
+font-size:10px;
 
 
-    rgba(0,255,100,.8);
+padding:8px;
 
 
-    padding:6px;
+border-radius:15px;
 
 
-    border-radius:10px;
+background:
+
+rgba(124,58,237,.8);
 
 
-    font-size:10px;
+z-index:999;
 
 
-    z-index:999;
+
+box-shadow:
+
+0 0 15px #7c3aed;
 
 }
 
-/* MAIN DASHBOARD GRID */
+
+
+/* MAIN CONTAINER */
 
 
 .container{
 
-    padding:15px;
+padding:15px;
 
 }
 
+
+
+/* GRID */
 
 
 .grid{
 
-    display:grid;
 
-    grid-template-columns:repeat(2,1fr);
+display:grid;
 
-    gap:15px;
+
+grid-template-columns:
+
+repeat(2,1fr);
+
+
+gap:15px;
+
 
 }
 
 
 
-
-/* CRYSTAL CARD */
+/* GLASS CARD */
 
 
 .card,
 .balance-card{
 
 
-    position:relative;
+position:relative;
 
 
-    padding:18px 12px;
+padding:18px;
 
 
-    border-radius:25px;
+border-radius:25px;
 
 
-
-    background:
-
-
-    linear-gradient(
-    145deg,
-    rgba(255,255,255,.35),
-    rgba(255,255,255,.05)
-    );
+background:
 
 
+linear-gradient(
 
-    border:
+145deg,
 
-    2px solid rgba(255,255,255,.35);
+rgba(255,255,255,.15),
+
+rgba(124,58,237,.08)
+
+);
 
 
 
-    backdrop-filter:blur(15px);
+border:
+
+1px solid rgba(184,231,255,.35);
 
 
 
-    box-shadow:
+backdrop-filter:
 
-
-    0 0 25px rgba(0,198,255,.45),
-
-
-    inset 0 0 20px rgba(255,255,255,.15);
+blur(20px);
 
 
 
-    overflow:hidden;
+box-shadow:
+
+
+0 0 25px rgba(124,58,237,.4),
+
+
+inset 0 0 25px rgba(255,255,255,.08);
 
 
 
-}
-
-
-
-/* SHINING EFFECT */
-
-
-.card::before,
-.balance-card::before{
-
-
-    content:"";
-
-
-    position:absolute;
-
-
-    width:70px;
-
-
-    height:200%;
-
-
-    background:
-
-
-    rgba(255,255,255,.35);
-
-
-
-    transform:
-
-    rotate(35deg);
-
-
-
-    left:-120px;
-
-
-    top:-50px;
-
-
-
-    animation:
-
-    crystalShine 5s infinite;
-
+overflow:hidden;
 
 
 }
 
 
 
+/* CRYSTAL LIGHT EFFECT */
 
-@keyframes crystalShine{
+
+.card:before,
+.balance-card:before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+width:80px;
+
+
+height:200%;
+
+
+background:
+
+rgba(255,255,255,.25);
+
+
+
+transform:
+
+rotate(35deg);
+
+
+left:-120px;
+
+
+animation:
+
+shine 6s infinite;
+
+
+}
+
+
+
+@keyframes shine{
 
 
 0%{
 
-left:-120px;
+left:-150px;
 
 }
 
 
-50%,100%{
+60%{
 
-left:300px;
-
-}
-
+left:350px;
 
 }
 
 
+100%{
+
+left:350px;
+
+}
+
+}
 
 
-/* CARD TITLES */
+
+
+/* TITLES */
 
 
 .card h2,
 .balance-card h4{
 
 
-    font-size:14px;
+font-size:14px;
 
 
-    color:white;
+margin:0;
 
 
-    margin:0;
-
-
-
-    text-shadow:
-
-    0 0 8px cyan;
+color:#e0e7ff;
 
 
 }
-
-
 
 
 
@@ -420,183 +442,161 @@ left:300px;
 .value{
 
 
-    margin-top:12px;
+margin-top:12px;
 
 
-    font-size:22px;
+font-size:23px;
 
 
-    font-weight:bold;
+font-weight:bold;
+
+
+background:
+
+
+linear-gradient(
+
+90deg,
+
+#ffffff,
+
+#b8e7ff,
+
+#c026ff
+
+);
 
 
 
-    color:white;
+-webkit-background-clip:text;
 
 
-    text-shadow:
-
-
-    0 0 10px cyan;
-
+color:transparent;
 
 
 }
 
 
 
-
-
-/* MAIN BALANCE COLOR */
+/* COLORS */
 
 
 #balance{
 
-
-    color:#00ffff;
-
+color:#b8e7ff;
 
 }
-
-
-
-
-
-/* INVESTMENT */
 
 
 #totalInvested{
 
-
-    color:#ffd700;
-
+color:#ffd700;
 
 }
-
-
-
-
-
-/* RETURNS */
 
 
 .returns{
 
-
-    color:#00ff88;
-
+color:#00ff99;
 
 }
-
-
-
-
-
-/* REFERRAL WALLET */
-
-
-.referralwallet{
-
-
-    color:#ff66ff;
-
-
-}
-
 
 
 #referralAmount{
 
-
-    color:#00ffcc;
-
-
-    font-size:22px;
-
-
-    font-weight:bold;
-
+color:#c026ff;
 
 }
 
 
 
-
-
-/* FULL WIDTH CARD */
+/* FULL WIDTH */
 
 
 .full{
 
-
-    grid-column:span 2;
-
+grid-column:span 2;
 
 }
 
 
 
+/* MOBILE */
+
+
+@media(max-width:600px){
+
+
+.grid{
+
+grid-template-columns:
+
+repeat(2,1fr);
+
+}
+
+
+.value{
+
+font-size:19px;
+
+}
+
+
+.dashboard-ad img{
+
+height:140px;
+
+}
+
+
+}
 
 /* ACTION BUTTONS */
 
-
 .action-buttons{
 
+display:flex;
 
-    display:flex;
+justify-content:center;
 
+gap:15px;
 
-    justify-content:center;
-
-
-    gap:15px;
-
-
-    padding:10px 15px;
-
+padding:15px;
 
 }
-
 
 
 
 .action-buttons button{
 
 
-    width:130px;
+width:140px;
+
+height:45px;
+
+border:none;
+
+border-radius:25px;
 
 
-    height:40px;
+background:
+
+linear-gradient(
+90deg,
+#7c3aed,
+#2563eb
+);
 
 
-    border:none;
+color:white;
+
+font-weight:bold;
 
 
-    border-radius:20px;
+box-shadow:
 
-
-
-    background:
-
-
-    linear-gradient(
-    90deg,
-    #00ffcc,
-    #0072ff
-    );
-
-
-
-    color:white;
-
-
-    font-weight:bold;
-
-
-    box-shadow:
-
-
-    0 0 15px cyan;
-
+0 0 20px #7c3aed;
 
 
 }
@@ -605,25 +605,163 @@ left:300px;
 
 .action-buttons button:active{
 
+transform:scale(.95);
 
-    transform:scale(.95);
+}
+
+
+
+/* BONUS ROW */
+
+
+.bonus-ref-row{
+
+
+display:grid;
+
+
+grid-template-columns:repeat(2,1fr);
+
+
+gap:15px;
+
+
+padding:15px;
 
 
 }
 
 
 
-/* OTHER LINKS */
+/* BONUS GLASS BOX */
+
+
+#bonusBox,
+.ref-box{
+
+
+padding:18px;
+
+
+border-radius:25px;
+
+
+background:
+
+linear-gradient(
+
+145deg,
+
+rgba(255,255,255,.15),
+
+rgba(124,58,237,.1)
+
+);
+
+
+
+border:
+
+1px solid rgba(184,231,255,.4);
+
+
+
+backdrop-filter:blur(20px);
+
+
+
+box-shadow:
+
+0 0 25px rgba(124,58,237,.5);
+
+
+
+text-align:center;
+
+
+}
+
+
+
+
+#bonusBox input,
+.ref-box input{
+
+
+width:100%;
+
+
+padding:12px;
+
+
+border-radius:15px;
+
+
+border:none;
+
+
+outline:none;
+
+
+margin-top:10px;
+
+
+}
+
+
+
+#bonusBox button,
+.ref-box button{
+
+
+width:100%;
+
+
+margin-top:12px;
+
+
+padding:12px;
+
+
+border:none;
+
+
+border-radius:20px;
+
+
+background:
+
+linear-gradient(
+90deg,
+#00d4ff,
+#7c3aed
+);
+
+
+
+color:white;
+
+
+font-weight:bold;
+
+
+box-shadow:
+
+0 0 15px #00d4ff;
+
+
+}
+
+
+
+/* LINKS */
 
 
 .action-links{
 
+text-align:center;
 
-    text-align:center;
-
-
-    padding:10px;
-
+padding:15px;
 
 }
 
@@ -634,343 +772,166 @@ left:300px;
 .myinvestment-btn{
 
 
-    display:inline-block;
+display:inline-block;
 
 
-    padding:12px 15px;
+padding:12px 15px;
 
 
-    margin:5px;
+margin:5px;
 
 
-    border-radius:20px;
+border-radius:20px;
 
 
-    text-decoration:none;
+text-decoration:none;
 
 
-    color:white;
+color:white;
 
 
-    font-size:12px;
+font-size:12px;
 
 
-    font-weight:bold;
-
-
-
-    background:
-
-
-    linear-gradient(
-    90deg,
-    #8a2be2,
-    #00c6ff
-    );
+font-weight:bold;
 
 
 
-    box-shadow:
+background:
+
+linear-gradient(
+90deg,
+#7c3aed,
+#c026ff
+);
 
 
-    0 0 15px cyan;
 
+box-shadow:
+
+0 0 15px #7c3aed;
 
 
 }
 
-/* BONUS AND REFERRAL ROW */
-
-
-.bonus-ref-row{
-
-
-    display:grid;
-
-
-    grid-template-columns:repeat(2,1fr);
-
-
-    gap:15px;
-
-
-    padding:15px;
-
-
-}
-
-
-
-/* BONUS BOX */
-
-
-#bonusBox,
-.ref-box{
-
-
-    position:relative;
-
-
-    padding:15px;
-
-
-    border-radius:22px;
-
-
-    background:
-
-
-    linear-gradient(
-    145deg,
-    rgba(255,255,255,.3),
-    rgba(255,255,255,.05)
-    );
-
-
-    border:
-
-    2px solid rgba(255,255,255,.35);
-
-
-
-    backdrop-filter:blur(12px);
-
-
-
-    box-shadow:
-
-
-    0 0 25px rgba(0,255,255,.35);
-
-
-
-    text-align:center;
-
-
-
-}
-
-
-
-#bonusBox b,
-.ref-box h3{
-
-
-    color:white;
-
-
-    font-size:16px;
-
-
-    text-shadow:
-
-
-    0 0 10px cyan;
-
-
-
-}
-
-
-
-
-/* INPUT STYLE */
-
-
-#bonusCode,
-#refLink{
-
-
-    width:100%;
-
-
-    padding:10px;
-
-
-    border:none;
-
-
-    border-radius:15px;
-
-
-    outline:none;
-
-
-
-    background:
-
-
-    rgba(255,255,255,.9);
-
-
-
-    color:#111;
-
-
-}
-
-
-
-
-/* BUTTON */
-
-
-#bonusBox button,
-.ref-box button{
-
-
-    width:100%;
-
-
-    margin-top:10px;
-
-
-    padding:10px;
-
-
-    border:none;
-
-
-    border-radius:15px;
-
-
-
-    background:
-
-
-    linear-gradient(
-    90deg,
-    #00ffcc,
-    #0072ff
-    );
-
-
-
-    color:white;
-
-
-    font-weight:bold;
-
-
-    box-shadow:
-
-
-    0 0 15px cyan;
-
-
-}
-
-
-
-/* BOTTOM NAVIGATION */
+/* SMART EARN BOTTOM NAV */
 
 
 .bottom-nav{
 
 
-    position:fixed;
+position:fixed;
 
 
-    bottom:0;
+bottom:0;
 
 
-    left:0;
+left:0;
 
 
-    right:0;
+right:0;
 
 
-    display:flex;
+display:flex;
 
 
-    justify-content:space-around;
+justify-content:space-around;
 
 
-    padding:10px 5px;
+align-items:center;
 
 
-
-    background:
-
-
-    rgba(255,255,255,.85);
+padding:10px 5px;
 
 
 
-    backdrop-filter:blur(15px);
+background:
+
+
+rgba(5,8,22,.85);
 
 
 
-    box-shadow:
+backdrop-filter:
+
+blur(20px);
 
 
-    0 -5px 25px rgba(0,198,255,.5);
+
+border-top:
+
+
+1px solid rgba(184,231,255,.3);
 
 
 
-    z-index:9999;
+box-shadow:
 
+
+0 -5px 30px rgba(124,58,237,.6);
+
+
+
+z-index:9999;
 
 
 }
-
-
 
 
 
 .bottom-nav a{
 
 
-    flex:1;
+flex:1;
 
 
-    text-align:center;
+text-align:center;
 
 
-    text-decoration:none;
+text-decoration:none;
 
 
-    color:#0072ff;
+color:#b8e7ff;
 
 
-    font-size:9px;
+font-size:9px;
 
 
-    font-weight:bold;
-
+font-weight:bold;
 
 
 }
-
 
 
 
 .bottom-nav span{
 
 
-    display:block;
+display:block;
 
 
-    font-size:18px;
+font-size:20px;
 
 
-    margin-bottom:3px;
+margin-bottom:4px;
 
+
+filter:
+
+drop-shadow(0 0 8px #7c3aed);
 
 
 }
 
 
 
-
-
-/* EMPTY SPACE FOR NAV */
+/* EMPTY SPACE */
 
 
 .space{
 
 
-    height:90px;
+height:100px;
 
 
 }
@@ -979,18 +940,33 @@ left:300px;
 
 
 
-/* MOBILE RESPONSIVE */
+/* MOBILE IMPROVEMENTS */
 
 
 @media(max-width:600px){
 
 
+.header{
 
-.grid{
+padding:12px;
+
+}
 
 
-    grid-template-columns:repeat(2,1fr);
+.profile-icon{
 
+width:55px;
+
+height:55px;
+
+}
+
+
+.vip-badge{
+
+font-size:12px;
+
+padding:5px 12px;
 
 }
 
@@ -999,19 +975,7 @@ left:300px;
 .card,
 .balance-card{
 
-
-    min-height:120px;
-
-
-}
-
-
-
-.value{
-
-
-    font-size:19px;
-
+border-radius:22px;
 
 }
 
@@ -1019,19 +983,7 @@ left:300px;
 
 .dashboard-ad img{
 
-
-    height:140px;
-
-
-}
-
-
-
-.bonus-ref-row{
-
-
-    grid-template-columns:1fr;
-
+border-radius:20px;
 
 }
 
@@ -1039,16 +991,21 @@ left:300px;
 
 .action-buttons button{
 
-
-    width:120px;
-
+width:130px;
 
 }
 
+
+.bonus-ref-row{
+
+grid-template-columns:1fr;
+
+}
 
 
 }
 </style>
+
 </head>
 <body>
 
@@ -1058,26 +1015,39 @@ left:300px;
 <div class="header">
 
 
-<div class="profile-icon">
+<div>
 
-<img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png"
-alt="Profile">
+<img class="profile-icon"
+src="images/smartearn-logo.png"
+alt="SmartEarn Logo">
 
 </div>
 
 
 
-<div>
+<div style="flex:1;margin-left:12px;">
+
 
 <span class="welcome-text">
-Welcome
+Welcome back
 </span>
 
 
-<span id="welcome" class="user-number"></span>
+<span id="welcome" class="user-number">
+User
+</span>
 
 
 </div>
+
+
+
+<div class="vip-badge">
+
+VIP
+
+</div>
+
 
 
 </div>
@@ -1094,7 +1064,7 @@ Welcome
 
 <img id="advertImage"
 src="images/smartearn.jpeg"
-alt="Advertisement">
+alt="SmartEarn Advertisement">
 
 
 </div>
@@ -1112,6 +1082,7 @@ alt="Advertisement">
 
 <div id="date"></div>
 
+
 <div id="time"></div>
 
 
@@ -1122,8 +1093,7 @@ alt="Advertisement">
 
 
 
-
-<!-- DASHBOARD CARDS -->
+<!-- DASHBOARD -->
 
 
 <div class="container">
@@ -1133,25 +1103,43 @@ alt="Advertisement">
 
 
 
-<!-- MAIN BALANCE -->
 
 
-<div class="card">
+<!-- MAIN BALANCE CARD -->
 
 
-<h2>
-💰 Main Balance
-</h2>
+<div class="balance-card full">
 
 
-<div class="value" id="balance">
+<h4>
+💎 Total Balance
+</h4>
+
+
+<div class="value"
+id="balance">
 
 ₦0
 
 </div>
 
 
+
+<p style="
+color:#b8e7ff;
+font-size:13px;
+margin-top:10px;
+">
+
+Available Balance
+
+</p>
+
+
+
 </div>
+
+
 
 
 
@@ -1160,19 +1148,24 @@ alt="Advertisement">
 <!-- REFERRAL WALLET -->
 
 
-<div class="balance-card">
+<div class="card">
 
 
-<h4>
+<h2>
+
 🔗 Referral Wallet
-</h4>
+
+</h2>
+
 
 
 <div class="value">
 
 
 ₦<span id="referralAmount">
+
 0
+
 </span>
 
 
@@ -1185,51 +1178,60 @@ alt="Advertisement">
 
 
 
-<!-- RETURNS -->
+
+
+<!-- TOTAL RETURNS -->
 
 
 <div class="card">
 
 
 <h2>
+
 📈 Total Returns
+
 </h2>
 
 
-<div class="value returns" id="returns">
+
+<div class="value returns"
+id="returns">
+
 
 ₦0
 
-</div>
-
 
 </div>
 
 
+</div>
 
 
 
-<!-- INVESTED -->
+
+
+
+
+<!-- TOTAL INVESTED -->
 
 
 <div class="card full">
 
 
 <h2>
+
 💎 Total Invested
+
 </h2>
 
 
-<div class="value" id="totalInvested">
+
+<div class="value"
+id="totalInvested">
+
 
 ₦0
 
-</div>
-
-
-</div>
-
-
 
 </div>
 
@@ -1240,9 +1242,11 @@ alt="Advertisement">
 
 
 
+</div>
 
 
-<!-- DEPOSIT WITHDRAW -->
+</div>
+<!-- DEPOSIT AND WITHDRAW BUTTONS -->
 
 
 <div class="action-buttons">
@@ -1256,13 +1260,11 @@ alt="Advertisement">
 
 
 
-
 <button onclick="location.href='Withdraw.html'">
 
 💸 Withdraw
 
 </button>
-
 
 
 </div>
@@ -1273,22 +1275,35 @@ alt="Advertisement">
 
 
 
-<!-- BONUS AND REFERRAL -->
+<!-- BONUS + REFERRAL -->
 
 
 <div class="bonus-ref-row">
 
 
 
+
+
+<!-- BONUS CENTER -->
+
+
 <div id="bonusBox">
 
 
 <b>
-🎁 Bonus Center
+🎁 Welcome Bonus
 </b>
 
 
-<br><br>
+
+<p style="
+font-size:13px;
+color:#b8e7ff;
+">
+
+Claim your available reward
+
+</p>
 
 
 
@@ -1300,7 +1315,7 @@ placeholder="Enter bonus code">
 
 <button onclick="claimBonus()">
 
-Accept
+CLAIM BONUS
 
 </button>
 
@@ -1313,12 +1328,30 @@ Accept
 
 
 
+
+<!-- REFERRAL LINK -->
+
+
 <div class="ref-box">
 
 
 <h3>
-🔗 Referral Link
+
+💎 Refer & Earn
+
 </h3>
+
+
+
+<p style="
+font-size:12px;
+color:#b8e7ff;
+">
+
+Share your link and grow your rewards
+
+</p>
+
 
 
 
@@ -1330,7 +1363,7 @@ readonly>
 
 <button onclick="copyLink()">
 
-Copy
+COPY LINK
 
 </button>
 
@@ -1340,8 +1373,8 @@ Copy
 
 
 
-</div>
 
+</div>
 
 
 
@@ -1358,7 +1391,7 @@ Copy
 <a href="about.html"
 class="about-btn">
 
-About
+ABOUT
 
 </a>
 
@@ -1367,7 +1400,7 @@ About
 <a href="help.html"
 class="help-btn">
 
-Forum
+FORUM
 
 </a>
 
@@ -1376,7 +1409,7 @@ Forum
 <a href="myinvestment.html"
 class="myinvestment-btn">
 
-💎 MY INVESTMENT
+💎 MY INVESTMENTS
 
 </a>
 
@@ -1384,26 +1417,20 @@ class="myinvestment-btn">
 
 </div>
 
-
-
-
-
-
-
-
 <!-- BOTTOM NAVIGATION -->
 
 
 <div class="bottom-nav">
 
 
-<a href="Interest-history.html">
+
+<a href="dashboard.html">
 
 <span>
-📈
+🏠
 </span>
 
-PROFIT
+HOME
 
 </a>
 
@@ -1416,10 +1443,9 @@ PROFIT
 💰
 </span>
 
-DEP
+DEPOSIT
 
 </a>
-
 
 
 
@@ -1430,10 +1456,9 @@ DEP
 💎
 </span>
 
-INVEST
+VIP
 
 </a>
-
 
 
 
@@ -1451,14 +1476,13 @@ HISTORY
 
 
 
-
 <a href="referral-commission.html">
 
 <span>
 🔗
 </span>
 
-REF
+REFER
 
 </a>
 
@@ -1471,7 +1495,7 @@ REF
 🚪
 </span>
 
-OUT
+EXIT
 
 </a>
 
@@ -1484,8 +1508,6 @@ OUT
 
 
 <div class="space"></div>
-
-
 
 <script>
 
