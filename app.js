@@ -2400,9 +2400,7 @@ const phone = req.params.phone;
 db.query(
 
 `
-
 SELECT 
-
 vip_name,
 amount
 
@@ -2417,7 +2415,6 @@ AND end_date > NOW()
 ORDER BY amount DESC
 
 LIMIT 1
-
 `,
 
 [phone],
@@ -2428,8 +2425,7 @@ LIMIT 1
 
 if(err){
 
-console.log("ACTIVE VIP ERROR:",err);
-
+console.log("ACTIVE VIP ERROR:", err);
 
 return res.status(500).json({
 
@@ -2443,18 +2439,15 @@ error:"Server error"
 
 
 
-
 if(rows.length === 0){
-
 
 return res.json({
 
 success:false,
 
-message:"No active investment"
+message:"No active VIP"
 
 });
-
 
 }
 
@@ -2465,9 +2458,9 @@ return res.json({
 
 success:true,
 
-vip_name:rows[0].vip_name,
+vip_name: rows[0].vip_name,
 
-amount:rows[0].amount
+amount: rows[0].amount
 
 });
 
