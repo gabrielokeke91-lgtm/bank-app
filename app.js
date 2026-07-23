@@ -155,117 +155,301 @@ function checkUserStatus(phone, cb) {
 
 // ================= DAILY INVESTMENT SYSTEM =================
 // runs every 12AM
+
 cron.schedule("0 0 * * *", () => {
+
 
     console.log("🔥 DAILY INTEREST STARTED:", new Date().toString());
 
-    // STEP 1: TRY GLOBAL LOCK (ONLY ONE SERVER CAN WIN)
+
+    // STEP 1: GLOBAL LOCK
+
     db.query(
         `INSERT INTO system_locks (lock_name, locked_at)
          VALUES ('daily_interest', NOW())
          ON DUPLICATE KEY UPDATE locked_at = locked_at`,
         (lockErr, lockRes) => {
 
+
             if (lockErr) {
+
                 console.log("Lock error:", lockErr);
                 return;
+
             }
 
-            // ❌ IF LOCK ALREADY EXISTS → STOP EVERYTHING
+
+
             if (lockRes.affectedRows === 0) {
-                console.log("⚠️ Job already running on another server. SKIPPED.");
+
+                console.log("⚠️ Job already running. SKIPPED.");
+
                 return;
+
             }
+
+
+
 
             // STEP 2: EXPIRE INVESTMENTS
+
             db.query(
-    `UPDATE investments 
-     SET status='expired'
-     WHERE status='active'
-     AND end_date <= NOW()`,
-    (err, result) => {
-
-        if (err) {
-            console.log("❌ Expiry error:", err);
-            return;
-        }
-
-        console.log("✅ Expired investments:", result.affectedRows);
-    }
-);
-
-            // STEP 3: GET INVESTMENTS (PHONE BASED)
-            db.query(
-                `SELECT id, phone, amount, last_interest_time,end_date 
-                 FROM investments 
+                `UPDATE investments
+                 SET status='expired'
                  WHERE status='active'
-                 AND end_date >NOW()`,
-                (err, results) => {
+                 AND end_date <= NOW()`,
+                (err,result)=>{
 
-                    if (err) {
-                        console.log("Interest fetch error:", err);
-                        return;
+
+                    if(err){
+
+                        console.log("❌ Expiry error:",err);
+
                     }
 
-                    results.forEach(row => {
 
-                        const today = new Date();
-                        today.setHours(0,0,0,0);
+                    console.log(
+                    "✅ Expired investments:",
+                    result?.affectedRows || 0
+                    );
 
-                        const last = row.last_interest_time
-                            ? new Date(row.last_interest_time)
-                            : null;
 
-                        // ❌ SKIP IF ALREADY TODAY
-                        if (last && last >= today) return;
-
-                        const interest = Number(row.amount) * 0.10;
-
-                        // STEP 4: ATOMIC UPDATE (SECOND SAFETY LAYER)
-                        db.query(
-                            `UPDATE investments 
-                             SET last_interest_time = NOW() 
-                             WHERE id=? 
-                             AND status='active'
-                             AND end_date > NOW()
-                             AND (last_interest_time IS NULL OR DATE(last_interest_time) < CURDATE())`,
-                            [row.id],
-                            (err2, result) => {
-
-                                if (result.affectedRows === 0) return;
-
-                                // CREDIT USER
-                                db.query(
-                                    `UPDATE users 
-                                     SET total_returns = total_returns + ? 
-                                     WHERE phone=?`,
-                                    [interest, row.phone]
-                                );
-
-                                // HISTORY
-                                db.query(
-                                    `INSERT INTO interest_history 
-                                     (phone, amount, interest)
-                                     VALUES (?, ?, ?)`,
-                                    [row.phone, row.amount, interest]
-                                );
-                            }
-                        );
-                    });
-
-                    // STEP 5: RELEASE LOCK (OPTIONAL SAFETY RESET)
-                    setTimeout(() => {
-                        db.query(`
-                            DELETE FROM system_locks WHERE lock_name='daily_interest'
-                        `);
-                    }, 1000 * 60); // 1 min later
                 }
             );
+
+
+
+
+
+            // STEP 3: GET ACTIVE INVESTMENTS
+
+            db.query(
+
+                `SELECT 
+                    id,
+                    phone,
+                    amount,
+                    interest_rate,
+                    last_interest_time,
+                    end_date
+
+                 FROM investments
+
+                 WHERE status='active'
+
+                 AND end_date > NOW()`,
+
+                (err,results)=>{
+
+
+                    if(err){
+
+                        console.log(
+                        "Interest fetch error:",
+                        err
+                        );
+
+                        return;
+
+                    }
+
+
+
+
+
+                    results.forEach(row=>{
+
+
+
+                        const today = new Date();
+
+                        today.setHours(0,0,0,0);
+
+
+
+
+                        const last = row.last_interest_time
+
+                        ? new Date(row.last_interest_time)
+
+                        : null;
+
+
+
+
+
+                        // SKIP IF ALREADY PAID TODAY
+
+                        if(last && last >= today){
+
+                            return;
+
+                        }
+
+
+
+
+
+                        // VIP RATE CALCULATION
+
+                        const rate = Number(row.interest_rate || 0);
+
+
+                        const interest =
+
+                        Number(row.amount) * (rate / 100);
+
+
+
+
+
+
+
+                        // STEP 4: ATOMIC SAFETY UPDATE
+
+                        db.query(
+
+                            `UPDATE investments
+
+                             SET last_interest_time = NOW()
+
+                             WHERE id=?
+
+                             AND status='active'
+
+                             AND end_date > NOW()
+
+                             AND (
+                             last_interest_time IS NULL
+                             OR DATE(last_interest_time) < CURDATE()
+                             )`,
+
+                            [row.id],
+
+
+                            (err2,result)=>{
+
+
+                                if(err2){
+
+                                    console.log(
+                                    "Interest lock error:",
+                                    err2
+                                    );
+
+                                    return;
+
+                                }
+
+
+
+
+                                if(result.affectedRows === 0){
+
+                                    return;
+
+                                }
+
+
+
+
+
+                                // CREDIT USER RETURNS
+
+                                db.query(
+
+                                    `UPDATE users
+
+                                     SET total_returns =
+                                     total_returns + ?
+
+                                     WHERE phone=?`,
+
+                                    [
+                                    interest,
+                                    row.phone
+                                    ]
+
+                                );
+
+
+
+
+
+
+
+                                // SAVE HISTORY
+
+                                db.query(
+
+                                    `INSERT INTO interest_history
+
+                                    (phone, amount, interest)
+
+                                    VALUES (?, ?, ?)`,
+
+                                    [
+                                    row.phone,
+                                    row.amount,
+                                    interest
+                                    ]
+
+                                );
+
+
+
+
+
+                                console.log(
+                                "✅ Interest added:",
+                                row.phone,
+                                interest
+                                );
+
+
+                            }
+
+                        );
+
+
+
+                    });
+
+
+
+
+
+
+                    // STEP 5: RELEASE LOCK
+
+                    setTimeout(()=>{
+
+
+                        db.query(
+
+                        `DELETE FROM system_locks 
+                         WHERE lock_name='daily_interest'`
+
+                        );
+
+
+                    },1000 * 60);
+
+
+
+                }
+
+            );
+
+
+
         }
+
     );
 
-}, {
-    timezone: "Africa/Lagos"
+
+},{
+    timezone:"Africa/Lagos"
 });
 // ================= SIGNUP =================
 app.post("/signup", (req, res) => {
