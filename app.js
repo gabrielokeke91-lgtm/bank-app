@@ -2389,21 +2389,22 @@ app.get("/api/investments/active", (req, res) => {
 
 
 
-// GET USER ACTIVE VIP
+// GET HIGHEST ACTIVE VIP
 
-app.get("/my-active-investment/:phone", async(req,res)=>{
-
-try{
+app.get("/my-active-investment/:phone", (req,res)=>{
 
 
 const phone = req.params.phone;
 
 
+db.query(
 
-const [rows] = await db.query(`
+`
 
 SELECT 
-vip_name
+
+vip_name,
+amount
 
 FROM investments
 
@@ -2413,16 +2414,38 @@ AND LOWER(TRIM(status)) = 'active'
 
 AND end_date > NOW()
 
-ORDER BY id DESC
+ORDER BY amount DESC
 
 LIMIT 1
 
-`,[phone]);
+`,
+
+[phone],
+
+
+(err, rows)=>{
+
+
+if(err){
+
+console.log("ACTIVE VIP ERROR:",err);
+
+
+return res.status(500).json({
+
+success:false,
+
+error:"Server error"
+
+});
+
+}
 
 
 
 
 if(rows.length === 0){
+
 
 return res.json({
 
@@ -2432,40 +2455,27 @@ message:"No active investment"
 
 });
 
+
 }
 
 
 
 
-
-res.json({
+return res.json({
 
 success:true,
 
-vip_name:rows[0].vip_name
+vip_name:rows[0].vip_name,
 
-});
-
-
-
-
-}catch(err){
-
-
-console.log("Active VIP error:",err);
-
-
-
-res.status(500).json({
-
-success:false,
-
-error:"Server error"
+amount:rows[0].amount
 
 });
 
 
 }
+
+
+);
 
 
 });
