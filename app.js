@@ -2141,37 +2141,24 @@ app.get("/referral-commission/:userId", (req, res) => {
     });
 });
 //fetch all investment by admin
-// ================= ALL INVESTMENTS (ADMIN) =================
-
 app.get("/investments/all", (req, res) => {
 
 
     const sql = `
-
         SELECT 
-
             id,
-
             phone,
-
             amount,
-
-            vip_name,
-
-            daily_profit,
-
             interest_rate,
-
             start_date,
-
             end_date,
-
-            status
+            status,
+            vip_name,
+            daily_profit
 
         FROM investments
 
         ORDER BY start_date DESC
-
     `;
 
 
@@ -2181,37 +2168,16 @@ app.get("/investments/all", (req, res) => {
 
         if (err) {
 
+            console.log("Investment fetch error:", err);
 
-            console.log(
-            "Investment fetch error:",
-            err
-            );
-
-
-            return res.status(500).json({
-
-                success:false,
-
-                message:"Database error"
-
-            });
-
+            return res.status(500).json([]);
 
         }
 
 
-
-        return res.json({
-
-            success:true,
-
-            investments:result
-
-        });
-
+        return res.json(result);
 
     });
-
 
 });
 // user active and inactive investment
