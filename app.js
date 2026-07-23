@@ -853,197 +853,392 @@ app.post("/ezeaguuy/deposit/reject", (req, res) => {
 });
 
 // ================= BUY / INVEST =================
+
 app.post("/buy", (req, res) => {
 
-    const { phone, amount, wallet, grade } = req.body;
-    const investAmount = Number(amount);
 
+const { phone, amount, wallet, grade } = req.body;
 
-    if (!phone || !investAmount || investAmount <= 0 || !grade) {
-        return res.status(400).json({
-            error: "Invalid input"
-        });
-    }
-
-
-    if (!wallet || !["balance", "referral"].includes(wallet)) {
-        return res.status(400).json({
-            error: "Select valid wallet"
-        });
-    }
-
-
-    // VIP PLAN SETTINGS
-    const vipPlans = {
-
-        VIP1: { days: 15, rate: 10 },
-        VIP2: { days: 30, rate: 15 },
-        VIP3: { days: 45, rate: 20 },
-        VIP4: { days: 60, rate: 25 },
-        VIP5: { days: 75, rate: 30 },
-        VIP6: { days: 90, rate: 35 },
-        VIP7: { days: 120, rate: 40 },
-        VIP8: { days: 150, rate: 45 },
-        VIP9: { days: 180, rate: 50 },
-        VIP10:{ days: 365, rate: 60 }
-
-    };
-
-
-    const selectedPlan = vipPlans[grade];
-
-
-    if (!selectedPlan) {
-        return res.status(400).json({
-            error: "Invalid investment grade"
-        });
-    }
+const investAmount = Number(amount);
 
 
 
-    db.query(
-        "SELECT balance, referral_amount FROM users WHERE phone=?",
-        [phone],
-        (err, result) => {
+if (!phone || !investAmount || investAmount <= 0 || !grade) {
 
-            if (err) {
-                return res.status(500).json({
-                    error:"DB error"
-                });
-            }
+return res.status(400).json({
+error:"Invalid input"
+});
 
-
-            if (result.length === 0) {
-                return res.status(404).json({
-                    error:"User not found"
-                });
-            }
-
-
-            const balance = Number(result[0].balance || 0);
-
-            const referralAmount = Number(
-                result[0].referral_amount || 0
-            );
+}
 
 
 
-            // NORMAL WALLET
-            if (wallet === "balance") {
+if (!wallet || !["balance","referral"].includes(wallet)) {
 
+return res.status(400).json({
+error:"Select valid wallet"
+});
 
-                if (balance < investAmount) {
-                    return res.status(400).json({
-                        error:"Insufficient balance"
-                    });
-                }
-
-
-                db.query(
-                    `UPDATE users 
-                     SET balance = balance - ?,
-                     total_invested = total_invested + ?
-                     WHERE phone=?`,
-                    [
-                      investAmount,
-                      investAmount,
-                      phone
-                    ]
-                );
-
-            }
-
-
-
-            // REFERRAL WALLET
-            if (wallet === "referral") {
-
-
-                if (referralAmount < 4000) {
-                    return res.status(400).json({
-                        error:
-                        "Referral wallet must reach ₦4000 before use."
-                    });
-                }
-
-
-                if (referralAmount < investAmount) {
-                    return res.status(400).json({
-                        error:
-                        "Insufficient referral amount."
-                    });
-                }
-
-
-
-                db.query(
-                    `UPDATE users
-                     SET referral_amount = referral_amount - ?,
-                     total_invested = total_invested + ?
-                     WHERE phone=?`,
-                    [
-                      investAmount,
-                      investAmount,
-                      phone
-                    ]
-                );
-
-            }
+}
 
 
 
 
-            // CREATE INVESTMENT
-            db.query(
-                `INSERT INTO investments
-                (
-                 phone,
-                 amount,
-                 interest_rate,
-                 status,
-                 end_date
-                )
-                VALUES
-                (
-                 ?,
-                 ?,
-                 ?,
-                 'active',
-                 DATE_ADD(NOW(), INTERVAL ? DAY)
-                )`,
-                [
-                 phone,
-                 investAmount,
-                 selectedPlan.rate,
-                 selectedPlan.days
-                ],
+// VIP PLAN SETTINGS
 
-                (err2)=>{
+const vipPlans = {
 
 
-                    if(err2){
-                        console.log(err2);
-
-                        return res.status(500).json({
-                            error:"Investment failed"
-                        });
-                    }
+VIP1:{
+days:30,
+rate:10,
+daily_profit:200
+},
 
 
-                    return res.json({
-                        message:"Investment successful",
-                        grade:grade,
-                        wallet_used:wallet,
-                        duration:selectedPlan.days+" days"
-                    });
+VIP2:{
+days:45,
+rate:15,
+daily_profit:450
+},
 
-                }
-            );
 
-        }
-    );
+VIP3:{
+days:60,
+rate:20,
+daily_profit:1000
+},
+
+
+VIP4:{
+days:75,
+rate:25,
+daily_profit:2500
+},
+
+
+VIP5:{
+days:90,
+rate:30,
+daily_profit:4500
+},
+
+
+VIP6:{
+days:120,
+rate:35,
+daily_profit:7000
+},
+
+
+VIP7:{
+days:150,
+rate:40,
+daily_profit:10000
+},
+
+
+VIP8:{
+days:180,
+rate:45,
+daily_profit:13500
+},
+
+
+VIP9:{
+days:365,
+rate:50,
+daily_profit:25000
+},
+
+
+VIP10:{
+days:365,
+rate:60,
+daily_profit:42000
+}
+
+
+};
+
+
+
+
+const selectedPlan = vipPlans[grade];
+
+
+
+if(!selectedPlan){
+
+return res.status(400).json({
+error:"Invalid investment grade"
+});
+
+}
+
+
+
+
+db.query(
+
+"SELECT balance, referral_amount FROM users WHERE phone=?",
+
+[phone],
+
+(err,result)=>{
+
+
+if(err){
+
+return res.status(500).json({
+error:"DB error"
+});
+
+}
+
+
+
+if(result.length===0){
+
+return res.status(404).json({
+error:"User not found"
+});
+
+}
+
+
+
+const balance = Number(result[0].balance || 0);
+
+
+const referralAmount = Number(
+result[0].referral_amount || 0
+);
+
+
+
+
+
+
+// NORMAL WALLET
+
+if(wallet==="balance"){
+
+
+
+if(balance < investAmount){
+
+return res.status(400).json({
+error:"Insufficient balance"
+});
+
+}
+
+
+
+db.query(
+
+`UPDATE users
+
+SET balance = balance - ?,
+
+total_invested = total_invested + ?
+
+WHERE phone=?`,
+
+[
+investAmount,
+investAmount,
+phone
+]
+
+);
+
+
+}
+
+
+
+
+
+
+
+// REFERRAL WALLET
+
+
+if(wallet==="referral"){
+
+
+
+if(referralAmount < 5000){
+
+return res.status(400).json({
+
+error:"Referral wallet must reach ₦5000 before use."
 
 });
+
+}
+
+
+
+
+if(referralAmount < investAmount){
+
+return res.status(400).json({
+
+error:"Insufficient referral amount."
+
+});
+
+}
+
+
+
+
+db.query(
+
+`UPDATE users
+
+SET referral_amount = referral_amount - ?,
+
+total_invested = total_invested + ?
+
+WHERE phone=?`,
+
+[
+investAmount,
+investAmount,
+phone
+]
+
+);
+
+
+}
+
+
+
+
+
+
+
+// CREATE INVESTMENT
+
+
+db.query(
+
+`
+
+INSERT INTO investments
+
+(
+
+phone,
+
+amount,
+
+interest_rate,
+
+vip_name,
+
+daily_profit,
+
+status,
+
+end_date
+
+)
+
+VALUES
+
+(
+
+?,
+
+?,
+
+?,
+
+?,
+
+?,
+
+'active',
+
+DATE_ADD(NOW(), INTERVAL ? DAY)
+
+)
+
+`,
+
+[
+
+phone,
+
+investAmount,
+
+selectedPlan.rate,
+
+grade,
+
+selectedPlan.daily_profit,
+
+selectedPlan.days
+
+],
+
+
+
+(err2)=>{
+
+
+
+if(err2){
+
+console.log(err2);
+
+
+return res.status(500).json({
+
+error:"Investment failed"
+
+});
+
+}
+
+
+
+
+return res.json({
+
+message:"Investment successful",
+
+grade:grade,
+
+wallet_used:wallet,
+
+duration:selectedPlan.days+" days"
+
+});
+
+
+
+}
+
+
+
+);
+
+
+
+}
+
+);
+
+
+});
+
 
 // ================= TOTAL INVESTED =================
 app.get("/total-invested/:phone", (req, res) => {
@@ -1067,6 +1262,8 @@ app.get("/total-invested/:phone", (req, res) => {
         }
     );
 });
+
+
 
 // ================= RETURNS =================
 app.get("/returns/:phone", (req, res) => {
@@ -1944,30 +2141,78 @@ app.get("/referral-commission/:userId", (req, res) => {
     });
 });
 //fetch all investment by admin
+// ================= ALL INVESTMENTS (ADMIN) =================
+
 app.get("/investments/all", (req, res) => {
 
+
     const sql = `
+
         SELECT 
+
             id,
+
             phone,
+
             amount,
+
+            vip_name,
+
+            daily_profit,
+
             interest_rate,
+
             start_date,
+
             end_date,
+
             status
-        FROM investments 
+
+        FROM investments
+
         ORDER BY start_date DESC
+
     `;
+
+
 
     db.query(sql, (err, result) => {
 
+
         if (err) {
-            console.log("Investment fetch error:", err);
-            return res.status(500).json([]);
+
+
+            console.log(
+            "Investment fetch error:",
+            err
+            );
+
+
+            return res.status(500).json({
+
+                success:false,
+
+                message:"Database error"
+
+            });
+
+
         }
 
-        return res.json(result);
+
+
+        return res.json({
+
+            success:true,
+
+            investments:result
+
+        });
+
+
     });
+
+
 });
 // user active and inactive investment
 
@@ -2119,18 +2364,18 @@ app.get("/api/investments/expired", (req, res) => {
 });
 
 //active for users
-
 app.get("/api/investments/active", (req, res) => {
 
     const phone = req.query.phone;
 
-    // 🔥 SAFETY CHECK
+
     if (!phone) {
         return res.status(400).json({
-            success: false,
-            message: "Phone is required"
+            success:false,
+            message:"Phone is required"
         });
     }
+
 
     db.query(
         `SELECT 
@@ -2138,6 +2383,8 @@ app.get("/api/investments/active", (req, res) => {
             phone,
             amount,
             interest_rate,
+            vip_name,
+            daily_profit,
             start_date,
             end_date,
             status
@@ -2147,20 +2394,114 @@ app.get("/api/investments/active", (req, res) => {
          AND end_date > NOW()
          ORDER BY start_date DESC`,
         [phone],
-        (err, results) => {
+        (err, results)=>{
 
-            if (err) {
-                console.log("❌ ACTIVE INVESTMENT DB ERROR:", err);
+
+            if(err){
+
+                console.log(
+                "❌ ACTIVE INVESTMENT DB ERROR:",
+                err
+                );
+
 
                 return res.status(500).json({
-                    success: false,
-                    message: "Database error"
+                    success:false,
+                    message:"Database error"
                 });
+
             }
 
+
+
             return res.json(results || []);
+
         }
     );
+
+});
+
+
+
+// GET USER ACTIVE VIP
+
+app.get("/my-active-investment/:phone", async(req,res)=>{
+
+try{
+
+
+const phone = req.params.phone;
+
+
+
+const [rows] = await db.query(`
+
+SELECT 
+vip_name
+
+FROM investments
+
+WHERE phone = ?
+
+AND LOWER(TRIM(status)) = 'active'
+
+AND end_date > NOW()
+
+ORDER BY id DESC
+
+LIMIT 1
+
+`,[phone]);
+
+
+
+
+if(rows.length === 0){
+
+return res.json({
+
+success:false,
+
+message:"No active investment"
+
+});
+
+}
+
+
+
+
+
+res.json({
+
+success:true,
+
+vip_name:rows[0].vip_name
+
+});
+
+
+
+
+}catch(err){
+
+
+console.log("Active VIP error:",err);
+
+
+
+res.status(500).json({
+
+success:false,
+
+error:"Server error"
+
+});
+
+
+}
+
+
 });
 
 //StartUP process

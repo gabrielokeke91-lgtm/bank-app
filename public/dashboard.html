@@ -1004,6 +1004,67 @@ grid-template-columns:1fr;
 
 
 }
+
+.active-investment-card{
+
+margin:15px;
+
+padding:20px;
+
+border-radius:25px;
+
+
+background:
+
+linear-gradient(
+135deg,
+rgba(124,58,237,.4),
+rgba(5,8,22,.9)
+);
+
+
+border:1px solid #8b5cf6;
+
+
+box-shadow:
+
+0 0 25px rgba(124,58,237,.7);
+
+}
+
+
+.active-investment-card h3{
+
+margin:0 0 15px;
+
+color:#b8e7ff;
+
+}
+
+
+
+.investment-info{
+
+display:flex;
+
+justify-content:space-between;
+
+padding:8px 0;
+
+font-size:14px;
+
+}
+
+
+.vip-name{
+
+font-size:22px;
+
+font-weight:bold;
+
+color:#c026ff;
+
+}
 </style>
 
 </head>
@@ -1101,7 +1162,15 @@ alt="SmartEarn Advertisement">
 
 <div class="grid">
 
+<div class="active-investment-card">
 
+💎 Active VIP:
+
+<span id="activeVIP">
+Loading...
+</span>
+
+</div>
 
 
 
@@ -1424,10 +1493,10 @@ class="myinvestment-btn">
 
 
 
-<a href="dashboard.html">
+<a href="Interest-history.html">
 
 <span>
-🏠
+📈
 </span>
 
 HOME
@@ -1574,7 +1643,38 @@ console.log("Balance error:",err);
 
 }
 
+// load vip
 
+async function loadActiveVIP(){
+
+
+const phone=user.phone;
+
+
+const res=await fetch(`
+${API}/my-active-investment/${phone}`
+);
+const data=await res.json();
+
+
+
+if(data.success){
+
+document.getElementById("activeVIP").innerHTML =
+data.vip_name;
+
+}else{
+
+document.getElementById("activeVIP").innerHTML =
+"No VIP";
+
+}
+
+
+}
+
+
+loadActiveVIP();
 
 
 
