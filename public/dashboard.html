@@ -1065,6 +1065,97 @@ font-weight:bold;
 color:#c026ff;
 
 }
+
+.task-box{
+    text-align:right;
+    margin:20px 0;
+}
+
+
+#dailyTaskBtn{
+
+    background:linear-gradient(135deg,#6a5cff,#b36cff);
+
+    color:white;
+
+    border:none;
+
+    padding:15px 30px;
+
+    border-radius:15px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:0 5px 20px rgba(0,0,0,0.2);
+
+}
+
+
+#dailyTaskBtn:active{
+
+    transform:scale(0.96);
+
+}
+
+
+#taskMessage{
+
+    margin-top:10px;
+
+    font-weight:bold;
+
+}
+
+.task-status-card{
+
+    background:rgba(255,255,255,0.15);
+
+    backdrop-filter:blur(10px);
+
+    border-radius:20px;
+
+    padding:20px;
+
+    margin:20px 0;
+
+    text-align:center;
+
+    color:white;
+
+    box-shadow:0 8px 25px rgba(0,0,0,0.2);
+
+}
+
+
+.task-status-card h3{
+
+    margin-bottom:10px;
+
+}
+
+
+#taskStatus{
+
+    font-size:16px;
+
+    font-weight:bold;
+
+}
+
+
+#taskTimer{
+
+    font-size:14px;
+
+    margin-top:10px;
+
+}
+
+
 </style>
 
 </head>
@@ -1155,6 +1246,29 @@ alt="SmartEarn Advertisement">
 
 
 <!-- DASHBOARD -->
+
+<div class="task-status-card">
+
+    <h3>💎 Daily Investment Task</h3>
+
+    <p id="taskStatus">
+        Checking task status...
+    </p>
+
+    <p id="taskTimer"></p>
+
+</div>
+
+<div class="task-box">
+
+    <button id="dailyTaskBtn">
+        ✅ Complete Daily Task
+    </button>
+
+    <p id="taskMessage"></p>
+
+</div>
+
 
 
 <div class="container">
@@ -1503,6 +1617,18 @@ INTEREST
 
 </a>
 
+<a href="task-history">
+
+<span>
+📜
+</span>
+
+TASKHISTORY
+
+</a>
+
+
+
 
 
 
@@ -1554,7 +1680,6 @@ HISTORY
 REFER
 
 </a>
-
 
 
 
@@ -1642,6 +1767,218 @@ console.log("Balance error:",err);
 
 
 }
+
+
+const dailyTaskBtn = document.getElementById("dailyTaskBtn");
+
+
+dailyTaskBtn.onclick = async ()=>{
+
+
+    const phone = localStorage.getItem("phone");
+
+
+    if(!phone){
+
+        document.getElementById("taskMessage").innerHTML =
+        "Please login again";
+
+        return;
+
+    }
+
+
+
+
+    dailyTaskBtn.disabled = true;
+
+    dailyTaskBtn.innerHTML = "Processing...";
+
+
+
+
+
+    try{
+
+
+        const response = await fetch(
+        `${API}/complete-task`,
+        {
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+                phone:phone
+            })
+
+        });
+
+
+
+        const data = await response.json();
+
+
+
+
+
+        document.getElementById("taskMessage").innerHTML =
+        data.message;
+
+
+
+
+
+        if(data.success){
+
+
+            dailyTaskBtn.innerHTML =
+            "✅ Task Completed";
+
+
+            // refresh dashboard data
+
+            setTimeout(()=>{
+
+                location.reload();
+
+            },1500);
+
+
+        }else{
+
+
+            dailyTaskBtn.disabled=false;
+
+            dailyTaskBtn.innerHTML =
+            "✅ Complete Daily Task";
+
+
+        }
+
+
+
+
+    }catch(error){
+
+
+        console.log(error);
+
+
+        dailyTaskBtn.disabled=false;
+
+        dailyTaskBtn.innerHTML =
+        "Try Again";
+
+
+    }
+
+
+
+};
+
+async function loadTaskStatus(){
+
+
+const phone=localStorage.getItem("phone");
+
+
+if(!phone)return;
+
+
+
+try{
+
+
+const res=await fetch(`
+${API}/task-status/${phone}`
+);
+
+
+const data=await res.json();
+
+
+
+const status=document.getElementById("taskStatus");
+
+const timer=document.getElementById("taskTimer");
+
+
+
+
+
+if(data.status==="pending"){
+
+
+status.innerHTML =
+"🟢 Task Available - Claim Now";
+
+
+timer.innerHTML =
+"Expires: "+new Date(data.expires).toLocaleString();
+
+
+}
+
+
+
+else if(data.status==="completed"){
+
+
+status.innerHTML =
+"✅ Task Completed Today";
+
+
+timer.innerHTML =
+"Come back tomorrow for a new task";
+
+
+}
+
+
+
+else if(data.status==="expired"){
+
+
+status.innerHTML =
+"❌ Task Expired";
+
+
+timer.innerHTML =
+"New task will be generated at 12:00 AM";
+
+
+}
+
+
+
+else{
+
+
+status.innerHTML =
+"⏳ No task available";
+
+
+}
+
+
+
+}catch(err){
+
+console.log(err);
+
+}
+
+
+
+}
+
+
+
+loadTaskStatus();
 
 // load vip
 

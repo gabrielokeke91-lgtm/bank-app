@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>SmartEarn Task History</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<style>
+
+body{
+
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#1a0033,#4b0082);
+    color:white;
+    padding:20px;
+
+}
+
+
+.header{
+
+    font-size:22px;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:25px;
+
+}
+
+
+
+.history-box{
+
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    border-radius:20px;
+    padding:20px;
+
+}
+
+
+
+.task-item{
+
+    background:rgba(255,255,255,0.1);
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:15px;
+
+}
+
+
+
+.completed{
+
+    color:#00ff99;
+    font-weight:bold;
+
+}
+
+
+
+.expired{
+
+    color:#ff7777;
+    font-weight:bold;
+
+}
+
+
+
+.back-btn{
+
+    display:block;
+    text-align:center;
+    margin-top:25px;
+    padding:12px;
+    border-radius:15px;
+    background:white;
+    color:#4b0082;
+    text-decoration:none;
+    font-weight:bold;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+📜 SmartEarn Task History
+
+</div>
+
+
+
+<div class="history-box">
+
+
+<div id="taskHistory">
+
+Loading task history...
+
+</div>
+
+
+</div>
+
+
+
+<a href="dashboard.html" class="back-btn">
+⬅️ Back To Dashboard
+</a>
+
+
+
+
+
+<script>
+
+
+const API =
+"https://smartearn.onrender.com";
+
+
+
+async function loadHistory(){
+
+
+const phone =
+localStorage.getItem("phone");
+
+
+
+if(!phone){
+
+document.getElementById("taskHistory").innerHTML =
+"Please login again";
+
+return;
+
+}
+
+
+
+
+try{
+
+
+const res = await fetch(
+
+`${API}/task-history/${phone}`
+
+);
+
+
+
+const data = await res.json();
+
+
+
+
+if(!data.history || data.history.length===0){
+
+
+document.getElementById("taskHistory").innerHTML =
+"No task history found";
+
+
+return;
+
+
+}
+
+
+
+
+document.getElementById("taskHistory").innerHTML =
+
+data.history.map(task=>{
+
+
+return `
+
+<div class="task-item">
+
+
+<b>
+💎 ₦${Number(task.task_amount).toLocaleString()}
+</b>
+
+
+<br><br>
+
+
+Date:
+${new Date(task.task_date).toLocaleDateString()}
+
+
+<br>
+
+
+Status:
+
+<span class="${task.status}">
+${task.status.toUpperCase()}
+</span>
+
+
+
+${task.completed_at ?
+
+`
+
+<br>
+
+Completed:
+${new Date(task.completed_at).toLocaleString()}
+
+`
+
+:""}
+
+
+
+</div>
+
+`;
+
+
+}).join("");
+
+
+
+
+}catch(error){
+
+
+console.log(error);
+
+
+document.getElementById("taskHistory").innerHTML =
+"Unable to load history";
+
+
+}
+
+
+
+}
+
+
+
+loadHistory();
+
+
+</script>
+
+
+</body>
+</html>

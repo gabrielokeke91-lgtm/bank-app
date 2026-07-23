@@ -153,13 +153,14 @@ function checkUserStatus(phone, cb) {
     );
 }
 
-// ================= DAILY INVESTMENT SYSTEM =================
+// ================= DAILY INVESTMENT TASK SYSTEM =================
 // runs every 12AM
 
 cron.schedule("0 0 * * *", () => {
 
 
-    console.log("🔥 DAILY INTEREST STARTED:", new Date().toString());
+    console.log("🔥 DAILY TASK GENERATION STARTED:", new Date().toString());
+
 
 
     // STEP 1: GLOBAL LOCK
@@ -191,6 +192,7 @@ cron.schedule("0 0 * * *", () => {
 
 
 
+
             // STEP 2: EXPIRE INVESTMENTS
 
             db.query(
@@ -203,7 +205,7 @@ cron.schedule("0 0 * * *", () => {
 
                     if(err){
 
-                        console.log("❌ Expiry error:",err);
+                        console.log("❌ Investment expiry error:",err);
 
                     }
 
@@ -221,7 +223,46 @@ cron.schedule("0 0 * * *", () => {
 
 
 
-            // STEP 3: GET ACTIVE INVESTMENTS
+
+            // STEP 3: EXPIRE OLD UNCLAIMED TASKS
+
+            db.query(
+
+                `UPDATE investment_tasks
+                 SET status='expired'
+                 WHERE status='pending'
+                 AND expires_at <= NOW()`,
+
+                (taskErr,taskResult)=>{
+
+
+                    if(taskErr){
+
+                        console.log(
+                        "❌ Task expiry error:",
+                        taskErr
+                        );
+
+                    }
+
+
+                    console.log(
+                    "⏰ Expired tasks:",
+                    taskResult?.affectedRows || 0
+                    );
+
+
+                }
+
+            );
+
+
+
+
+
+
+
+            // STEP 4: GET ACTIVE INVESTMENTS
 
             db.query(
 
@@ -230,7 +271,6 @@ cron.schedule("0 0 * * *", () => {
                     phone,
                     amount,
                     interest_rate,
-                    last_interest_time,
                     end_date
 
                  FROM investments
@@ -245,7 +285,7 @@ cron.schedule("0 0 * * *", () => {
                     if(err){
 
                         console.log(
-                        "Interest fetch error:",
+                        "Task fetch error:",
                         err
                         );
 
@@ -261,41 +301,12 @@ cron.schedule("0 0 * * *", () => {
 
 
 
-                        const today = new Date();
-
-                        today.setHours(0,0,0,0);
-
-
-
-
-                        const last = row.last_interest_time
-
-                        ? new Date(row.last_interest_time)
-
-                        : null;
-
-
-
-
-
-                        // SKIP IF ALREADY PAID TODAY
-
-                        if(last && last >= today){
-
-                            return;
-
-                        }
-
-
-
-
-
-                        // VIP RATE CALCULATION
+                        // CALCULATE DAILY TASK VALUE
 
                         const rate = Number(row.interest_rate || 0);
 
 
-                        const interest =
+                        const taskAmount =
 
                         Number(row.amount) * (rate / 100);
 
@@ -305,36 +316,30 @@ cron.schedule("0 0 * * *", () => {
 
 
 
-                        // STEP 4: ATOMIC SAFETY UPDATE
+                        // CHECK IF TODAY TASK ALREADY EXISTS
 
                         db.query(
 
-                            `UPDATE investments
+                            `SELECT id
 
-                             SET last_interest_time = NOW()
+                             FROM investment_tasks
 
-                             WHERE id=?
+                             WHERE investment_id=?
 
-                             AND status='active'
+                             AND task_date=CURDATE()`,
 
-                             AND end_date > NOW()
+                            [
+                            row.id
+                            ],
 
-                             AND (
-                             last_interest_time IS NULL
-                             OR DATE(last_interest_time) < CURDATE()
-                             )`,
-
-                            [row.id],
+                            (checkErr,checkResult)=>{
 
 
-                            (err2,result)=>{
-
-
-                                if(err2){
+                                if(checkErr){
 
                                     console.log(
-                                    "Interest lock error:",
-                                    err2
+                                    "Task check error:",
+                                    checkErr
                                     );
 
                                     return;
@@ -344,7 +349,10 @@ cron.schedule("0 0 * * *", () => {
 
 
 
-                                if(result.affectedRows === 0){
+
+                                // SKIP DUPLICATE TASK
+
+                                if(checkResult.length > 0){
 
                                     return;
 
@@ -354,22 +362,18 @@ cron.schedule("0 0 * * *", () => {
 
 
 
-                                // CREDIT USER RETURNS
 
-                                db.query(
 
-                                    `UPDATE users
+                                // SET 24 HOURS EXPIRY
 
-                                     SET total_returns =
-                                     total_returns + ?
+                                const expiry = new Date();
 
-                                     WHERE phone=?`,
+                                expiry.setDate(
+                                expiry.getDate() + 1
+                                );
 
-                                    [
-                                    interest,
-                                    row.phone
-                                    ]
-
+                                expiry.setHours(
+                                0,0,0,0
                                 );
 
 
@@ -378,33 +382,59 @@ cron.schedule("0 0 * * *", () => {
 
 
 
-                                // SAVE HISTORY
+                                // CREATE NEW TASK
 
                                 db.query(
 
-                                    `INSERT INTO interest_history
+                                    `INSERT INTO investment_tasks
+                                    (
+                                    phone,
+                                    investment_id,
+                                    task_amount,
+                                    task_date,
+                                    expires_at,
+                                    status
+                                    )
 
-                                    (phone, amount, interest)
-
-                                    VALUES (?, ?, ?)`,
+                                    VALUES (?,?,?,?,?,'pending')`,
 
                                     [
                                     row.phone,
-                                    row.amount,
-                                    interest
-                                    ]
+                                    row.id,
+                                    taskAmount,
+                                    new Date(),
+                                    expiry
+                                    ],
+
+
+                                    (insertErr)=>{
+
+
+                                        if(insertErr){
+
+                                            console.log(
+                                            "Task creation error:",
+                                            insertErr
+                                            );
+
+                                            return;
+
+                                        }
+
+
+
+
+                                        console.log(
+                                        "✅ Daily task created:",
+                                        row.phone,
+                                        taskAmount
+                                        );
+
+
+                                    }
 
                                 );
 
-
-
-
-
-                                console.log(
-                                "✅ Interest added:",
-                                row.phone,
-                                interest
-                                );
 
 
                             }
@@ -414,6 +444,8 @@ cron.schedule("0 0 * * *", () => {
 
 
                     });
+
+
 
 
 
@@ -451,6 +483,391 @@ cron.schedule("0 0 * * *", () => {
 },{
     timezone:"Africa/Lagos"
 });
+
+// ================= COMPLETE DAILY TASK =================
+
+app.post("/complete-task", (req,res)=>{
+
+
+    const { phone } = req.body;
+
+
+
+    if(!phone){
+
+        return res.json({
+            success:false,
+            message:"Phone number required"
+        });
+
+    }
+
+
+
+
+
+    // STEP 1: FIND TODAY PENDING TASK
+
+    db.query(
+
+        `SELECT *
+         FROM investment_tasks
+         WHERE phone=?
+         AND status='pending'
+         AND task_date=CURDATE()
+         LIMIT 1`,
+
+        [phone],
+
+        (err,tasks)=>{
+
+
+            if(err){
+
+                console.log(err);
+
+                return res.json({
+                    success:false,
+                    message:"Database error"
+                });
+
+            }
+
+
+
+
+
+            if(tasks.length === 0){
+
+                return res.json({
+                    success:false,
+                    message:"No available task found"
+                });
+
+            }
+
+
+
+
+
+            const task = tasks[0];
+
+
+
+
+
+
+            // STEP 2: CHECK EXPIRY
+
+            if(new Date(task.expires_at) <= new Date()){
+
+
+                db.query(
+
+                    `UPDATE investment_tasks
+                     SET status='expired'
+                     WHERE id=?`,
+
+                    [task.id]
+
+                );
+
+
+
+                return res.json({
+
+                    success:false,
+                    message:"Task has expired"
+
+                });
+
+            }
+
+
+
+
+
+
+
+
+            // STEP 3: MARK TASK COMPLETED FIRST
+            // prevents double clicking
+
+            db.query(
+
+                `UPDATE investment_tasks
+
+                 SET status='completed',
+                 completed_at=NOW()
+
+                 WHERE id=?
+
+                 AND status='pending'`,
+
+                [
+                task.id
+                ],
+
+
+                (updateErr,result)=>{
+
+
+                    if(updateErr){
+
+                        console.log(updateErr);
+
+                        return res.json({
+                            success:false,
+                            message:"Task update failed"
+                        });
+
+                    }
+
+
+
+
+                    if(result.affectedRows === 0){
+
+                        return res.json({
+
+                            success:false,
+                            message:"Task already completed"
+
+                        });
+
+                    }
+
+
+
+
+
+
+
+
+                    // STEP 4: ADD RETURN
+
+                    db.query(
+
+                        `UPDATE users
+
+                         SET total_returns =
+                         total_returns + ?
+
+                         WHERE phone=?`,
+
+                        [
+                        task.task_amount,
+                        phone
+                        ]
+
+                    );
+
+
+
+
+
+
+
+                    // STEP 5: SAVE HISTORY
+
+                    db.query(
+
+                        `INSERT INTO interest_history
+
+                        (phone, amount, interest)
+
+                        VALUES (?, ?, ?)`,
+
+                        [
+                        phone,
+                        task.task_amount,
+                        task.task_amount
+                        ]
+
+                    );
+
+
+
+
+
+
+
+                    console.log(
+                    "✅ Task completed:",
+                    phone,
+                    task.task_amount
+                    );
+
+
+
+
+                    return res.json({
+
+                        success:true,
+
+                        message:"Task completed successfully",
+
+                        earned:task.task_amount
+
+                    });
+
+
+
+                }
+
+            );
+
+
+
+
+
+        }
+
+    );
+
+
+});
+
+// ================= CHECK DAILY TASK =================
+
+app.get("/task-status/:phone",(req,res)=>{
+
+
+const phone=req.params.phone;
+
+
+
+db.query(
+
+`SELECT 
+ task_amount,
+ status,
+ expires_at
+
+ FROM investment_tasks
+
+ WHERE phone=?
+
+ AND task_date=CURDATE()
+
+ ORDER BY id DESC
+
+ LIMIT 1`,
+
+[phone],
+
+(err,result)=>{
+
+
+if(err){
+
+return res.json({
+success:false
+});
+
+}
+
+
+
+if(result.length===0){
+
+return res.json({
+
+success:true,
+
+status:"none",
+
+message:"No task available today"
+
+});
+
+}
+
+
+
+
+
+res.json({
+
+success:true,
+
+status:result[0].status,
+
+amount:result[0].task_amount,
+
+expires:result[0].expires_at
+
+});
+
+
+
+});
+
+
+});
+
+// ================= DAILY TASK HISTORY =================
+
+app.get("/task-history/:phone",(req,res)=>{
+
+
+    const phone = req.params.phone;
+
+
+
+    db.query(
+
+    `SELECT 
+        task_amount,
+        task_date,
+        status,
+        completed_at
+
+     FROM investment_tasks
+
+     WHERE phone=?
+
+     ORDER BY id DESC
+
+     LIMIT 50`,
+
+    [phone],
+
+    (err,result)=>{
+
+
+        if(err){
+
+            console.log(
+            "Task history error:",
+            err
+            );
+
+
+            return res.json({
+
+                success:false
+
+            });
+
+        }
+
+
+
+        res.json({
+
+            success:true,
+
+            history:result
+
+        });
+
+
+    });
+
+
+});
+
 // ================= SIGNUP =================
 app.post("/signup", (req, res) => {
 
